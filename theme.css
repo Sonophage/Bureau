@@ -32,7 +32,7 @@
   --bu-accent:    var(--bu-control);                              /* the one colour the UI reads */
   --bu-accent-hi: color-mix(in srgb, var(--bu-accent), white 24%);/* auto bright/hover variant */
   --bu-label-tag: color-mix(in srgb, var(--bu-accent), black 25%);/* H# chip — darker accent */
-  --bu-glow:      color-mix(in srgb, var(--bu-accent) 13%, transparent); /* glow follows accent */
+  --bu-glow:      color-mix(in srgb, var(--bu-accent) calc(var(--bu-glow-intensity, 13) * 1%), transparent); /* follows accent; intensity via Style Settings */
   --background-primary: var(--bu-bg);
   --background-primary-alt: var(--bu-surface);
   --background-secondary: var(--bu-bg-alt);
@@ -202,19 +202,21 @@
 ::selection { background: var(--text-selection); }
 
 /* =========================================================
-   ATMOSPHERE — black vignette + soft glow (default ON;
-   later toggle adds .bu-flat)
+   ATMOSPHERE — accent glow (intensity + reach) + vignette
+   (own toggle + amount). Glow colour follows --bu-accent.
    ========================================================= */
-body.bu-vignette::after {
+body::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
   background:
-    radial-gradient(120% 95% at 50% 120%, var(--bu-glow) 0%, transparent 55%),
-    radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.65) 100%);
+    radial-gradient(120% calc(var(--bu-glow-reach, 95) * 1%) at 50% 120%, var(--bu-glow) 0%, transparent 55%),
+    radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0, var(--bu-vignette-amount, 0.65)) 100%);
 }
+/* Style Settings: vignette OFF -> no darkened edges (class added by default) */
+body:not(.bu-vignette) { --bu-vignette-amount: 0 !important; }
 
 /* ===== iteration 4 — de-yellow + title parity ===========
    links: parchment text + red underline (no brass);
@@ -1461,6 +1463,22 @@ settings:
     type: heading
     level: 2
     collapsed: false
+  - id: bu-glow-intensity
+    title: Glow intensity
+    description: Strength of the ambient accent glow at the bottom of the window (0 = off).
+    type: variable-number-slider
+    default: 13
+    min: 0
+    max: 40
+    step: 1
+  - id: bu-glow-reach
+    title: Glow reach
+    description: How far up the window the glow rises.
+    type: variable-number-slider
+    default: 95
+    min: 30
+    max: 160
+    step: 5
   - id: bu-grain
     title: Film grain
     type: class-toggle
@@ -1486,9 +1504,16 @@ settings:
     step: 0.02
   - id: bu-vignette
     title: Vignette
-    description: Darkened edges + glow.
+    description: Darkened window edges.
     type: class-toggle
     default: true
+  - id: bu-vignette-amount
+    title: Vignette amount
+    type: variable-number-slider
+    default: 0.65
+    min: 0
+    max: 0.9
+    step: 0.05
   - id: bu-cards-heading
     title: Cards & layout
     type: heading
