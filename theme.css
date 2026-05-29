@@ -1849,6 +1849,11 @@ settings:
     min: 0
     max: 0.9
     step: 0.05
+  - id: bu-crt-heading
+    title: CRT
+    type: heading
+    level: 2
+    collapsed: false
   - id: bu-scanlines
     title: CRT scanlines
     description: Faint horizontal scanlines over the editor.
@@ -1917,6 +1922,174 @@ settings:
     min: 0
     max: 0.9
     step: 0.05
+
+  - id: bu-daily-note
+    title: Daily notes
+    description: Colors for daily notes, keyed to the weekday. Disable the "Daily Note Themes" snippet — Bureau owns this now.
+    type: heading
+    level: 2
+    collapsed: true
+  - id: bu-sun-head
+    title: Sunday
+    type: heading
+    level: 3
+    collapsed: true
+  - id: bu-sun-pri
+    title: Sunday — accent
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#9e6b86'
+  - id: bu-sun-hl
+    title: Sunday — text
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#c6a3b5'
+  - id: bu-sun-bg
+    title: Sunday — background
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#161114'
+  - id: bu-mon-head
+    title: Monday
+    type: heading
+    level: 3
+    collapsed: true
+  - id: bu-mon-pri
+    title: Monday — accent
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#5b7a9e'
+  - id: bu-mon-hl
+    title: Monday — text
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#a6b6c8'
+  - id: bu-mon-bg
+    title: Monday — background
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#0f131a'
+  - id: bu-tue-head
+    title: Tuesday
+    type: heading
+    level: 3
+    collapsed: true
+  - id: bu-tue-pri
+    title: Tuesday — accent
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#5e8d86'
+  - id: bu-tue-hl
+    title: Tuesday — text
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#a4c2bc'
+  - id: bu-tue-bg
+    title: Tuesday — background
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#0e1413'
+  - id: bu-wed-head
+    title: Wednesday
+    type: heading
+    level: 3
+    collapsed: true
+  - id: bu-wed-pri
+    title: Wednesday — accent
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#836fa0'
+  - id: bu-wed-hl
+    title: Wednesday — text
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#b6a9c9'
+  - id: bu-wed-bg
+    title: Wednesday — background
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#131019'
+  - id: bu-thu-head
+    title: Thursday
+    type: heading
+    level: 3
+    collapsed: true
+  - id: bu-thu-pri
+    title: Thursday — accent
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#7c8597'
+  - id: bu-thu-hl
+    title: Thursday — text
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#b2b8c4'
+  - id: bu-thu-bg
+    title: Thursday — background
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#101216'
+  - id: bu-fri-head
+    title: Friday
+    type: heading
+    level: 3
+    collapsed: true
+  - id: bu-fri-pri
+    title: Friday — accent
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#4f9a9a'
+  - id: bu-fri-hl
+    title: Friday — text
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#9ec8c8'
+  - id: bu-fri-bg
+    title: Friday — background
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#0c1515'
+  - id: bu-sat-head
+    title: Saturday
+    type: heading
+    level: 3
+    collapsed: true
+  - id: bu-sat-pri
+    title: Saturday — accent
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#8c5a7e'
+  - id: bu-sat-hl
+    title: Saturday — text
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#c0a0b6'
+  - id: bu-sat-bg
+    title: Saturday — background
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#151013'
 
 */
 
@@ -2386,177 +2559,4 @@ settings:
 .theme-dark .banner-view .banner-props-list:hover .banner-props-key { transition: background-color 80ms linear; }
 .theme-dark .banner-view .banner-props-list:hover .banner-props-value { transition: background-color 80ms linear; }
 
-/* @settings
 
-name: Bureau — Daily Notes
-id: bureau-daily
-settings:
-  - id: bu-daily-note
-    title: Per-day color schemes
-    description: Colors for daily notes, keyed to the weekday. Disable the "Daily Note Themes" snippet — Bureau owns this now.
-    type: heading
-    level: 2
-    collapsed: false
-  - id: bu-sun-head
-    title: Sunday
-    type: heading
-    level: 3
-    collapsed: true
-  - id: bu-sun-pri
-    title: Sunday — accent
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#9e6b86'
-  - id: bu-sun-hl
-    title: Sunday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#c6a3b5'
-  - id: bu-sun-bg
-    title: Sunday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#161114'
-  - id: bu-mon-head
-    title: Monday
-    type: heading
-    level: 3
-    collapsed: true
-  - id: bu-mon-pri
-    title: Monday — accent
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#5b7a9e'
-  - id: bu-mon-hl
-    title: Monday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#a6b6c8'
-  - id: bu-mon-bg
-    title: Monday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#0f131a'
-  - id: bu-tue-head
-    title: Tuesday
-    type: heading
-    level: 3
-    collapsed: true
-  - id: bu-tue-pri
-    title: Tuesday — accent
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#5e8d86'
-  - id: bu-tue-hl
-    title: Tuesday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#a4c2bc'
-  - id: bu-tue-bg
-    title: Tuesday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#0e1413'
-  - id: bu-wed-head
-    title: Wednesday
-    type: heading
-    level: 3
-    collapsed: true
-  - id: bu-wed-pri
-    title: Wednesday — accent
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#836fa0'
-  - id: bu-wed-hl
-    title: Wednesday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#b6a9c9'
-  - id: bu-wed-bg
-    title: Wednesday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#131019'
-  - id: bu-thu-head
-    title: Thursday
-    type: heading
-    level: 3
-    collapsed: true
-  - id: bu-thu-pri
-    title: Thursday — accent
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#7c8597'
-  - id: bu-thu-hl
-    title: Thursday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#b2b8c4'
-  - id: bu-thu-bg
-    title: Thursday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#101216'
-  - id: bu-fri-head
-    title: Friday
-    type: heading
-    level: 3
-    collapsed: true
-  - id: bu-fri-pri
-    title: Friday — accent
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#4f9a9a'
-  - id: bu-fri-hl
-    title: Friday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#9ec8c8'
-  - id: bu-fri-bg
-    title: Friday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#0c1515'
-  - id: bu-sat-head
-    title: Saturday
-    type: heading
-    level: 3
-    collapsed: true
-  - id: bu-sat-pri
-    title: Saturday — accent
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#8c5a7e'
-  - id: bu-sat-hl
-    title: Saturday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#c0a0b6'
-  - id: bu-sat-bg
-    title: Saturday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#151013'
-
-*/
