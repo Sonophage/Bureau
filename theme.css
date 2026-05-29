@@ -248,21 +248,6 @@ body:not(.bu-vignette) { --bu-vignette-amount: 0 !important; }
    green ambient glow
    =================================================================== */
 
-/* ---------- TABS (main editor): active = white label ---------- */
-.workspace-tab-header-inner-title {
-  font-family: var(--bu-font-body);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.78em;
-}
-.mod-root .workspace-tab-header.is-active { background: var(--bu-label-bg); }
-.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-title,
-.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
-.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-close-button {
-  color: var(--bu-label-fg);
-}
-.workspace-tab-header:not(.is-active) .workspace-tab-header-inner-title { color: var(--bu-muted); }
-
 /* ---------- PANE / VIEW TITLES: uppercase, spaced ---------- */
 .view-header-title {
   font-family: var(--bu-font-body);
