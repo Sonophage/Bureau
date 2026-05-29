@@ -232,9 +232,55 @@ body:not(.bu-vignette) { --bu-vignette-amount: 0 !important; }
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
 }
-.markdown-rendered a.internal-link:hover,
 .markdown-rendered a.external-link:hover,
-.cm-s-obsidian .cm-hmd-internal-link:hover { color: var(--bu-accent); }
+.cm-s-obsidian .cm-link:hover { color: var(--bu-accent); }
+
+/* ===== link "redaction" chips (legible) =====
+   body note-links: white chip, black text · header note-links: inverted black chip */
+.markdown-rendered a.internal-link,
+.markdown-source-view.mod-cm6 .cm-hmd-internal-link {
+  background-color: var(--bu-label-bg);
+  color: var(--bu-label-fg) !important;
+  text-decoration: none !important;
+  padding: 0 0.3em;
+  border-radius: 2px;
+}
+.markdown-rendered a.internal-link:hover,
+.markdown-source-view.mod-cm6 .cm-hmd-internal-link:hover {
+  background-color: var(--bu-label-fg);
+  color: var(--bu-label-bg) !important;
+}
+.markdown-rendered :is(h1,h2,h3,h4,h5,h6) a.internal-link,
+.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6) .cm-hmd-internal-link {
+  background-color: var(--bu-label-fg) !important;
+  color: var(--bu-label-bg) !important;
+}
+.markdown-rendered :is(h1,h2,h3,h4,h5,h6) a.internal-link:hover,
+.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6) .cm-hmd-internal-link:hover {
+  background-color: var(--bu-label-bg) !important;
+  color: var(--bu-label-fg) !important;
+}
+
+/* ===== strikethrough = redacted: black-on-black, readable on hover ===== */
+.markdown-rendered del,
+.markdown-rendered s,
+.cm-s-obsidian .cm-strikethrough {
+  background-color: #000 !important;
+  color: transparent !important;
+  text-decoration: none !important;
+  border-radius: 1px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  box-shadow: 0 0 0 1px var(--bu-accent);
+  transition: color 90ms ease;
+}
+.markdown-rendered del:hover,
+.markdown-rendered s:hover,
+.cm-s-obsidian .cm-strikethrough:hover {
+  background-color: transparent !important;
+  color: var(--bu-text) !important;
+  box-shadow: none;
+}
 
 .markdown-rendered :is(h1,h2,h3,h4,h5,h6),
 .markdown-source-view.mod-cm6 :is(.cm-header-1,.cm-header-2,.cm-header-3,.cm-header-4,.cm-header-5,.cm-header-6) {
