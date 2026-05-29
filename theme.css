@@ -177,7 +177,7 @@
    (small red mono code prefixing the label)
    ========================================================= */
 .markdown-rendered :is(h1,h2,h3,h4,h5,h6)::before,
-.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6)::before {
+.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6)::after {
   font-family: var(--bu-font-body);
   font-weight: 700;
   font-size: 0.55em;
@@ -192,12 +192,12 @@
   border-right: 1px solid rgba(20,17,13,0.28);
   vertical-align: baseline;
 }
-.markdown-rendered h1::before, .markdown-source-view.mod-cm6 .HyperMD-header-1::before { content: "H1"; }
-.markdown-rendered h2::before, .markdown-source-view.mod-cm6 .HyperMD-header-2::before { content: "H2"; }
-.markdown-rendered h3::before, .markdown-source-view.mod-cm6 .HyperMD-header-3::before { content: "H3"; }
-.markdown-rendered h4::before, .markdown-source-view.mod-cm6 .HyperMD-header-4::before { content: "H4"; }
-.markdown-rendered h5::before, .markdown-source-view.mod-cm6 .HyperMD-header-5::before { content: "H5"; }
-.markdown-rendered h6::before, .markdown-source-view.mod-cm6 .HyperMD-header-6::before { content: "H6"; }
+.markdown-rendered h1::before, .markdown-source-view.mod-cm6 .HyperMD-header-1::after { content: "H1"; }
+.markdown-rendered h2::before, .markdown-source-view.mod-cm6 .HyperMD-header-2::after { content: "H2"; }
+.markdown-rendered h3::before, .markdown-source-view.mod-cm6 .HyperMD-header-3::after { content: "H3"; }
+.markdown-rendered h4::before, .markdown-source-view.mod-cm6 .HyperMD-header-4::after { content: "H4"; }
+.markdown-rendered h5::before, .markdown-source-view.mod-cm6 .HyperMD-header-5::after { content: "H5"; }
+.markdown-rendered h6::before, .markdown-source-view.mod-cm6 .HyperMD-header-6::after { content: "H6"; }
 
 .markdown-rendered h1, .cm-s-obsidian .HyperMD-header-1 { letter-spacing: 0.02em; }
 ::selection { background: var(--text-selection); }
@@ -368,14 +368,15 @@ body.bu-grain::before {
    label wraps cleanly (wrapped lines never tuck under the chip).
    =================================================================== */
 
-/* ---- READING: chip absolutely placed to the left of the label ---- */
+/* ---- READING: chip absolutely placed to the right of the label ---- */
 .markdown-rendered :is(h1,h2,h3,h4,h5,h6) {
   position: relative;
-  margin-left: 2.9em;
+  margin-left: 0;
 }
 .markdown-rendered :is(h1,h2,h3,h4,h5,h6)::before {
   position: absolute;
-  right: calc(100% + 0.45em);
+  left: calc(100% + 0.45em);
+  right: auto;
   top: 0.18em;
   margin: 0;
   padding: 0.12em 0.34em;
@@ -389,15 +390,13 @@ body.bu-grain::before {
   white-space: nowrap;
 }
 
-/* ---- EDITING: hanging indent so wrapped lines align past the chip ---- */
+/* ---- EDITING: chip trails the heading text on the right ---- */
 .markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6) {
   position: relative;
-  padding-left: 2.9em;
-  text-indent: -2.9em;
 }
-.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6)::before {
+.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6)::after {
   display: inline-block;
-  margin: 0 0.45em 0 0;
+  margin: 0 0 0 0.45em;
   padding: 0.1em 0.32em;
   border: 1px solid var(--bu-label-tag);
   border-right: 1px solid var(--bu-label-tag);
@@ -410,9 +409,7 @@ body.bu-grain::before {
   vertical-align: 0.12em;
 }
 
-/* fix: hanging indent was leaking into the chip and pushing "H1" out of
-   its box — pin the chip's own text-indent back to 0 (editing mode) */
-.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6)::before {
+.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6)::after {
   text-indent: 0;
 }
 
@@ -780,22 +777,29 @@ body:not(.is-mobile) .prompt .suggestion-hotkey {
 .callout-content > :first-child { margin-top: 0; }
 .callout-content > :last-child { margin-bottom: 0; }
 
-/* type colors → noir palette (!important to beat the snippets) */
-.callout { --callout-color: 150, 141, 126 !important; }
-.callout[data-callout="note"], .callout[data-callout="info"],
-.callout[data-callout="todo"], .callout[data-callout="tip"], .callout[data-callout="hint"],
-.callout[data-callout="summary"], .callout[data-callout="abstract"], .callout[data-callout="tldr"],
+/* type colours — non-accent noir palette (red/green/gold are reserved for the accent) */
+.callout { --callout-color: 124, 133, 151 !important; }                       /* slate (default) */
+.callout[data-callout="note"], .callout[data-callout="info"], .callout[data-callout="todo"],
+.callout[data-callout="abstract"], .callout[data-callout="summary"], .callout[data-callout="tldr"] {
+  --callout-color: 94, 141, 134 !important;                                    /* teal */
+}
+.callout[data-callout="tip"], .callout[data-callout="hint"],
 .callout[data-callout="success"], .callout[data-callout="check"], .callout[data-callout="done"] {
-  --callout-color: 79, 129, 122 !important;
+  --callout-color: 79, 163, 163 !important;                                    /* cyan */
 }
-.callout[data-callout="important"], .callout[data-callout="warning"], .callout[data-callout="caution"],
-.callout[data-callout="attention"], .callout[data-callout="failure"], .callout[data-callout="fail"],
-.callout[data-callout="missing"], .callout[data-callout="danger"], .callout[data-callout="error"], .callout[data-callout="bug"] {
-  --callout-color: 226, 59, 44 !important;
-}
-.callout[data-callout="example"], .callout[data-callout="quote"], .callout[data-callout="cite"],
 .callout[data-callout="question"], .callout[data-callout="help"], .callout[data-callout="faq"] {
-  --callout-color: 202, 154, 78 !important;
+  --callout-color: 131, 111, 160 !important;                                   /* purple */
+}
+.callout[data-callout="important"], .callout[data-callout="warning"],
+.callout[data-callout="caution"], .callout[data-callout="attention"] {
+  --callout-color: 168, 111, 134 !important;                                   /* mauve */
+}
+.callout[data-callout="danger"], .callout[data-callout="error"], .callout[data-callout="failure"],
+.callout[data-callout="fail"], .callout[data-callout="missing"], .callout[data-callout="bug"] {
+  --callout-color: 140, 90, 126 !important;                                    /* plum */
+}
+.callout[data-callout="example"], .callout[data-callout="quote"], .callout[data-callout="cite"] {
+  --callout-color: 92, 122, 158 !important;                                    /* steel blue */
 }
 
 /* ---- code ---- */
@@ -1468,6 +1472,89 @@ body.is-fullscreen.bu-fullscreen-crt .workspace-split.mod-right-split:hover {
   opacity: 1;
 }
 
+/* ===================================================================
+   TABLES — accent header row + zebra striping
+   =================================================================== */
+.markdown-rendered table,
+.markdown-source-view.mod-cm6 table {
+  border-collapse: collapse;
+  border: 1px solid var(--bu-line);
+  border-radius: 3px;
+  overflow: hidden;
+  font-family: var(--bu-font-body);
+}
+.markdown-rendered th,
+.markdown-source-view.mod-cm6 th {
+  background-color: var(--bu-accent) !important;
+  color: #ffffff !important;
+  font-family: var(--bu-font-label) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  border-color: var(--bu-accent) !important;
+}
+.markdown-rendered td,
+.markdown-source-view.mod-cm6 td {
+  border-color: var(--bu-border) !important;
+  color: var(--bu-text);
+}
+.markdown-rendered tbody tr:nth-child(even),
+.markdown-source-view.mod-cm6 tbody tr:nth-child(even) {
+  background-color: var(--bu-bg-alt);
+}
+.markdown-rendered tbody tr:hover,
+.markdown-source-view.mod-cm6 tbody tr:hover {
+  background-color: color-mix(in srgb, var(--bu-accent) 9%, transparent);
+}
+
+/* ===================================================================
+   CALLOUTS — white "post-it" notes; type stamped in the top-right corner
+   =================================================================== */
+.callout {
+  background-color: var(--bu-label-bg) !important;
+  color: var(--bu-label-fg) !important;
+  border: none !important;
+  border-left: 4px solid rgb(var(--callout-color)) !important;
+  border-radius: 0 3px 3px 0 !important;
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.55) !important;
+  position: relative;
+  overflow: visible !important;
+  margin: 26px 0 22px !important;
+  padding: 15px 16px 13px !important;
+  mix-blend-mode: normal !important;
+}
+.callout-content,
+.callout-content > *,
+.callout-content strong,
+.callout-content em { color: var(--bu-label-fg) !important; }
+.callout-icon { display: none !important; }
+/* type tag — small colour-coded stamp overlapping the top-right edge */
+.callout-title {
+  position: absolute !important;
+  top: -10px;
+  right: 12px;
+  margin: 0 !important;
+  padding: 2px 9px !important;
+  background-color: rgb(var(--callout-color)) !important;
+  border-radius: 2px !important;
+  font-family: var(--bu-font-label) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+  font-size: 0.66em !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+.callout-title-inner { color: #ffffff !important; }
+/* links inside a white note invert (dark chip) so they stay legible */
+.callout a.internal-link {
+  background-color: var(--bu-label-fg) !important;
+  color: var(--bu-label-bg) !important;
+}
+.callout a.internal-link:hover {
+  background-color: var(--bu-accent) !important;
+  color: #ffffff !important;
+}
+
 /* @settings
 
 name: Bureau
@@ -1658,13 +1745,13 @@ settings:
   --background-modifier-hover: color-mix(in srgb, var(--highlight) 60%, transparent);
 }
 
-.sunday,.Sunday       { --highlight: var(--bu-sun-hl,#c89aa0); --primary: var(--bu-sun-pri,#9d5c66); --dark: var(--bu-sun-bg,#181012); }
-.monday,.Monday       { --highlight: var(--bu-mon-hl,#c9a386); --primary: var(--bu-mon-pri,#ab5a3a); --dark: var(--bu-mon-bg,#1a0f08); }
-.tuesday,.Tuesday     { --highlight: var(--bu-tue-hl,#9db1bb); --primary: var(--bu-tue-pri,#5a7889); --dark: var(--bu-tue-bg,#0d1419); }
-.wednesday,.Wednesday { --highlight: var(--bu-wed-hl,#c8b58a); --primary: var(--bu-wed-pri,#a88a4e); --dark: var(--bu-wed-bg,#1a1505); }
-.thursday,.Thursday   { --highlight: var(--bu-thu-hl,#c9987b); --primary: var(--bu-thu-pri,#b05a36); --dark: var(--bu-thu-bg,#170c05); }
-.friday,.Friday       { --highlight: var(--bu-fri-hl,#a8b89a); --primary: var(--bu-fri-pri,#6b8460); --dark: var(--bu-fri-bg,#0f140d); }
-.saturday,.Saturday   { --highlight: var(--bu-sat-hl,#bb9690); --primary: var(--bu-sat-pri,#984848); --dark: var(--bu-sat-bg,#160a0a); }
+.sunday,.Sunday       { --highlight: var(--bu-sun-hl,#c6a3b5); --primary: var(--bu-sun-pri,#9e6b86); --dark: var(--bu-sun-bg,#161114); }
+.monday,.Monday       { --highlight: var(--bu-mon-hl,#a6b6c8); --primary: var(--bu-mon-pri,#5b7a9e); --dark: var(--bu-mon-bg,#0f131a); }
+.tuesday,.Tuesday     { --highlight: var(--bu-tue-hl,#a4c2bc); --primary: var(--bu-tue-pri,#5e8d86); --dark: var(--bu-tue-bg,#0e1413); }
+.wednesday,.Wednesday { --highlight: var(--bu-wed-hl,#b6a9c9); --primary: var(--bu-wed-pri,#836fa0); --dark: var(--bu-wed-bg,#131019); }
+.thursday,.Thursday   { --highlight: var(--bu-thu-hl,#b2b8c4); --primary: var(--bu-thu-pri,#7c8597); --dark: var(--bu-thu-bg,#101216); }
+.friday,.Friday       { --highlight: var(--bu-fri-hl,#9ec8c8); --primary: var(--bu-fri-pri,#4f9a9a); --dark: var(--bu-fri-bg,#0c1515); }
+.saturday,.Saturday   { --highlight: var(--bu-sat-hl,#c0a0b6); --primary: var(--bu-sat-pri,#8c5a7e); --dark: var(--bu-sat-bg,#151013); }
 
 .daily :is(h1, .HyperMD-header.HyperMD-header-1) { color: var(--primary); text-align: center; font-size: 60px; padding: 0 !important; }
 .daily :is(h2, .HyperMD-header.HyperMD-header-2) { color: var(--highlight); text-align: center; font-size: 30px; font-style: italic; padding: 0 !important; }
@@ -2113,19 +2200,19 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#9d5c66'
+    default: '#9e6b86'
   - id: bu-sun-hl
     title: Sunday — text
     type: variable-color
     format: hex
     opacity: false
-    default: '#c89aa0'
+    default: '#c6a3b5'
   - id: bu-sun-bg
     title: Sunday — background
     type: variable-color
     format: hex
     opacity: false
-    default: '#181012'
+    default: '#161114'
   - id: bu-mon-head
     title: Monday
     type: heading
@@ -2136,19 +2223,19 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#ab5a3a'
+    default: '#5b7a9e'
   - id: bu-mon-hl
     title: Monday — text
     type: variable-color
     format: hex
     opacity: false
-    default: '#c9a386'
+    default: '#a6b6c8'
   - id: bu-mon-bg
     title: Monday — background
     type: variable-color
     format: hex
     opacity: false
-    default: '#1a0f08'
+    default: '#0f131a'
   - id: bu-tue-head
     title: Tuesday
     type: heading
@@ -2159,19 +2246,19 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#5a7889'
+    default: '#5e8d86'
   - id: bu-tue-hl
     title: Tuesday — text
     type: variable-color
     format: hex
     opacity: false
-    default: '#9db1bb'
+    default: '#a4c2bc'
   - id: bu-tue-bg
     title: Tuesday — background
     type: variable-color
     format: hex
     opacity: false
-    default: '#0d1419'
+    default: '#0e1413'
   - id: bu-wed-head
     title: Wednesday
     type: heading
@@ -2182,19 +2269,19 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#a88a4e'
+    default: '#836fa0'
   - id: bu-wed-hl
     title: Wednesday — text
     type: variable-color
     format: hex
     opacity: false
-    default: '#c8b58a'
+    default: '#b6a9c9'
   - id: bu-wed-bg
     title: Wednesday — background
     type: variable-color
     format: hex
     opacity: false
-    default: '#1a1505'
+    default: '#131019'
   - id: bu-thu-head
     title: Thursday
     type: heading
@@ -2205,19 +2292,19 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#b05a36'
+    default: '#7c8597'
   - id: bu-thu-hl
     title: Thursday — text
     type: variable-color
     format: hex
     opacity: false
-    default: '#c9987b'
+    default: '#b2b8c4'
   - id: bu-thu-bg
     title: Thursday — background
     type: variable-color
     format: hex
     opacity: false
-    default: '#170c05'
+    default: '#101216'
   - id: bu-fri-head
     title: Friday
     type: heading
@@ -2228,19 +2315,19 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#6b8460'
+    default: '#4f9a9a'
   - id: bu-fri-hl
     title: Friday — text
     type: variable-color
     format: hex
     opacity: false
-    default: '#a8b89a'
+    default: '#9ec8c8'
   - id: bu-fri-bg
     title: Friday — background
     type: variable-color
     format: hex
     opacity: false
-    default: '#0f140d'
+    default: '#0c1515'
   - id: bu-sat-head
     title: Saturday
     type: heading
@@ -2251,18 +2338,18 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#984848'
+    default: '#8c5a7e'
   - id: bu-sat-hl
     title: Saturday — text
     type: variable-color
     format: hex
     opacity: false
-    default: '#bb9690'
+    default: '#c0a0b6'
   - id: bu-sat-bg
     title: Saturday — background
     type: variable-color
     format: hex
     opacity: false
-    default: '#160a0a'
+    default: '#151013'
 
 */
