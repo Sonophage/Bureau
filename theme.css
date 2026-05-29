@@ -1381,13 +1381,23 @@ body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
   padding-right: calc(var(--bu-card-gap) + 5px);
 }
 .workspace-tab-container { background-color: transparent !important; }
+/* lift both sidebars ~20px off the bottom edge (match across) */
+.workspace-split.mod-left-split,
+.workspace-split.mod-right-split {
+  padding-bottom: 20px;
+}
+/* editor (root): lift via the card's own bottom margin so its drop-shadow
+   isn't clipped square by the split's padding box (that made the hard line) */
+.workspace-split.mod-root .workspace-leaf-content {
+  margin-bottom: calc(var(--bu-card-gap) + 25px) !important;
+}
 /* each pane content = a dossier card (overrides the sidebar-transparent rule) */
 .workspace-split .workspace-leaf-content {
   background-color: var(--bu-bg) !important;
   border: 1px solid var(--bu-line) !important;
   border-radius: var(--bu-card-radius) !important;
   margin: 0 0 calc(var(--bu-card-gap) + 5px) 0 !important;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, var(--bu-card-shadow, 0.55)) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, var(--bu-card-shadow, 0.55)) !important;
   overflow: hidden;
 }
 /* remove Obsidian's tab-curve pseudo-elements — they drew the dark "square" corners */
