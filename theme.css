@@ -556,35 +556,45 @@ body:not(.bu-panel-grain) .workspace-split.mod-right-split {
    BUREAU — PHASE 2c: full-app modal blur + Encore-style command palette
    =================================================================== */
 
-/* blur + darken the WHOLE app behind any modal / command palette / switcher */
+/* full-app blur behind any modal / palette / switcher */
 .modal-bg {
-  background-color: rgba(0, 0, 0, 0.40) !important;
-  -webkit-backdrop-filter: blur(22px) brightness(0.78);
-  backdrop-filter: blur(22px) brightness(0.78);
+  background-color: rgba(0, 0, 0, 0.44) !important;
+  -webkit-backdrop-filter: blur(28px) brightness(0.66) !important;
+  backdrop-filter: blur(28px) brightness(0.66) !important;
 }
 
-/* command palette + quick switcher — big-title prompt over the blur */
+/* command palette + quick switcher: boxless, floats over the blur */
 .prompt {
-  background-color: rgba(14, 13, 12, 0.55) !important;
-  -webkit-backdrop-filter: var(--bu-acrylic);
-  backdrop-filter: var(--bu-acrylic);
-  border: 1px solid var(--bu-border) !important;
-  border-radius: 6px;
-  max-width: 740px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  background-color: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  max-width: 820px;
+}
+.prompt::before {                      /* dark top scrim for title legibility */
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 300px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.88), rgba(0,0,0,0));
+  pointer-events: none;
 }
 .prompt-input-container { padding: 6px 6px 10px; }
 .prompt-input {
   background: transparent !important;
   border: none !important;
   font-family: var(--bu-font-body);
-  font-size: 1.7em;
+  font-size: 2.2em !important;
+  line-height: 1.15;
   letter-spacing: -0.01em;
   color: var(--bu-text-hi);
+  padding: 8px 6px 10px;
 }
-.prompt-input::placeholder { color: var(--bu-muted); opacity: 1; }
+.prompt-input::placeholder { color: var(--bu-text) !important; opacity: 1 !important; }
 .prompt-instructions {
-  border-top: 1px solid var(--bu-border);
+  border-top: none !important;
   font-family: var(--bu-font-body);
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -592,7 +602,7 @@ body:not(.bu-panel-grain) .workspace-split.mod-right-split {
   color: var(--bu-muted);
 }
 
-/* result rows + hotkey chips */
+/* suggestion rows + hotkey chips (menus, switcher) */
 .suggestion-item { border-radius: 2px; padding: 6px 12px; color: var(--bu-text); }
 .suggestion-item.is-selected {
   background-color: color-mix(in srgb, var(--bu-accent) 16%, transparent) !important;
@@ -610,53 +620,7 @@ body:not(.bu-panel-grain) .workspace-split.mod-right-split {
   padding: 1px 6px;
 }
 
-/* bigger command-palette title to match Encore's "Select a command…" scale */
-.prompt { max-width: 780px; }
-.prompt-input {
-  font-size: 2.2em !important;
-  line-height: 1.15;
-  padding: 8px 6px 10px;
-}
-
-/* command palette: drop the bounding box — float the content over the
-   full-app blur (cleaner / more spacious, like Encore) */
-.prompt {
-  background-color: transparent !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  max-width: 820px;
-}
-.prompt-instructions { border-top: none !important; }
-
-/* ===================================================================
-   BUREAU — scrollable editor background (lifted from Elysian)
-   a texture painted behind the content that scrolls with the text
-   =================================================================== */
-
-.workspace-leaf-content[data-type="markdown"] .markdown-reading-view > .markdown-preview-view::before,
-.workspace-leaf-content[data-type="markdown"] .view-content > .markdown-source-view .cm-sizer::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  min-height: 92vh;
-  background-image: var(--scrollable-background);
-  background-size: 100% auto;
-  background-repeat: repeat-y;
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* ===================================================================
-   BUREAU — command palette: Encore's exact layout, recolored to noir.
-   Full-height transparent prompt; children reordered (input → hints →
-   results) so the instructions sit right under the big 3rem title.
-   =================================================================== */
+/* desktop: Encore full-height layout — big title, hints, then results */
 body:not(.is-mobile) .prompt {
   background-color: transparent !important;
   border: none !important;
@@ -684,7 +648,7 @@ body:not(.is-mobile) .prompt > .prompt-input-container {
 }
 body:not(.is-mobile) .prompt > .prompt-input-container > .prompt-input {
   background-color: transparent !important;
-  font-size: 3rem !important;
+  font-size: 2rem !important;
   border: none !important;
   border-bottom: none !important;
   height: auto;
@@ -705,82 +669,21 @@ body:not(.is-mobile) .prompt > .prompt-instructions {
 body:not(.is-mobile) .prompt > .prompt-results {
   order: 3;
   border-top: 1px solid var(--bu-border);
-  color: var(--bu-muted);
+  color: var(--bu-text-hi) !important;
 }
 body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item { cursor: pointer; color: var(--bu-text); }
 body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item.is-selected {
   color: var(--bu-text-hi) !important;
   background-color: rgba(255, 255, 255, 0.06) !important;
 }
+body:not(.is-mobile) .prompt .suggestion-content,
+body:not(.is-mobile) .prompt .suggestion-title,
+body:not(.is-mobile) .prompt .suggestion-note { color: var(--bu-text-hi) !important; }
 body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item kbd,
 body:not(.is-mobile) .prompt .suggestion-hotkey {
   background-color: var(--bu-surface) !important;
   border: 1px solid var(--bu-border);
   color: var(--bu-muted);
-}
-
-/* palette legibility: white text + a touch more backdrop blur */
-.modal-bg {
-  -webkit-backdrop-filter: blur(26px) brightness(0.74) !important;
-  backdrop-filter: blur(26px) brightness(0.74) !important;
-  background-color: rgba(0, 0, 0, 0.44) !important;
-}
-body:not(.is-mobile) .prompt > .prompt-results,
-body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item,
-body:not(.is-mobile) .prompt .suggestion-content,
-body:not(.is-mobile) .prompt .suggestion-title,
-body:not(.is-mobile) .prompt .suggestion-note {
-  color: var(--bu-text-hi) !important;
-}
-
-/* fix: make the scrollable background actually scroll with content.
-   It was anchoring to the scroll viewport (pinned); anchor it to the
-   scrolling sizer instead. */
-.markdown-source-view.mod-cm6 .cm-sizer,
-.markdown-reading-view .markdown-preview-sizer {
-  position: relative;
-}
-/* turn off the old reading ::before (was pinned to the outer scroller) */
-.workspace-leaf-content[data-type="markdown"] .markdown-reading-view > .markdown-preview-view::before {
-  content: none !important;
-}
-/* repaint it on the reading sizer so it scrolls with the text */
-.markdown-reading-view .markdown-preview-sizer::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  min-height: 92vh;
-  background-image: var(--scrollable-background);
-  background-size: 100% auto;
-  background-repeat: repeat-y;
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* ===== palette: white title + darker scrim behind the top for legibility ===== */
-.prompt-input::placeholder { color: var(--bu-text) !important; opacity: 1 !important; }
-.modal-bg {
-  -webkit-backdrop-filter: blur(28px) brightness(0.66) !important;
-  backdrop-filter: blur(28px) brightness(0.66) !important;
-}
-.prompt::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 300px;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.88), rgba(0,0,0,0));
-  pointer-events: none;
-}
-
-/* ===== scrollable texture: full pane width (full-bleed from the centered column) ===== */
-.markdown-source-view.mod-cm6 .cm-sizer::before,
-.markdown-reading-view .markdown-preview-sizer::before {
-  left: 50%;
-  margin-left: -50vw;
-  width: 100vw;
-  right: auto;
 }
 
 /* ===== breathing room below headers ===== */
@@ -792,29 +695,11 @@ body:not(.is-mobile) .prompt .suggestion-note {
 }
 .markdown-source-view.mod-cm6 .HyperMD-header { margin-bottom: 0.45em; }
 
-/* lower the palette title size */
-body:not(.is-mobile) .prompt > .prompt-input-container > .prompt-input { font-size: 2rem !important; }
 
-/* texture full-bleed to the NOTE BOX (pane-relative, not the window):
-   extend the ::before by a sizer-width each side; the scroller clips it
-   to the pane. Replaces the viewport-relative 100vw that mis-aligned. */
-.markdown-source-view.mod-cm6 .cm-sizer::before,
-.markdown-reading-view .markdown-preview-sizer::before {
-  left: -100%;
-  right: -100%;
-  width: auto;
-  margin-left: 0;
-}
-
-/* ===== SVG scrollable background, done right =====
-   Paint it on the scroll container with background-attachment:local, so it
-   fills the full note box (pane width) AND scrolls with the content.
-   Replaces the earlier ::before approach. */
-.markdown-source-view.mod-cm6 .cm-sizer::before,
-.markdown-reading-view .markdown-preview-sizer::before,
-.workspace-leaf-content[data-type="markdown"] .markdown-reading-view > .markdown-preview-view::before {
-  content: none !important;
-}
+/* ===================================================================
+   EDITOR — scrollable paper texture, painted on the scroll container
+   (background-attachment:local) so it fills the pane and scrolls.
+   =================================================================== */
 .markdown-source-view.mod-cm6 .cm-scroller,
 .markdown-reading-view .markdown-preview-view {
   background-image: var(--scrollable-background) !important;
@@ -1198,15 +1083,6 @@ button:not(.clickable-icon):active,
   border: none !important;
 }
 
-/* ---- left ribbon = a card ---- */
-.side-dock-actions {
-  background-color: var(--bu-surface) !important;
-  border: 1px solid var(--bu-line) !important;
-  border-radius: var(--bu-card-radius) !important;
-  margin: 10px 4px 8px 6px !important;
-  padding: 6px 3px !important;
-}
-
 /* ---- vault title + settings = a card ---- */
 .workspace-sidedock-vault-profile {
   background-color: var(--bu-surface) !important;
@@ -1223,23 +1099,6 @@ button:not(.clickable-icon):active,
 }
 .mod-root .workspace-tab-header.is-active { border-bottom: none !important; }
 
-/* ===== ribbon card cleanup: hide the long bar, fit + space the icons ===== */
-/* hide the full-height ribbon background behind the card */
-.workspace-ribbon.mod-left,
-.workspace-ribbon.mod-left:before {
-  background-color: transparent !important;
-  border-right: none !important;
-}
-/* ribbon icon card fits its icons, even spacing, no clipping */
-.side-dock-actions {
-  height: -moz-fit-content !important;
-  height: fit-content !important;
-  overflow: visible !important;
-  padding: 8px 4px !important;
-}
-.side-dock-actions .clickable-icon,
-.side-dock-ribbon-action { margin: 2px 0 !important; }
-
 /* don't clip the bottom icon groups (settings/help/sync, vault) */
 .side-dock-settings,
 .workspace-sidedock-vault-profile,
@@ -1247,36 +1106,7 @@ button:not(.clickable-icon):active,
 .side-dock-settings { padding: 4px !important; }
 .status-bar-item { padding: 2px 6px; overflow: visible; }
 
-/* ===== RECOVER ribbon: the card attempt hid the icons. Restore the
-   working ribbon (heavy bar, visible icons). Re-do the card later with
-   the real DOM. ===== */
-.workspace-ribbon.mod-left {
-  background-color: var(--bu-bg-alt) !important;
-  border-right: 2px solid var(--bu-line) !important;
-}
-.workspace-ribbon.mod-left:before {
-  background-color: var(--bu-bg-alt) !important;
-  border: none !important;
-}
-.side-dock-actions {
-  background-color: transparent !important;
-  border: none !important;
-  border-radius: 0 !important;
-  height: auto !important;
-  max-height: none !important;
-  overflow: visible !important;
-  margin: 0 !important;
-  padding: 8px 0 !important;
-}
-.side-dock-actions .clickable-icon,
-.side-dock-ribbon-action {
-  margin: 0 !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: flex !important;
-}
-
-/* ===== ribbon = ONLY the card (no black bar), icons not clipped ===== */
+/* ---- left ribbon = a card (transparent bar, icons not clipped) ---- */
 .workspace-ribbon.mod-left,
 .workspace-ribbon.mod-left:before {
   background-color: transparent !important;
