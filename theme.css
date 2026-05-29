@@ -499,10 +499,10 @@ body.bu-grain::before {
    (grain PNG lifted from Encore; acrylic blur on floating overlays)
    =================================================================== */
 
-/* sidebars become a concrete panel; inner panes go transparent so the
-   textured split background shows through */
-.workspace-split.mod-left-split,
-.workspace-split.mod-right-split {
+/* ===================================================================
+   BACKDROP — concrete grain on the app stage; panes + chrome float over it
+   =================================================================== */
+.app-container {
   background-color: var(--bu-bg-alt);
   background-image:
     linear-gradient(rgba(6,6,5, calc(1 - var(--bu-panel-grain-amount, 0.38))),
@@ -510,11 +510,12 @@ body.bu-grain::before {
     var(--bu-grain);
   background-repeat: repeat;
 }
-/* Style Settings: sidebar texture OFF -> flat panels (class added by default) */
-body:not(.bu-panel-grain) .workspace-split.mod-left-split,
-body:not(.bu-panel-grain) .workspace-split.mod-right-split {
-  background-image: none;
-}
+/* Style Settings: backdrop texture OFF -> flat stage */
+body:not(.bu-panel-grain) .app-container { background-image: none; }
+
+/* sidebars transparent so the grain stage shows through */
+.workspace-split.mod-left-split,
+.workspace-split.mod-right-split { background-color: transparent; }
 .mod-left-split .workspace-leaf,
 .mod-left-split .workspace-leaf-content,
 .mod-left-split .view-content,
@@ -786,7 +787,7 @@ body:not(.is-mobile) .prompt .suggestion-hotkey {
    =================================================================== */
 
 /* the desk behind the cards */
-.workspace-split.mod-root { background-color: var(--bu-bg-alt); }
+.workspace-split.mod-root { background-color: transparent; }
 
 /* horizontal gaps so cards don't touch edges/each other */
 .workspace-split.mod-root .workspace-tabs,
@@ -804,15 +805,10 @@ body:not(.is-mobile) .prompt .suggestion-hotkey {
   border: 1px solid var(--bu-line) !important;
   border-radius: var(--bu-card-radius) !important;
   margin: 0 0 var(--bu-card-gap) 0 !important;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, var(--bu-card-shadow, 0.55)) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, var(--bu-card-shadow, 0.55)) !important;
   overflow: hidden;
 }
-/* let the card's rounded drop-shadow escape ancestor clip + paint-containment */
-.workspace-split .workspace-tabs,
-.workspace-split .workspace-tab-container,
-.workspace-split .workspace-leaf { contain: none !important; }
-.workspace-split .workspace-tab-container,
-.workspace-split .workspace-leaf { overflow: visible !important; }
+/* editor card uses the Card-rounding slider (--bu-card-radius); black fill rounds with it */
 
 /* ===================================================================
    BUREAU — cards rounder + more spacing (manila); brutalist folder
@@ -821,40 +817,50 @@ body:not(.is-mobile) .prompt .suggestion-hotkey {
 
 /* ---- TABS: brutalist manila folder tabs ---- */
 .workspace-tab-header-container {
-  background-color: var(--bu-bg-alt) !important;
-  border-bottom: 2px solid var(--bu-border) !important;
+  background-color: transparent !important;
+  border-bottom: none !important;
 }
+/* remove Obsidian's tab-curve pseudo-elements — they drew the dark "square" corners */
+.workspace-tab-header::before,
+.workspace-tab-header::after { display: none !important; }
+
 .workspace-tab-header {
+  position: relative;
+  z-index: 5;                 /* sit above the card so corners don't get clipped */
   border-radius: 8px 8px 0 0 !important;
   border: 2px solid transparent !important;
   border-bottom: none !important;
-  margin-right: 3px;
+  margin-right: 8px;          /* spacing between tabs */
 }
 .workspace-tab-header-inner { padding: 5px 11px !important; }
 .workspace-tab-header-inner-title {
-  font-family: var(--bu-font-body) !important;
+  font-family: var(--bu-font-label) !important;
   text-transform: uppercase;
   letter-spacing: 0.07em;
   font-size: 0.72em;
   color: var(--bu-muted);
 }
-/* fixed hover (only on non-active) */
-.workspace-tab-header:not(.is-active):hover {
-  background-color: var(--bu-surface) !important;
-}
-.workspace-tab-header:not(.is-active):hover .workspace-tab-header-inner-title {
-  color: var(--bu-text) !important;
-}
-/* active = cream manila folder tab, heavy */
-.mod-root .workspace-tab-header.is-active {
+/* ---- main tabs: inactive = paper-white + accent text; active = accent fill + white text ---- */
+.mod-root .workspace-tab-header:not(.is-active) {
   background-color: var(--bu-label-bg) !important;
-  border: 2px solid var(--bu-border) !important;
+}
+.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-title,
+.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-icon,
+.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-close-button {
+  color: var(--bu-accent) !important;
+}
+.mod-root .workspace-tab-header:not(.is-active):hover .workspace-tab-header-inner-title {
+  color: var(--bu-accent-hi) !important;
+}
+.mod-root .workspace-tab-header.is-active {
+  background-color: var(--bu-accent) !important;
+  border: 2px solid var(--bu-accent) !important;
   border-bottom: none !important;
 }
 .mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-title,
 .mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
 .mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-close-button {
-  color: var(--bu-label-fg) !important;
+  color: #ffffff !important;
 }
 
 /* ---- new-tab / empty state ---- */
@@ -894,18 +900,18 @@ body:not(.is-mobile) .prompt .suggestion-hotkey {
 .theme-dark .metadata-container,
 .markdown-rendered pre {
   border: 1px solid var(--bu-line) !important;
-  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.40) !important;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40) !important;
 }
 .callout {
   border: 1px solid var(--bu-line) !important;
   border-left: 3px solid rgb(var(--callout-color)) !important;
-  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.40) !important;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40) !important;
 }
 
 /* ===== active tab lifts above the card; active window border matches it ===== */
 .workspace-tab-header.is-active {
   position: relative;
-  z-index: 3;
+  z-index: 6;
 }
 .workspace-leaf.mod-active .workspace-leaf-content,
 .workspace-tabs.mod-active .workspace-leaf-content {
@@ -995,8 +1001,8 @@ button:not(.clickable-icon):active,
 
 /* ---- left ribbon: heavy bar ---- */
 .workspace-ribbon {
-  background-color: var(--bu-bg-alt) !important;
-  border-right: 2px solid var(--bu-line) !important;
+  background-color: transparent !important;
+  border-right: none !important;
 }
 .side-dock-ribbon-action:hover,
 .workspace-ribbon .clickable-icon:hover {
@@ -1777,7 +1783,7 @@ settings:
   border-radius: 3px;
   overflow: hidden;
   font-family: var(--bu-font-body);
-  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.40);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40);
 }
 
 /* the white filing tag — fills the key cell, centered text */
