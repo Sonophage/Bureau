@@ -19,50 +19,54 @@
   --bu-text-hi: #ffffff;
   --bu-muted: #968d7e;
   --bu-faint: #5f594e;
-  --bu-red: #e23b2c;
-  --bu-red-hi: #ff5340;
   --bu-brass: #ca9a4e;
   --bu-teal: #4f817a;
   --bu-label-bg: #f3f1eb;
   --bu-label-fg: #14110d;
-  --bu-label-tag: #a8322e;
-  --bu-glow-red: rgba(226, 59, 44, 0.13);
-  --bu-glow-green: rgba(74, 170, 110, 0.13);
-  --bu-glow: var(--bu-glow-green);
+
+  /* ---------- accent presets — Style Settings switches --bu-accent ---------- */
+  --bu-control: #e23b2c;            /* Control red */
+  --bu-magnus:  #2f7d52;            /* Magnus Archives green */
+  --bu-deus:    #d7a531;            /* Deus gold */
+  --bu-accent-custom: #e23b2c;      /* used when preset = Custom */
+  --bu-accent:    var(--bu-control);                              /* the one colour the UI reads */
+  --bu-accent-hi: color-mix(in srgb, var(--bu-accent), white 24%);/* auto bright/hover variant */
+  --bu-label-tag: color-mix(in srgb, var(--bu-accent), black 25%);/* H# chip — darker accent */
+  --bu-glow:      color-mix(in srgb, var(--bu-accent) 13%, transparent); /* glow follows accent */
   --background-primary: var(--bu-bg);
   --background-primary-alt: var(--bu-surface);
   --background-secondary: var(--bu-bg-alt);
   --background-secondary-alt: var(--bu-surface);
   --background-modifier-border: var(--bu-border);
   --background-modifier-border-hover: var(--bu-border-hi);
-  --background-modifier-border-focus: var(--bu-red);
+  --background-modifier-border-focus: var(--bu-accent);
   --background-modifier-hover: #18150f;
   --background-modifier-active-hover: #221d12;
   --text-normal: var(--bu-text);
   --text-muted: var(--bu-muted);
   --text-faint: var(--bu-faint);
-  --text-accent: var(--bu-red);
-  --text-accent-hover: var(--bu-red-hi);
+  --text-accent: var(--bu-accent);
+  --text-accent-hover: var(--bu-accent-hi);
   --text-on-accent: #ffffff;
-  --text-selection: rgba(226, 59, 44, 0.22);
+  --text-selection: color-mix(in srgb, var(--bu-accent) 22%, transparent);
   --text-highlight-bg: rgba(202, 154, 78, 0.30);
   --accent-h: 6;
   --accent-s: 76%;
   --accent-l: 53%;
-  --interactive-accent: var(--bu-red);
-  --interactive-accent-hover: var(--bu-red-hi);
+  --interactive-accent: var(--bu-accent);
+  --interactive-accent-hover: var(--bu-accent-hi);
   --interactive-normal: var(--bu-surface);
   --interactive-hover: var(--bu-raised);
   --link-color: var(--bu-text);
-  --link-color-hover: var(--bu-red-hi);
+  --link-color-hover: var(--bu-accent-hi);
   --link-external-color: var(--bu-text);
-  --link-external-color-hover: var(--bu-red-hi);
+  --link-external-color-hover: var(--bu-accent-hi);
   --link-decoration: none;
   --link-decoration-hover: underline;
-  --link-unresolved-color: var(--bu-red);
+  --link-unresolved-color: var(--bu-accent);
   --link-unresolved-opacity: 0.75;
   --hr-color: var(--bu-border);
-  --blockquote-border-color: var(--bu-red);
+  --blockquote-border-color: var(--bu-accent);
   --blockquote-color: var(--bu-muted);
   --code-background: #000000;
   --code-normal: var(--bu-text);
@@ -86,7 +90,7 @@
   --italic-color: var(--bu-text);
   --bu-green: #4fae90;
   --scrollbar-thumb-bg: rgba(255,255,255,0.10);
-  --scrollbar-active-thumb-bg: var(--bu-red);
+  --scrollbar-active-thumb-bg: var(--bu-accent);
   --scrollbar-bg: transparent;
   --checkbox-color: var(--bu-green);
   --checkbox-color-hover: var(--bu-green);
@@ -100,16 +104,16 @@
   --bu-line: #564c3e;
   --graph-line: rgba(208, 206, 198, 0.18);
   --graph-node: #d4d2ca;
-  --graph-node-focused: #e23b2c;
+  --graph-node-focused: var(--bu-accent);
   --graph-node-tag: #8f8a80;
   --graph-node-attachment: #6e6a60;
   --graph-node-unresolved: #565249;
   --graph-text: #cdc9c1;
-  --nn-selected-file-bg-color: rgba(226, 59, 44, 0.15);
-  --nn-selected-navitem-bg-color: rgba(226, 59, 44, 0.18);
-  --nn-selected-file-tag-bg: rgba(226, 59, 44, 0.18);
+  --nn-selected-file-bg-color: color-mix(in srgb, var(--bu-accent) 15%, transparent);
+  --nn-selected-navitem-bg-color: color-mix(in srgb, var(--bu-accent) 18%, transparent);
+  --nn-selected-file-tag-bg: color-mix(in srgb, var(--bu-accent) 18%, transparent);
   --nn-selected-file-property-bg: var(--bu-surface);
-  --nn-selected-navitem-count-bg: var(--bu-red);
+  --nn-selected-navitem-count-bg: var(--bu-accent);
 }
 
 /* =========================================================
@@ -221,13 +225,13 @@ body.bu-vignette::after {
 .cm-s-obsidian .cm-link {
   color: var(--bu-text);
   text-decoration: underline;
-  text-decoration-color: var(--bu-red);
+  text-decoration-color: var(--bu-accent);
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
 }
 .markdown-rendered a.internal-link:hover,
 .markdown-rendered a.external-link:hover,
-.cm-s-obsidian .cm-hmd-internal-link:hover { color: var(--bu-red); }
+.cm-s-obsidian .cm-hmd-internal-link:hover { color: var(--bu-accent); }
 
 .markdown-rendered :is(h1,h2,h3,h4,h5,h6),
 .markdown-source-view.mod-cm6 :is(.cm-header-1,.cm-header-2,.cm-header-3,.cm-header-4,.cm-header-5,.cm-header-6) {
@@ -273,7 +277,7 @@ body.bu-vignette::after {
   text-transform: uppercase;
   letter-spacing: 0.10em;
   font-weight: 700;
-  color: var(--bu-red) !important;
+  color: var(--bu-accent) !important;
   font-size: 0.86em;
 }
 
@@ -294,18 +298,18 @@ button:not(.mod-cta):not(.clickable-icon):hover,
   background: var(--bu-surface) !important;
 }
 input:focus, textarea:focus, select:focus, .dropdown:focus {
-  border-color: var(--bu-red) !important;
-  box-shadow: 0 0 0 1px var(--bu-red) !important;
+  border-color: var(--bu-accent) !important;
+  box-shadow: 0 0 0 1px var(--bu-accent) !important;
 }
 
 /* primary CTA = red fill */
 button.mod-cta, .mod-cta {
-  background: var(--bu-red) !important;
+  background: var(--bu-accent) !important;
   color: #ffffff !important;
-  border: 1px solid var(--bu-red) !important;
+  border: 1px solid var(--bu-accent) !important;
   border-radius: 2px !important;
 }
-button.mod-cta:hover { background: var(--bu-red-hi) !important; }
+button.mod-cta:hover { background: var(--bu-accent-hi) !important; }
 
 /* settings toggles ON = teal-green */
 .checkbox-container.is-enabled { background-color: var(--bu-green) !important; }
@@ -436,7 +440,7 @@ body.bu-grain::before {
 .theme-dark .metadata-input-longtext:focus,
 .theme-dark .metadata-input-text:focus,
 .theme-dark .metadata-property-value input:focus {
-  border-color: var(--bu-red) !important;
+  border-color: var(--bu-accent) !important;
   box-shadow: none !important;
 }
 
@@ -449,8 +453,8 @@ body.bu-grain::before {
   letter-spacing: 0.03em;
 }
 .theme-dark .metadata-property .multi-select-pill:hover {
-  border-color: var(--bu-red) !important;
-  color: var(--bu-red) !important;
+  border-color: var(--bu-accent) !important;
+  color: var(--bu-accent) !important;
 }
 
 /* ===== fix: properties value-field overlap =====
@@ -539,8 +543,8 @@ body:not(.bu-panel-grain) .workspace-split.mod-right-split {
 .nav-file-title.is-active,
 .tree-item-self.is-active,
 .tree-item-self.is-clickable.is-active {
-  background-color: rgba(226, 59, 44, 0.14) !important;
-  box-shadow: inset 2px 0 0 var(--bu-red);
+  background-color: color-mix(in srgb, var(--bu-accent) 14%, transparent) !important;
+  box-shadow: inset 2px 0 0 var(--bu-accent);
   color: var(--bu-text-hi) !important;
 }
 .nav-file-title:hover,
@@ -589,8 +593,8 @@ body:not(.bu-panel-grain) .workspace-split.mod-right-split {
 /* result rows + hotkey chips */
 .suggestion-item { border-radius: 2px; padding: 6px 12px; color: var(--bu-text); }
 .suggestion-item.is-selected {
-  background-color: rgba(226, 59, 44, 0.16) !important;
-  box-shadow: inset 2px 0 0 var(--bu-red);
+  background-color: color-mix(in srgb, var(--bu-accent) 16%, transparent) !important;
+  box-shadow: inset 2px 0 0 var(--bu-accent);
   color: var(--bu-text-hi) !important;
 }
 .suggestion-hotkey,
@@ -976,8 +980,8 @@ body:not(.is-mobile) .prompt > .prompt-input-container > .prompt-input { font-si
   color: var(--bu-text) !important;
 }
 .empty-state-action:hover {
-  border-color: var(--bu-red) !important;
-  color: var(--bu-red) !important;
+  border-color: var(--bu-accent) !important;
+  color: var(--bu-accent) !important;
   background: var(--bu-raised) !important;
 }
 
@@ -1074,8 +1078,8 @@ input[type="button"], input[type="submit"] {
   box-shadow: none !important;
 }
 button:not(.clickable-icon):not(.mod-cta):hover {
-  border-color: var(--bu-red) !important;
-  color: var(--bu-red) !important;
+  border-color: var(--bu-accent) !important;
+  color: var(--bu-accent) !important;
   background-color: var(--bu-raised) !important;
 }
 /* tactile press */
@@ -1090,20 +1094,20 @@ button:not(.clickable-icon):active,
 .mod-cta {
   font-family: var(--bu-font-body) !important;
   text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700;
-  border: 2px solid var(--bu-red) !important;
+  border: 2px solid var(--bu-accent) !important;
 }
 
 /* ---- clickable icons everywhere: red on hover/active ---- */
 .clickable-icon:hover {
-  color: var(--bu-red) !important;
+  color: var(--bu-accent) !important;
   background-color: var(--bu-surface) !important;
 }
 .clickable-icon.is-active, .clickable-icon.is-active svg,
-.nav-action-button.is-active { color: var(--bu-red) !important; }
+.nav-action-button.is-active { color: var(--bu-accent) !important; }
 .nav-action-button:hover,
 .workspace-tab-header-new-tab:hover,
 .view-action:hover {
-  color: var(--bu-red) !important;
+  color: var(--bu-accent) !important;
   background-color: var(--bu-surface) !important;
 }
 
@@ -1125,7 +1129,7 @@ button:not(.clickable-icon):active,
 }
 .side-dock-ribbon-action:hover,
 .workspace-ribbon .clickable-icon:hover {
-  color: var(--bu-red) !important;
+  color: var(--bu-accent) !important;
   background-color: var(--bu-surface) !important;
 }
 
@@ -1139,7 +1143,7 @@ button:not(.clickable-icon):active,
   font-size: 0.72em;
 }
 .status-bar-item { color: var(--bu-muted); }
-.status-bar-item:hover, .status-bar-item.mod-clickable:hover { color: var(--bu-red) !important; }
+.status-bar-item:hover, .status-bar-item.mod-clickable:hover { color: var(--bu-accent) !important; }
 
 /* ===== sidebar icon-tabs: white icons, folder-tab, active = red ===== */
 .mod-left-split .workspace-tab-header-inner-icon,
@@ -1158,7 +1162,7 @@ button:not(.clickable-icon):active,
 .mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
 .mod-left-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon svg,
 .mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon svg {
-  color: var(--bu-red) !important;
+  color: var(--bu-accent) !important;
 }
 
 /* ===== status-bar hover = title-label look (white bg, black text) ===== */
@@ -1310,7 +1314,7 @@ button:not(.clickable-icon):active,
 }
 .workspace-leaf-resize-handle:hover {
   opacity: 1;
-  background-color: var(--bu-red) !important;
+  background-color: var(--bu-accent) !important;
 }
 
 /* tab-header inner: top padding back on (sides/bottom stay off) */
@@ -1362,24 +1366,24 @@ button:not(.clickable-icon):active,
 .nn-navitem:hover, .nn-file:hover { background-color: var(--bu-surface) !important; }
 
 /* selected = red inset marker + bright name + red icon */
-.nn-navitem.nn-selected, .nn-file.nn-selected { box-shadow: inset 2px 0 0 var(--bu-red); }
+.nn-navitem.nn-selected, .nn-file.nn-selected { box-shadow: inset 2px 0 0 var(--bu-accent); }
 .nn-navitem.nn-selected .nn-navitem-name,
 .nn-file.nn-selected .nn-file-name { color: var(--bu-text-hi) !important; }
 .nn-navitem.nn-selected .nn-navitem-icon,
-.nn-navitem.nn-selected .nn-navitem-chevron { color: var(--bu-red) !important; }
+.nn-navitem.nn-selected .nn-navitem-chevron { color: var(--bu-accent) !important; }
 
 /* group headers + pane title = red uppercase mono (section labels) */
 .nn-list-group-header-text, .nn-list-title-text {
   font-family: var(--bu-font-body) !important;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--bu-red) !important;
+  color: var(--bu-accent) !important;
   font-size: 0.82em;
 }
 
 /* NN header buttons = bureau red hover */
 .nn-icon-button:hover, .nn-action-btn:hover {
-  color: var(--bu-red) !important;
+  color: var(--bu-accent) !important;
   background-color: var(--bu-surface) !important;
 }
 
@@ -1395,7 +1399,7 @@ button:not(.clickable-icon):active,
 .nn-navitem.nn-selected { box-shadow: none !important; }
 .nn-navitem.nn-selected .nn-navitem-name { color: var(--bu-text-hi) !important; }
 .nn-navitem.nn-selected .nn-navitem-icon,
-.nn-navitem.nn-selected .nn-navitem-chevron { color: var(--bu-red) !important; }
+.nn-navitem.nn-selected .nn-navitem-chevron { color: var(--bu-accent) !important; }
 /* hover: more noticeable */
 .nn-navitem:hover { background-color: rgba(240, 235, 220, 0.08) !important; }
 
@@ -1431,9 +1435,23 @@ settings:
     type: heading
     level: 2
     collapsed: false
-  - id: bu-red
-    title: Accent color
-    description: Red used across hovers, selection, and active states.
+  - id: bu-accent
+    title: Accent preset
+    description: Accent colour used across the whole UI and the glow.
+    type: variable-select
+    default: var(--bu-control)
+    options:
+      - label: Control (red)
+        value: var(--bu-control)
+      - label: Magnus (green)
+        value: var(--bu-magnus)
+      - label: Deus (gold)
+        value: var(--bu-deus)
+      - label: Custom
+        value: var(--bu-accent-custom)
+  - id: bu-accent-custom
+    title: Custom accent
+    description: Used when Accent preset is set to Custom.
     type: variable-color
     format: hex
     opacity: false
@@ -1443,18 +1461,6 @@ settings:
     type: heading
     level: 2
     collapsed: false
-  - id: bu-glow
-    title: Atmosphere glow
-    description: Ambient glow rising from the bottom of the window.
-    type: variable-select
-    default: var(--bu-glow-green)
-    options:
-      - label: Green (Disco Elysium)
-        value: var(--bu-glow-green)
-      - label: Red (Control)
-        value: var(--bu-glow-red)
-      - label: 'Off'
-        value: transparent
   - id: bu-grain
     title: Film grain
     type: class-toggle
@@ -1836,17 +1842,17 @@ settings:
 /* link values — red accent, uppercase reference, dashed underline on hover */
 .theme-dark .metadata-property-value a.internal-link,
 .theme-dark .metadata-property-value a.external-link {
-  color: var(--bu-red) !important;
+  color: var(--bu-accent) !important;
   text-decoration: none !important;
-  border-bottom: 1px dotted rgba(226, 59, 44, 0.45);
+  border-bottom: 1px dotted color-mix(in srgb, var(--bu-accent) 45%, transparent);
   padding-bottom: 1px;
   letter-spacing: 0.02em;
 }
 .theme-dark .metadata-property-value a.internal-link:hover,
 .theme-dark .metadata-property-value a.external-link:hover {
-  color: var(--bu-red-hi) !important;
+  color: var(--bu-accent-hi) !important;
   border-bottom-style: dashed;
-  border-bottom-color: var(--bu-red-hi);
+  border-bottom-color: var(--bu-accent-hi);
 }
 /* unresolved links — faint, italic */
 .theme-dark .metadata-property-value a.internal-link.is-unresolved {
@@ -1875,8 +1881,8 @@ settings:
 .theme-dark .metadata-property[data-property-key-type="tags"] .multi-select-pill,
 .theme-dark .metadata-property[data-property-type="tags"] .multi-select-pill {
   background: transparent !important;
-  color: var(--bu-red) !important;
-  border: 1px solid rgba(226, 59, 44, 0.55) !important;
+  color: var(--bu-accent) !important;
+  border: 1px solid color-mix(in srgb, var(--bu-accent) 55%, transparent) !important;
   border-radius: 2px !important;
   font-family: var(--bu-font-body) !important;
   font-size: 0.78em !important;
@@ -1887,14 +1893,14 @@ settings:
 .theme-dark .metadata-property-value .tag:hover,
 .theme-dark .metadata-property[data-property-key-type="tags"] .multi-select-pill:hover,
 .theme-dark .metadata-property[data-property-type="tags"] .multi-select-pill:hover {
-  color: var(--bu-red-hi) !important;
-  border-color: var(--bu-red-hi) !important;
-  background: rgba(226, 59, 44, 0.08) !important;
+  color: var(--bu-accent-hi) !important;
+  border-color: var(--bu-accent-hi) !important;
+  background: color-mix(in srgb, var(--bu-accent) 8%, transparent) !important;
 }
 
 /* checkbox values — red accent, no chrome */
 .theme-dark .metadata-property-value input[type="checkbox"] {
-  accent-color: var(--bu-red);
+  accent-color: var(--bu-accent);
 }
 
 /* text/longtext values — faded when empty placeholder is shown */
@@ -1969,17 +1975,17 @@ settings:
 /* internal/external link values — red, dotted underline */
 .theme-dark .banner-view .banner-props-value a.internal-link,
 .theme-dark .banner-view .banner-props-value a.external-link {
-  color: var(--bu-red) !important;
+  color: var(--bu-accent) !important;
   text-decoration: none !important;
-  border-bottom: 1px dotted rgba(226, 59, 44, 0.45);
+  border-bottom: 1px dotted color-mix(in srgb, var(--bu-accent) 45%, transparent);
   padding-bottom: 1px;
   letter-spacing: 0.02em;
 }
 .theme-dark .banner-view .banner-props-value a.internal-link:hover,
 .theme-dark .banner-view .banner-props-value a.external-link:hover {
-  color: var(--bu-red-hi) !important;
+  color: var(--bu-accent-hi) !important;
   border-bottom-style: dashed;
-  border-bottom-color: var(--bu-red-hi);
+  border-bottom-color: var(--bu-accent-hi);
 }
 
 /* row hover — subtle warm tint across both cells */
