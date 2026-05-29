@@ -1425,10 +1425,16 @@ body.bu-tooltip-type .tooltip {
    chrome recedes (returns on hover)
    =================================================================== */
 /* 1 + curvature: CRT tube vignette + convex-glass sheen (overrides the atmosphere layer) */
-body.is-fullscreen.bu-fullscreen-crt::after {
-  background:
-    radial-gradient(120% calc(var(--bu-glow-reach, 95) * 1%) at 50% 120%, var(--bu-glow) 0%, transparent 55%),
-    radial-gradient(130% 110% at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.45) 68%, rgba(0, 0, 0, 0.92) 100%) !important;
+body.is-fullscreen.bu-fullscreen-crt .markdown-source-view.mod-cm6 .cm-editor,
+body.is-fullscreen.bu-fullscreen-crt .markdown-reading-view { position: relative; }
+body.is-fullscreen.bu-fullscreen-crt .markdown-source-view.mod-cm6 .cm-editor::before,
+body.is-fullscreen.bu-fullscreen-crt .markdown-reading-view::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: radial-gradient(130% 110% at 50% 50%, transparent 32%, rgba(0, 0, 0, 0.5) 68%, rgba(0, 0, 0, 0.95) 100%);
 }
 /* 2: amp the scanlines */
 body.is-fullscreen.bu-fullscreen-crt.bu-scanlines .markdown-source-view.mod-cm6 .cm-editor::after,
