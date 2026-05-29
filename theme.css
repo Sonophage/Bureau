@@ -1409,11 +1409,13 @@ body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
   border-radius: 8px 8px 0 0 !important;
   border: 2px solid transparent !important;
   border-bottom: none !important;
-  margin-right: 8px;          /* spacing between tabs */
+  margin-right: 4px;          /* tight folder row */
 }
-/* ---- main tabs: inactive = paper-white + accent text; active = accent fill + white text ---- */
+/* ---- main tabs: inactive = aged manila folder + accent label; active = accent + white ---- */
 .mod-root .workspace-tab-header:not(.is-active) {
-  background-color: var(--bu-label-bg) !important;
+  background-color: color-mix(in srgb, var(--bu-label-bg) 62%, var(--bu-brass) 38%) !important;
+  border: 2px solid color-mix(in srgb, var(--bu-label-bg), #000 26%) !important;
+  border-bottom: none !important;
 }
 .mod-root .workspace-tab-header.is-active {
   background-color: var(--bu-accent) !important;
