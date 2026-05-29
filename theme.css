@@ -153,9 +153,13 @@
 }
 .markdown-rendered :is(h1,h2,h3,h4,h5,h6) {
   position: relative;
-  display: inline-block;
+  display: block;
+  width: fit-content;
+  margin-top: 1.3em;
+  margin-bottom: 0.65em;
+  margin-left: 0;
   background: var(--bu-label-bg);
-  color: var(--bu-label-fg);
+  color: var(--bu-label-fg) !important;
   font-family: var(--bu-font-label);
   font-weight: 900;
   text-transform: uppercase;
@@ -166,7 +170,7 @@
 }
 .markdown-source-view.mod-cm6 :is(.cm-header-1,.cm-header-2,.cm-header-3,.cm-header-4,.cm-header-5,.cm-header-6) {
   background: var(--bu-label-bg);
-  color: var(--bu-label-fg);
+  color: var(--bu-label-fg) !important;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   padding: 0.04em 0.36em;
@@ -198,22 +202,7 @@
 .markdown-rendered h6::before, .markdown-source-view.mod-cm6 .HyperMD-header-6::after { content: "H6"; }
 .markdown-rendered h1, .cm-s-obsidian .HyperMD-header-1 { letter-spacing: 0.02em; }
 ::selection { background: var(--text-selection); }
-.markdown-rendered :is(h1,h2,h3,h4,h5,h6),
-.markdown-source-view.mod-cm6 :is(.cm-header-1,.cm-header-2,.cm-header-3,.cm-header-4,.cm-header-5,.cm-header-6) {
-  color: var(--bu-label-fg) !important;
-}
-/* ---------- PANE / VIEW TITLES: uppercase, spaced ---------- */
-.view-header-title {
-  font-family: var(--bu-font-body);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.85em;
-}
 /* ---- READING: chip absolutely placed to the right of the label ---- */
-.markdown-rendered :is(h1,h2,h3,h4,h5,h6) {
-  position: relative;
-  margin-left: 0;
-}
 .markdown-rendered :is(h1,h2,h3,h4,h5,h6)::before {
   position: absolute;
   left: calc(100% + 0.45em);
@@ -253,25 +242,6 @@
 }
 /* title uses the exact same face as the headers */
 .inline-title { font-family: var(--bu-font-label) !important; }
-.mod-left-split .workspace-leaf,
-.mod-left-split .workspace-leaf-content,
-.mod-left-split .view-content,
-.mod-left-split .nav-files-container,
-.mod-left-split .workspace-tab-header-container,
-.mod-right-split .workspace-leaf,
-.mod-right-split .workspace-leaf-content,
-.mod-right-split .view-content,
-.mod-right-split .nav-files-container,
-.mod-right-split .workspace-tab-header-container {
-  background-color: transparent !important;
-}
-/* ===== breathing room below headers ===== */
-.markdown-rendered :is(h1,h2,h3,h4,h5,h6) {
-  display: block;
-  width: fit-content;
-  margin-top: 1.3em;
-  margin-bottom: 0.65em;
-}
 .markdown-source-view.mod-cm6 .HyperMD-header { margin-bottom: 0.45em; }
 /* ---- emphasis: bold = accent highlighter swipe · italic = sepia ink ---- */
 .markdown-rendered strong,
@@ -293,84 +263,6 @@
 .markdown-rendered :is(h1,h2,h3,h4,h5,h6) strong {
   color: inherit;
   background-color: transparent;
-}
-/* editor card uses the Card-rounding slider (--bu-card-radius); black fill rounds with it */
-/* ---- TABS: brutalist manila folder tabs ---- */
-.workspace-tab-header-container {
-  background-color: transparent !important;
-  border-bottom: none !important;
-}
-.workspace-tab-header-inner { padding: 5px 11px !important; }
-.workspace-tab-header-inner-title {
-  font-family: var(--bu-font-label) !important;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  font-size: 0.72em;
-  color: var(--bu-muted);
-}
-.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-title,
-.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-icon,
-.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-close-button {
-  color: var(--bu-accent) !important;
-}
-.mod-root .workspace-tab-header:not(.is-active):hover .workspace-tab-header-inner-title {
-  color: var(--bu-accent-hi) !important;
-}
-.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-title,
-.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
-.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-close-button {
-  color: #ffffff !important;
-}
-.nav-action-button:hover,
-.workspace-tab-header-new-tab:hover,
-.view-action:hover {
-  color: var(--bu-accent) !important;
-  background-color: var(--bu-surface) !important;
-}
-/* ===== sidebar icon-tabs: white icons, folder-tab, active = red ===== */
-.mod-left-split .workspace-tab-header-inner-icon,
-.mod-right-split .workspace-tab-header-inner-icon,
-.mod-left-split .workspace-tab-header-inner-icon svg,
-.mod-right-split .workspace-tab-header-inner-icon svg {
-  color: var(--bu-text) !important;
-}
-.mod-left-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
-.mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
-.mod-left-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon svg,
-.mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon svg {
-  color: var(--bu-accent) !important;
-}
-/* ---- sidebar icon-tab strip = ONE grey card around all icons + top margin ---- */
-.mod-left-split .workspace-tab-header-container-inner,
-.mod-right-split .workspace-tab-header-container-inner {
-  background-color: var(--bu-surface) !important;
-  border: 1px solid var(--bu-line) !important;
-  border-radius: var(--bu-card-radius) !important;
-  margin: 10px var(--bu-card-gap) 4px !important;
-  padding: 3px !important;
-}
-/* ---- connect the active tab into its content card ---- */
-.mod-root .workspace-tab-header-container-inner {
-  position: relative;
-  z-index: 4;
-  margin-bottom: -2px;
-}
-/* drop the default padding on the tab-header inner */
-.workspace-tab-header-container-inner { padding: 0; }
-/* tab-header inner: top padding back on (sides/bottom stay off) */
-.workspace-tab-header-container-inner { padding: 8px 0 0 0; }
-/* tab-header container: drop the fixed height so it grows to fit its icons
-   (was pinned to --header-height, clipping them); keep it as a floor */
-.workspace-tab-header-container {
-  height: auto !important;
-  min-height: var(--header-height);
-}
-body:not(.bu-cards) .side-dock-actions,
-body:not(.bu-cards) .workspace-sidedock-vault-profile,
-body:not(.bu-cards) .mod-left-split .workspace-tab-header-container-inner,
-body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
-  border: none !important; border-radius: 0 !important;
-  margin: 0 !important; background-color: transparent !important;
 }
 
 /* ===================================================================
@@ -527,8 +419,9 @@ body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
     rgba(0, 0, 0, 0) 0px,
     rgba(0, 0, 0, 0) 2px,
     rgba(0, 0, 0, 0.35) 3px) !important;
-  border: 1px solid var(--bu-border);
+  border: 1px solid var(--bu-line) !important;
   border-radius: 3px;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40) !important;
 }
 .markdown-rendered :not(pre) > code {
   background: var(--bu-surface);
@@ -695,12 +588,13 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05) !important; }
 }
 /* ---- properties: clean, official dossier box ---- */
 .theme-dark .metadata-container {
-  border: 1px solid var(--bu-border);
-  border-radius: 2px;
+  border: 1px solid var(--bu-line) !important;
+  border-radius: 8px !important;
   background: var(--bu-bg-alt);
   padding: 8px 12px 10px;
   margin-bottom: 16px;
   font-family: var(--bu-font-body);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40) !important;
 }
 .theme-dark .metadata-properties-heading {
   border-bottom: 1px solid var(--bu-border);
@@ -789,34 +683,55 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05) !important; }
 }
 /* breathing room between the property icon and the name label */
 .theme-dark .metadata-property-icon { margin-right: 9px; }
-/* ---- callouts: flat dossier box, mono uppercase title ---- */
+/* ---- callouts: white "post-it" notes; type stamped in the top-right corner,
+   colour-coded per type (non-accent palette; red/green/gold stay the accent's) ---- */
 .callout {
-  background-color: var(--bu-surface) !important;
-  border: 1px solid var(--bu-border) !important;
-  border-left: 3px solid rgb(var(--callout-color)) !important;
-  border-radius: 3px !important;
-  box-shadow: none !important;
-  mix-blend-mode: normal !important;
-  padding: 0.6em 0.9em !important;
-}
-.callout-title {
-  background: transparent !important;
+  background-color: var(--bu-label-bg) !important;
+  color: var(--bu-label-fg) !important;
   border: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  padding: 0 0 0.15em 0 !important;
-  margin-bottom: 0.35em !important;
-  font-family: var(--bu-font-body) !important;
+  border-left: 4px solid rgb(var(--callout-color)) !important;
+  border-radius: 0 3px 3px 0 !important;
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.55) !important;
+  position: relative;
+  overflow: visible !important;
+  margin: 26px 0 22px !important;
+  padding: 15px 16px 13px !important;
+  mix-blend-mode: normal !important;
+}
+.callout-content,
+.callout-content > *,
+.callout-content strong,
+.callout-content em { color: var(--bu-label-fg) !important; }
+.callout-content > :first-child { margin-top: 0; }
+.callout-content > :last-child { margin-bottom: 0; }
+.callout-icon { display: none !important; }
+/* type tag — small colour-coded stamp overlapping the top-right edge */
+.callout-title {
+  position: absolute !important;
+  top: -10px;
+  right: 12px;
+  margin: 0 !important;
+  padding: 2px 9px !important;
+  background-color: rgb(var(--callout-color)) !important;
+  border: none !important;
+  border-radius: 2px !important;
+  font-family: var(--bu-font-label) !important;
   text-transform: uppercase;
   letter-spacing: 0.07em;
   font-weight: 700;
-  font-size: 0.82em;
+  font-size: 0.66em !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
 }
-.callout-title-inner { color: rgb(var(--callout-color)) !important; }
-.callout-icon, .callout-icon svg { color: rgb(var(--callout-color)) !important; }
-.callout-content { color: var(--bu-text); }
-.callout-content > :first-child { margin-top: 0; }
-.callout-content > :last-child { margin-bottom: 0; }
+.callout-title-inner { color: #ffffff !important; }
+/* links inside a white note invert (dark chip) so they stay legible */
+.callout a.internal-link {
+  background-color: var(--bu-label-fg) !important;
+  color: var(--bu-label-bg) !important;
+}
+.callout a.internal-link:hover {
+  background-color: var(--bu-accent) !important;
+  color: #ffffff !important;
+}
 /* type colours — non-accent noir palette (red/green/gold are reserved for the accent) */
 .callout { --callout-color: 124, 133, 151 !important; }
 /* slate (default) */
@@ -841,20 +756,6 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05) !important; }
 }
 .callout[data-callout="example"], .callout[data-callout="quote"], .callout[data-callout="cite"] {
   --callout-color: 92, 122, 158 !important;                                    /* steel blue */
-}
-/* ===== rounder cards + rounded properties box + translucent sidebars ===== */
-/* properties bounding box rounded to match */
-.theme-dark .metadata-container { border-radius: 8px !important; }
-/* inline boxes — bordered, soft drop shadow */
-.theme-dark .metadata-container,
-.markdown-rendered pre {
-  border: 1px solid var(--bu-line) !important;
-  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40) !important;
-}
-.callout {
-  border: 1px solid var(--bu-line) !important;
-  border-left: 3px solid rgb(var(--callout-color)) !important;
-  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40) !important;
 }
 .markdown-rendered table,
 .markdown-source-view.mod-cm6 table {
@@ -886,50 +787,6 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05) !important; }
 .markdown-rendered tbody tr:hover,
 .markdown-source-view.mod-cm6 tbody tr:hover {
   background-color: color-mix(in srgb, var(--bu-accent) 17%, transparent);
-}
-.callout {
-  background-color: var(--bu-label-bg) !important;
-  color: var(--bu-label-fg) !important;
-  border: none !important;
-  border-left: 4px solid rgb(var(--callout-color)) !important;
-  border-radius: 0 3px 3px 0 !important;
-  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.55) !important;
-  position: relative;
-  overflow: visible !important;
-  margin: 26px 0 22px !important;
-  padding: 15px 16px 13px !important;
-  mix-blend-mode: normal !important;
-}
-.callout-content,
-.callout-content > *,
-.callout-content strong,
-.callout-content em { color: var(--bu-label-fg) !important; }
-.callout-icon { display: none !important; }
-/* type tag — small colour-coded stamp overlapping the top-right edge */
-.callout-title {
-  position: absolute !important;
-  top: -10px;
-  right: 12px;
-  margin: 0 !important;
-  padding: 2px 9px !important;
-  background-color: rgb(var(--callout-color)) !important;
-  border-radius: 2px !important;
-  font-family: var(--bu-font-label) !important;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  font-weight: 700;
-  font-size: 0.66em !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
-}
-.callout-title-inner { color: #ffffff !important; }
-/* links inside a white note invert (dark chip) so they stay legible */
-.callout a.internal-link {
-  background-color: var(--bu-label-fg) !important;
-  color: var(--bu-label-bg) !important;
-}
-.callout a.internal-link:hover {
-  background-color: var(--bu-accent) !important;
-  color: #ffffff !important;
 }
 /* keep §01 number brass — it's a meta marker, not content */
 /* shared read-only row baseline (applies when value is not focused) */
@@ -1094,6 +951,13 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05) !important; }
     6  CHROME — titles · controls · buttons · ribbon · status · nav · palette
    =================================================================== */
 
+/* ---------- PANE / VIEW TITLES: uppercase, spaced ---------- */
+.view-header-title {
+  font-family: var(--bu-font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.85em;
+}
 .markdown-source-view.mod-cm6 .cm-line:not(.cm-active) .cm-formatting-header { display: none; }
 /* ---------- HAIRLINE-OUTLINED CONTROLS ---------- */
 button:not(.mod-cta):not(.clickable-icon),
@@ -1346,16 +1210,6 @@ button:not(.clickable-icon):active,
   padding: 4px;
   border-radius: 3px;
 }
-/* ---- left ribbon: heavy bar ---- */
-.workspace-ribbon {
-  background-color: transparent !important;
-  border-right: none !important;
-}
-.side-dock-ribbon-action:hover,
-.workspace-ribbon .clickable-icon:hover {
-  color: var(--bu-accent) !important;
-  background-color: var(--bu-surface) !important;
-}
 /* ---- status bar: heavy footer, mono caps, red on hover ---- */
 .status-bar {
   background-color: var(--bu-bg-alt) !important;
@@ -1377,12 +1231,6 @@ button:not(.clickable-icon):active,
 .status-bar-item.mod-clickable:hover .status-bar-item-icon,
 .status-bar-item:hover span { color: var(--bu-label-fg) !important; }
 .status-bar-item { padding: 2px 6px; overflow: visible; }
-/* ---- left ribbon = a card (transparent bar, icons not clipped) ---- */
-.workspace-ribbon.mod-left,
-.workspace-ribbon.mod-left:before {
-  background-color: transparent !important;
-  border: none !important;
-}
 /* un-smush the view-header action icons (give them gap + hit-area padding) */
 .view-header .view-actions,
 .view-actions {
@@ -1413,6 +1261,110 @@ body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item { margin-left:
     7  LAYOUT — dossier cards (panes · tabs · sidebars)
    =================================================================== */
 
+.mod-left-split .workspace-leaf,
+.mod-left-split .workspace-leaf-content,
+.mod-left-split .view-content,
+.mod-left-split .nav-files-container,
+.mod-left-split .workspace-tab-header-container,
+.mod-right-split .workspace-leaf,
+.mod-right-split .workspace-leaf-content,
+.mod-right-split .view-content,
+.mod-right-split .nav-files-container,
+.mod-right-split .workspace-tab-header-container {
+  background-color: transparent !important;
+}
+/* editor card uses the Card-rounding slider (--bu-card-radius); black fill rounds with it */
+/* ---- TABS: brutalist manila folder tabs ---- */
+.workspace-tab-header-container {
+  background-color: transparent !important;
+  border-bottom: none !important;
+}
+.workspace-tab-header-inner { padding: 5px 11px !important; }
+.workspace-tab-header-inner-title {
+  font-family: var(--bu-font-label) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-size: 0.72em;
+  color: var(--bu-muted);
+}
+.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-title,
+.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-icon,
+.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-close-button {
+  color: var(--bu-accent) !important;
+}
+.mod-root .workspace-tab-header:not(.is-active):hover .workspace-tab-header-inner-title {
+  color: var(--bu-accent-hi) !important;
+}
+.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-title,
+.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
+.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-close-button {
+  color: #ffffff !important;
+}
+.nav-action-button:hover,
+.workspace-tab-header-new-tab:hover,
+.view-action:hover {
+  color: var(--bu-accent) !important;
+  background-color: var(--bu-surface) !important;
+}
+/* ===== sidebar icon-tabs: white icons, folder-tab, active = red ===== */
+.mod-left-split .workspace-tab-header-inner-icon,
+.mod-right-split .workspace-tab-header-inner-icon,
+.mod-left-split .workspace-tab-header-inner-icon svg,
+.mod-right-split .workspace-tab-header-inner-icon svg {
+  color: var(--bu-text) !important;
+}
+.mod-left-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
+.mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
+.mod-left-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon svg,
+.mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon svg {
+  color: var(--bu-accent) !important;
+}
+/* ---- sidebar icon-tab strip = ONE grey card around all icons + top margin ---- */
+.mod-left-split .workspace-tab-header-container-inner,
+.mod-right-split .workspace-tab-header-container-inner {
+  background-color: var(--bu-surface) !important;
+  border: 1px solid var(--bu-line) !important;
+  border-radius: var(--bu-card-radius) !important;
+  margin: 10px var(--bu-card-gap) 4px !important;
+  padding: 3px !important;
+}
+/* ---- connect the active tab into its content card ---- */
+.mod-root .workspace-tab-header-container-inner {
+  position: relative;
+  z-index: 4;
+  margin-bottom: -2px;
+}
+/* tab-header inner: top padding only (sides/bottom off) */
+.workspace-tab-header-container-inner { padding: 8px 0 0 0; }
+/* tab-header container: drop the fixed height so it grows to fit its icons
+   (was pinned to --header-height, clipping them); keep it as a floor */
+.workspace-tab-header-container {
+  height: auto !important;
+  min-height: var(--header-height);
+}
+body:not(.bu-cards) .side-dock-actions,
+body:not(.bu-cards) .workspace-sidedock-vault-profile,
+body:not(.bu-cards) .mod-left-split .workspace-tab-header-container-inner,
+body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
+  border: none !important; border-radius: 0 !important;
+  margin: 0 !important; background-color: transparent !important;
+}
+/* ---- left ribbon: heavy bar ---- */
+.workspace-ribbon {
+  background-color: transparent !important;
+  border-right: none !important;
+}
+.side-dock-ribbon-action:hover,
+.workspace-ribbon .clickable-icon:hover {
+  color: var(--bu-accent) !important;
+  background-color: var(--bu-surface) !important;
+}
+/* ---- left ribbon = a card (transparent bar, icons not clipped) ---- */
+.workspace-ribbon.mod-left,
+.workspace-ribbon.mod-left:before {
+  background-color: transparent !important;
+  border: none !important;
+}
 /* sidebars transparent so the grain stage shows through */
 .workspace-split.mod-left-split,
 .workspace-split.mod-right-split { background-color: transparent; }
@@ -1472,13 +1424,7 @@ body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item { margin-left:
 .workspace-tabs.mod-active .workspace-leaf-content {
   border-color: var(--bu-label-bg) !important;
 }
-.mod-left-split .workspace-tab-header.is-active,
-.mod-right-split .workspace-tab-header.is-active {
-  background-color: var(--bu-surface) !important;
-  border: 2px solid var(--bu-line) !important;
-  border-bottom: none !important;
-}
-/* drop the per-active box — active is just the red icon now */
+/* sidebar active tab = just the red icon, no box */
 .mod-left-split .workspace-tab-header.is-active,
 .mod-right-split .workspace-tab-header.is-active {
   background-color: transparent !important;
