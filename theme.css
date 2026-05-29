@@ -1,11 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@500;600;700;900&display=swap');
 
 /* ===================================================================
-   BUREAU — noir-bureau · "Disco Elysium meets Control" · dark
-   Iteration 3: black base · white text · brighter red ·
-   paper-white "filing label" title AND headers (both edit+read) ·
-   H-level tag in both modes · vignette + glow.
-   Fonts embedded above: Libre Baskerville · IBM Plex Mono · Sans Condensed Black
+   BUREAU — a noir-bureau Obsidian theme ("Disco Elysium meets Control"),
+   dark-only, with a CRT-terminal layer. Retheme from the token block (1).
+
+   CONTENTS
+      1  TOKENS & PALETTE
+      2  TYPOGRAPHY
+      3  LINKS & INLINE
+      4  EDITOR & ATMOSPHERE
+      5  CONTENT BLOCKS
+      6  CHROME
+      7  LAYOUT
+      8  PLUGINS
+      9  CRT & FX
+     10  DAILY NOTES
+     11  STYLE SETTINGS
+   =================================================================== */
+
+/* ===================================================================
+    1  TOKENS & PALETTE — the single source of truth (retheme here)
    =================================================================== */
 
 .theme-dark {
@@ -117,10 +131,10 @@
   --nn-selected-navitem-count-bg: var(--bu-accent);
 }
 
-/* =========================================================
-   FILING-LABEL TITLE — paper white, black condensed caps,
-   each wrapped line hugs its own label bar.
-   ========================================================= */
+/* ===================================================================
+    2  TYPOGRAPHY — title · headings · H# chips · emphasis
+   =================================================================== */
+
 .inline-title {
   display: inline-block;
   width: fit-content;
@@ -137,10 +151,6 @@
   padding: 0.06em 0.34em;
   border: none;
 }
-
-/* =========================================================
-   HEADERS AS LABELS — reading mode
-   ========================================================= */
 .markdown-rendered :is(h1,h2,h3,h4,h5,h6) {
   position: relative;
   display: inline-block;
@@ -154,13 +164,6 @@
   padding: 0.06em 0.42em;
   border: none;
 }
-
-/* =========================================================
-   HEADERS AS LABELS — Live Preview (editing)
-   hide the # marks except on the line you're editing
-   ========================================================= */
-.markdown-source-view.mod-cm6 .cm-line:not(.cm-active) .cm-formatting-header { display: none; }
-
 .markdown-source-view.mod-cm6 :is(.cm-header-1,.cm-header-2,.cm-header-3,.cm-header-4,.cm-header-5,.cm-header-6) {
   background: var(--bu-label-bg);
   color: var(--bu-label-fg);
@@ -171,11 +174,6 @@
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
-
-/* =========================================================
-   H-LEVEL TAG — shows in BOTH reading and editing modes
-   (small red mono code prefixing the label)
-   ========================================================= */
 .markdown-rendered :is(h1,h2,h3,h4,h5,h6)::before,
 .markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6)::after {
   font-family: var(--bu-font-body);
@@ -198,30 +196,187 @@
 .markdown-rendered h4::before, .markdown-source-view.mod-cm6 .HyperMD-header-4::after { content: "H4"; }
 .markdown-rendered h5::before, .markdown-source-view.mod-cm6 .HyperMD-header-5::after { content: "H5"; }
 .markdown-rendered h6::before, .markdown-source-view.mod-cm6 .HyperMD-header-6::after { content: "H6"; }
-
 .markdown-rendered h1, .cm-s-obsidian .HyperMD-header-1 { letter-spacing: 0.02em; }
 ::selection { background: var(--text-selection); }
-
-/* =========================================================
-   ATMOSPHERE — accent glow (intensity + reach) + vignette
-   (own toggle + amount). Glow colour follows --bu-accent.
-   ========================================================= */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  background:
-    radial-gradient(120% calc(var(--bu-glow-reach, 95) * 1%) at 50% 120%, var(--bu-glow) 0%, transparent 55%),
-    radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0, var(--bu-vignette-amount, 0.65)) 100%);
+.markdown-rendered :is(h1,h2,h3,h4,h5,h6),
+.markdown-source-view.mod-cm6 :is(.cm-header-1,.cm-header-2,.cm-header-3,.cm-header-4,.cm-header-5,.cm-header-6) {
+  color: var(--bu-label-fg) !important;
 }
-/* Style Settings: vignette OFF -> no darkened edges (class added by default) */
-body:not(.bu-vignette) { --bu-vignette-amount: 0 !important; }
+/* ---------- PANE / VIEW TITLES: uppercase, spaced ---------- */
+.view-header-title {
+  font-family: var(--bu-font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.85em;
+}
+/* ---- READING: chip absolutely placed to the right of the label ---- */
+.markdown-rendered :is(h1,h2,h3,h4,h5,h6) {
+  position: relative;
+  margin-left: 0;
+}
+.markdown-rendered :is(h1,h2,h3,h4,h5,h6)::before {
+  position: absolute;
+  left: calc(100% + 0.45em);
+  right: auto;
+  top: 0.18em;
+  margin: 0;
+  padding: 0.12em 0.34em;
+  border: 1px solid var(--bu-label-tag);
+  border-right: 1px solid var(--bu-label-tag);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--bu-label-tag);
+  font-size: 0.5em;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+/* ---- EDITING: chip trails the heading text on the right ---- */
+.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6) {
+  position: relative;
+}
+.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6)::after {
+  display: inline-block;
+  margin: 0 0 0 0.45em;
+  padding: 0.1em 0.32em;
+  border: 1px solid var(--bu-label-tag);
+  border-right: 1px solid var(--bu-label-tag);
+  border-radius: 2px;
+  background: var(--bu-bg);
+  color: var(--bu-label-tag);
+  font-size: 0.5em;
+  line-height: 1.1;
+  white-space: nowrap;
+  vertical-align: 0.12em;
+}
+.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6)::after {
+  text-indent: 0;
+}
+/* title uses the exact same face as the headers */
+.inline-title { font-family: var(--bu-font-label) !important; }
+.mod-left-split .workspace-leaf,
+.mod-left-split .workspace-leaf-content,
+.mod-left-split .view-content,
+.mod-left-split .nav-files-container,
+.mod-left-split .workspace-tab-header-container,
+.mod-right-split .workspace-leaf,
+.mod-right-split .workspace-leaf-content,
+.mod-right-split .view-content,
+.mod-right-split .nav-files-container,
+.mod-right-split .workspace-tab-header-container {
+  background-color: transparent !important;
+}
+/* ===== breathing room below headers ===== */
+.markdown-rendered :is(h1,h2,h3,h4,h5,h6) {
+  display: block;
+  width: fit-content;
+  margin-top: 1.3em;
+  margin-bottom: 0.65em;
+}
+.markdown-source-view.mod-cm6 .HyperMD-header { margin-bottom: 0.45em; }
+/* ---- emphasis: bold = accent highlighter swipe · italic = sepia ink ---- */
+.markdown-rendered strong,
+.cm-s-obsidian .cm-strong {
+  color: #f5f2ec;
+  font-weight: 700;
+  background-color: color-mix(in srgb, var(--bu-accent) 22%, transparent);
+  padding: 0 0.18em;
+  border-radius: 1px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.markdown-rendered em,
+.cm-s-obsidian .cm-em {
+  color: color-mix(in srgb, var(--bu-brass) 85%, var(--bu-text));
+  font-style: italic;
+}
+/* keep bold readable on the light heading label; keep daily free of the accent */
+.markdown-rendered :is(h1,h2,h3,h4,h5,h6) strong {
+  color: inherit;
+  background-color: transparent;
+}
+/* editor card uses the Card-rounding slider (--bu-card-radius); black fill rounds with it */
+/* ---- TABS: brutalist manila folder tabs ---- */
+.workspace-tab-header-container {
+  background-color: transparent !important;
+  border-bottom: none !important;
+}
+.workspace-tab-header-inner { padding: 5px 11px !important; }
+.workspace-tab-header-inner-title {
+  font-family: var(--bu-font-label) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-size: 0.72em;
+  color: var(--bu-muted);
+}
+.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-title,
+.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-icon,
+.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-close-button {
+  color: var(--bu-accent) !important;
+}
+.mod-root .workspace-tab-header:not(.is-active):hover .workspace-tab-header-inner-title {
+  color: var(--bu-accent-hi) !important;
+}
+.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-title,
+.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
+.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-close-button {
+  color: #ffffff !important;
+}
+.nav-action-button:hover,
+.workspace-tab-header-new-tab:hover,
+.view-action:hover {
+  color: var(--bu-accent) !important;
+  background-color: var(--bu-surface) !important;
+}
+/* ===== sidebar icon-tabs: white icons, folder-tab, active = red ===== */
+.mod-left-split .workspace-tab-header-inner-icon,
+.mod-right-split .workspace-tab-header-inner-icon,
+.mod-left-split .workspace-tab-header-inner-icon svg,
+.mod-right-split .workspace-tab-header-inner-icon svg {
+  color: var(--bu-text) !important;
+}
+.mod-left-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
+.mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
+.mod-left-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon svg,
+.mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon svg {
+  color: var(--bu-accent) !important;
+}
+/* ---- sidebar icon-tab strip = ONE grey card around all icons + top margin ---- */
+.mod-left-split .workspace-tab-header-container-inner,
+.mod-right-split .workspace-tab-header-container-inner {
+  background-color: var(--bu-surface) !important;
+  border: 1px solid var(--bu-line) !important;
+  border-radius: var(--bu-card-radius) !important;
+  margin: 10px var(--bu-card-gap) 4px !important;
+  padding: 3px !important;
+}
+/* ---- connect the active tab into its content card ---- */
+.mod-root .workspace-tab-header-container-inner {
+  position: relative;
+  z-index: 4;
+  margin-bottom: -2px;
+}
+/* drop the default padding on the tab-header inner */
+.workspace-tab-header-container-inner { padding: 0; }
+/* tab-header inner: top padding back on (sides/bottom stay off) */
+.workspace-tab-header-container-inner { padding: 8px 0 0 0; }
+/* tab-header container: drop the fixed height so it grows to fit its icons
+   (was pinned to --header-height, clipping them); keep it as a floor */
+.workspace-tab-header-container {
+  height: auto !important;
+  min-height: var(--header-height);
+}
+body:not(.bu-cards) .side-dock-actions,
+body:not(.bu-cards) .workspace-sidedock-vault-profile,
+body:not(.bu-cards) .mod-left-split .workspace-tab-header-container-inner,
+body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
+  border: none !important; border-radius: 0 !important;
+  margin: 0 !important; background-color: transparent !important;
+}
 
-/* ===== iteration 4 — de-yellow + title parity ===========
-   links: parchment text + red underline (no brass);
-   bold: white; headers forced black-on-paper both modes  */
+/* ===================================================================
+    3  LINKS & INLINE — link chips · strikethrough · code · horizontal rule
+   =================================================================== */
+
 .markdown-rendered a.internal-link,
 .markdown-rendered a.external-link,
 .cm-s-obsidian .cm-hmd-internal-link,
@@ -234,7 +389,6 @@ body:not(.bu-vignette) { --bu-vignette-amount: 0 !important; }
 }
 .markdown-rendered a.external-link:hover,
 .cm-s-obsidian .cm-link:hover { color: var(--bu-accent); }
-
 /* ===== link "redaction" chips (legible) =====
    body note-links: white chip, black text · header note-links: inverted black chip */
 .markdown-rendered a.internal-link,
@@ -260,7 +414,6 @@ body:not(.bu-vignette) { --bu-vignette-amount: 0 !important; }
   background-color: var(--bu-label-bg) !important;
   color: var(--bu-label-fg) !important;
 }
-
 /* ===== external links: a "www" chip in place of the core ↗ icon =====
    body = darkened-accent chip (matches the H# tag) · in a header = bright accent */
 .markdown-rendered a.external-link {
@@ -344,7 +497,6 @@ body:not(.bu-vignette) { --bu-vignette-amount: 0 !important; }
 .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting-link)::after {
   -webkit-text-fill-color: #fff;
 }
-
 /* ===== strikethrough = redacted: black-on-black, readable on hover ===== */
 .markdown-rendered del,
 .markdown-rendered s,
@@ -365,26 +517,169 @@ body:not(.bu-vignette) { --bu-vignette-amount: 0 !important; }
   color: var(--bu-text) !important;
   box-shadow: none;
 }
-
-.markdown-rendered :is(h1,h2,h3,h4,h5,h6),
-.markdown-source-view.mod-cm6 :is(.cm-header-1,.cm-header-2,.cm-header-3,.cm-header-4,.cm-header-5,.cm-header-6) {
-  color: var(--bu-label-fg) !important;
+/* ---- code ---- */
+/* fenced blocks = CRT terminal: faint scanlines + phosphor + language chip */
+.markdown-rendered pre {
+  position: relative;
+  background-color: #0a0908 !important;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.35) 3px) !important;
+  border: 1px solid var(--bu-border);
+  border-radius: 3px;
+}
+.markdown-rendered :not(pre) > code {
+  background: var(--bu-surface);
+  border: 1px solid var(--bu-border);
+  border-radius: 3px;
+  padding: 0.04em 0.4em;
+  color: var(--bu-text);
+}
+.markdown-rendered pre code {
+  color: var(--bu-text);
+  text-shadow: 0 0 3px color-mix(in srgb, var(--bu-accent) 30%, transparent);
+}
+/* language chip (top-right), same vocabulary as the H# / www tags.
+   Fallback "CODE" for fences with no/unknown language; per-language below. */
+.markdown-rendered pre:has(> code)::after {
+  content: "CODE";
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  z-index: 2;
+  padding: 0.05em 0.42em;
+  border: 1px solid var(--bu-label-tag);
+  border-radius: 2px;
+  background: var(--bu-bg);
+  color: var(--bu-label-tag);
+  font-family: var(--bu-font-label);
+  font-size: 0.66em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  pointer-events: none;
+}
+.markdown-rendered pre:has(> code.language-js)::after,
+.markdown-rendered pre:has(> code.language-javascript)::after { content: "JS"; }
+.markdown-rendered pre:has(> code.language-ts)::after,
+.markdown-rendered pre:has(> code.language-typescript)::after { content: "TS"; }
+.markdown-rendered pre:has(> code.language-jsx)::after { content: "JSX"; }
+.markdown-rendered pre:has(> code.language-tsx)::after { content: "TSX"; }
+.markdown-rendered pre:has(> code.language-py)::after,
+.markdown-rendered pre:has(> code.language-python)::after { content: "PY"; }
+.markdown-rendered pre:has(> code.language-rb)::after,
+.markdown-rendered pre:has(> code.language-ruby)::after { content: "RB"; }
+.markdown-rendered pre:has(> code.language-go)::after { content: "GO"; }
+.markdown-rendered pre:has(> code.language-rs)::after,
+.markdown-rendered pre:has(> code.language-rust)::after { content: "RS"; }
+.markdown-rendered pre:has(> code.language-c)::after { content: "C"; }
+.markdown-rendered pre:has(> code.language-cpp)::after { content: "C++"; }
+.markdown-rendered pre:has(> code.language-cs)::after,
+.markdown-rendered pre:has(> code.language-csharp)::after { content: "C#"; }
+.markdown-rendered pre:has(> code.language-java)::after { content: "JAVA"; }
+.markdown-rendered pre:has(> code.language-php)::after { content: "PHP"; }
+.markdown-rendered pre:has(> code.language-html)::after { content: "HTML"; }
+.markdown-rendered pre:has(> code.language-css)::after { content: "CSS"; }
+.markdown-rendered pre:has(> code.language-scss)::after { content: "SCSS"; }
+.markdown-rendered pre:has(> code.language-json)::after { content: "JSON"; }
+.markdown-rendered pre:has(> code.language-yaml)::after,
+.markdown-rendered pre:has(> code.language-yml)::after { content: "YAML"; }
+.markdown-rendered pre:has(> code.language-md)::after,
+.markdown-rendered pre:has(> code.language-markdown)::after { content: "MD"; }
+.markdown-rendered pre:has(> code.language-bash)::after,
+.markdown-rendered pre:has(> code.language-sh)::after,
+.markdown-rendered pre:has(> code.language-shell)::after,
+.markdown-rendered pre:has(> code.language-zsh)::after { content: "SH"; }
+.markdown-rendered pre:has(> code.language-sql)::after { content: "SQL"; }
+.markdown-rendered pre:has(> code.language-lua)::after { content: "LUA"; }
+/* ---- horizontal rule — ❖ filing-tab ornament (twin of the daily one) ----
+   NB: markdown's ---  ***  ___ all render to one identical <hr>, so every
+   rule outside daily notes shares this single look. */
+.markdown-rendered hr,
+.markdown-source-view.mod-cm6 .cm-hr {
+  border: none !important;
+  height: 10px !important;
+  margin: 24px 0 !important;
+  background-image:
+    linear-gradient(to right,
+      transparent 0%,
+      var(--bu-accent) 18%,
+      var(--bu-accent) 28%,
+      transparent 32%,
+      transparent 68%,
+      var(--bu-accent) 72%,
+      var(--bu-accent) 82%,
+      transparent 100%);
+  position: relative;
+  opacity: 1;
+}
+.markdown-rendered hr::before,
+.markdown-source-view.mod-cm6 .cm-hr::before {
+  content: "\2756";   /* ❖ */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--bu-accent);
+  background: var(--bu-bg);
+  padding: 0 8px;
+  font-size: 0.9em;
+  line-height: 1;
 }
 
 /* ===================================================================
-   BUREAU — PHASE 2: CHROME  (Control "Bureau" options-menu look)
-   stark black · hairline-outlined controls · red section headers ·
-   teal-green active states · white-label active tab · grain ·
-   green ambient glow
+    4  EDITOR & ATMOSPHERE — backdrop grain · glow · vignette · paper texture
    =================================================================== */
 
-/* ---------- PANE / VIEW TITLES: uppercase, spaced ---------- */
-.view-header-title {
-  font-family: var(--bu-font-body);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.85em;
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background:
+    radial-gradient(120% calc(var(--bu-glow-reach, 95) * 1%) at 50% 120%, var(--bu-glow) 0%, transparent 55%),
+    radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0, var(--bu-vignette-amount, 0.65)) 100%);
 }
+/* Style Settings: vignette OFF -> no darkened edges (class added by default) */
+body:not(.bu-vignette) { --bu-vignette-amount: 0 !important; }
+/* ---------- SUBTLE FILM GRAIN (mobile-safe inline SVG noise) ---------- */
+body.bu-grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.app-container {
+  background-color: var(--bu-bg-alt);
+  background-image:
+    linear-gradient(rgba(6,6,5, calc(1 - var(--bu-panel-grain-amount, 0.38))),
+                    rgba(6,6,5, calc(1 - var(--bu-panel-grain-amount, 0.38)))),
+    var(--bu-grain);
+  background-repeat: repeat;
+}
+/* Style Settings: backdrop texture OFF -> flat stage */
+body:not(.bu-panel-grain) .app-container { background-image: none; }
+.markdown-source-view.mod-cm6 .cm-scroller,
+.markdown-reading-view .markdown-preview-view {
+  background-image: var(--scrollable-background) !important;
+  background-size: 100% auto !important;
+  background-repeat: repeat-y !important;
+  background-attachment: local !important;
+}
+/* ===== Style Settings hooks: cards on/off + grain intensity ===== */
+/* grain opacity is now controllable */
+body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05) !important; }
+
+/* ===================================================================
+    5  CONTENT BLOCKS — callouts · tables · properties
+   =================================================================== */
 
 /* ---------- RED SECTION HEADERS (the MONITOR / QUALITY look) ---------- */
 .metadata-properties-heading .metadata-properties-title,
@@ -398,114 +693,6 @@ body:not(.bu-vignette) { --bu-vignette-amount: 0 !important; }
   color: var(--bu-accent) !important;
   font-size: 0.86em;
 }
-
-/* ---------- HAIRLINE-OUTLINED CONTROLS ---------- */
-button:not(.mod-cta):not(.clickable-icon),
-input[type="text"], input[type="search"], input[type="number"],
-input[type="email"], input[type="password"], textarea,
-.dropdown, select, .search-input-container input {
-  background: transparent !important;
-  border: 1px solid var(--bu-border) !important;
-  border-radius: 2px !important;
-  color: var(--bu-text) !important;
-  box-shadow: none !important;
-}
-button:not(.mod-cta):not(.clickable-icon):hover,
-.dropdown:hover, select:hover {
-  border-color: var(--bu-border-hi) !important;
-  background: var(--bu-surface) !important;
-}
-input:focus, textarea:focus, select:focus, .dropdown:focus {
-  border-color: var(--bu-accent) !important;
-  box-shadow: 0 0 0 1px var(--bu-accent) !important;
-}
-
-/* primary CTA = red fill */
-button.mod-cta, .mod-cta {
-  background: var(--bu-accent) !important;
-  color: #ffffff !important;
-  border: 1px solid var(--bu-accent) !important;
-  border-radius: 2px !important;
-}
-button.mod-cta:hover { background: var(--bu-accent-hi) !important; }
-
-/* settings toggles ON = teal-green */
-.checkbox-container.is-enabled { background-color: var(--bu-green) !important; }
-
-/* status bar — small institutional caps */
-.status-bar { font-family: var(--bu-font-body); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.72em; }
-
-/* ---------- SUBTLE FILM GRAIN (mobile-safe inline SVG noise) ---------- */
-body.bu-grain::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* ===================================================================
-   BUREAU — header layout v2
-   H-level tag becomes its own bordered chip BESIDE the label;
-   label wraps cleanly (wrapped lines never tuck under the chip).
-   =================================================================== */
-
-/* ---- READING: chip absolutely placed to the right of the label ---- */
-.markdown-rendered :is(h1,h2,h3,h4,h5,h6) {
-  position: relative;
-  margin-left: 0;
-}
-.markdown-rendered :is(h1,h2,h3,h4,h5,h6)::before {
-  position: absolute;
-  left: calc(100% + 0.45em);
-  right: auto;
-  top: 0.18em;
-  margin: 0;
-  padding: 0.12em 0.34em;
-  border: 1px solid var(--bu-label-tag);
-  border-right: 1px solid var(--bu-label-tag);
-  border-radius: 2px;
-  background: transparent;
-  color: var(--bu-label-tag);
-  font-size: 0.5em;
-  line-height: 1.1;
-  white-space: nowrap;
-}
-
-/* ---- EDITING: chip trails the heading text on the right ---- */
-.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6) {
-  position: relative;
-}
-.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6)::after {
-  display: inline-block;
-  margin: 0 0 0 0.45em;
-  padding: 0.1em 0.32em;
-  border: 1px solid var(--bu-label-tag);
-  border-right: 1px solid var(--bu-label-tag);
-  border-radius: 2px;
-  background: var(--bu-bg);
-  color: var(--bu-label-tag);
-  font-size: 0.5em;
-  line-height: 1.1;
-  white-space: nowrap;
-  vertical-align: 0.12em;
-}
-
-.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6)::after {
-  text-indent: 0;
-}
-
-/* ===================================================================
-   BUREAU — title/H1 font parity + official properties form
-   (DISABLE the `properties-panel.css` snippet — Bureau owns this now)
-   =================================================================== */
-
-/* title uses the exact same face as the headers */
-
-.inline-title { font-family: var(--bu-font-label) !important; }
-
 /* ---- properties: clean, official dossier box ---- */
 .theme-dark .metadata-container {
   border: 1px solid var(--bu-border);
@@ -525,7 +712,6 @@ body.bu-grain::before {
   padding: 4px 0;
 }
 .theme-dark .metadata-property:last-child { border-bottom: none; }
-
 /* property NAME = white filing label, black text */
 .theme-dark .metadata-property-key-input {
   background: var(--bu-label-bg) !important;
@@ -539,7 +725,6 @@ body.bu-grain::before {
   border-radius: 2px;
 }
 .theme-dark .metadata-property-icon { color: var(--bu-muted); }
-
 /* property VALUE entry fields = clean official boxes */
 .theme-dark .metadata-property-value { color: var(--bu-text); }
 .theme-dark .metadata-input-longtext,
@@ -558,7 +743,6 @@ body.bu-grain::before {
   border-color: var(--bu-accent) !important;
   box-shadow: none !important;
 }
-
 /* linked-list value pills = clean bordered chips */
 .theme-dark .metadata-property .multi-select-pill {
   background: transparent !important;
@@ -571,7 +755,6 @@ body.bu-grain::before {
   border-color: var(--bu-accent) !important;
   color: var(--bu-accent) !important;
 }
-
 /* ===== fix: properties value-field overlap =====
    the always-on bordered value boxes collided with the white key labels.
    make value fields clean; show the outline only on focus (no layout shift). */
@@ -594,7 +777,6 @@ body.bu-grain::before {
   background: var(--bu-bg) !important;
   border-color: var(--bu-border-hi) !important;
 }
-
 /* ===== fix v2: white name-label must HUG its text =====
    `fit-content` was being overridden by the key-input's flex sizing, so the
    white box filled the whole key column and covered the value. Force the hug. */
@@ -605,44 +787,346 @@ body.bu-grain::before {
   max-width: 14em !important;
   white-space: nowrap !important;
 }
+/* breathing room between the property icon and the name label */
+.theme-dark .metadata-property-icon { margin-right: 9px; }
+/* ---- callouts: flat dossier box, mono uppercase title ---- */
+.callout {
+  background-color: var(--bu-surface) !important;
+  border: 1px solid var(--bu-border) !important;
+  border-left: 3px solid rgb(var(--callout-color)) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  mix-blend-mode: normal !important;
+  padding: 0.6em 0.9em !important;
+}
+.callout-title {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 0 0.15em 0 !important;
+  margin-bottom: 0.35em !important;
+  font-family: var(--bu-font-body) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+  font-size: 0.82em;
+}
+.callout-title-inner { color: rgb(var(--callout-color)) !important; }
+.callout-icon, .callout-icon svg { color: rgb(var(--callout-color)) !important; }
+.callout-content { color: var(--bu-text); }
+.callout-content > :first-child { margin-top: 0; }
+.callout-content > :last-child { margin-bottom: 0; }
+/* type colours — non-accent noir palette (red/green/gold are reserved for the accent) */
+.callout { --callout-color: 124, 133, 151 !important; }
+/* slate (default) */
+.callout[data-callout="note"], .callout[data-callout="info"], .callout[data-callout="todo"],
+.callout[data-callout="abstract"], .callout[data-callout="summary"], .callout[data-callout="tldr"] {
+  --callout-color: 94, 141, 134 !important;                                    /* teal */
+}
+.callout[data-callout="tip"], .callout[data-callout="hint"],
+.callout[data-callout="success"], .callout[data-callout="check"], .callout[data-callout="done"] {
+  --callout-color: 79, 163, 163 !important;                                    /* cyan */
+}
+.callout[data-callout="question"], .callout[data-callout="help"], .callout[data-callout="faq"] {
+  --callout-color: 131, 111, 160 !important;                                   /* purple */
+}
+.callout[data-callout="important"], .callout[data-callout="warning"],
+.callout[data-callout="caution"], .callout[data-callout="attention"] {
+  --callout-color: 168, 111, 134 !important;                                   /* mauve */
+}
+.callout[data-callout="danger"], .callout[data-callout="error"], .callout[data-callout="failure"],
+.callout[data-callout="fail"], .callout[data-callout="missing"], .callout[data-callout="bug"] {
+  --callout-color: 140, 90, 126 !important;                                    /* plum */
+}
+.callout[data-callout="example"], .callout[data-callout="quote"], .callout[data-callout="cite"] {
+  --callout-color: 92, 122, 158 !important;                                    /* steel blue */
+}
+/* ===== rounder cards + rounded properties box + translucent sidebars ===== */
+/* properties bounding box rounded to match */
+.theme-dark .metadata-container { border-radius: 8px !important; }
+/* inline boxes — bordered, soft drop shadow */
+.theme-dark .metadata-container,
+.markdown-rendered pre {
+  border: 1px solid var(--bu-line) !important;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40) !important;
+}
+.callout {
+  border: 1px solid var(--bu-line) !important;
+  border-left: 3px solid rgb(var(--callout-color)) !important;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40) !important;
+}
+.markdown-rendered table,
+.markdown-source-view.mod-cm6 table {
+  border-collapse: collapse;
+  border: 1px solid var(--bu-line);
+  border-radius: 3px;
+  overflow: hidden;
+  font-family: var(--bu-font-body);
+}
+.markdown-rendered th,
+.markdown-source-view.mod-cm6 th {
+  background-color: var(--bu-accent) !important;
+  color: #ffffff !important;
+  font-family: var(--bu-font-label) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  border-color: var(--bu-accent) !important;
+}
+.markdown-rendered td,
+.markdown-source-view.mod-cm6 td {
+  border-color: var(--bu-border) !important;
+  color: var(--bu-text);
+}
+.markdown-rendered tbody tr:nth-child(even),
+.markdown-source-view.mod-cm6 tbody tr:nth-child(even) {
+  background-color: color-mix(in srgb, var(--bu-accent) 8%, transparent);
+}
+.markdown-rendered tbody tr:hover,
+.markdown-source-view.mod-cm6 tbody tr:hover {
+  background-color: color-mix(in srgb, var(--bu-accent) 17%, transparent);
+}
+.callout {
+  background-color: var(--bu-label-bg) !important;
+  color: var(--bu-label-fg) !important;
+  border: none !important;
+  border-left: 4px solid rgb(var(--callout-color)) !important;
+  border-radius: 0 3px 3px 0 !important;
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.55) !important;
+  position: relative;
+  overflow: visible !important;
+  margin: 26px 0 22px !important;
+  padding: 15px 16px 13px !important;
+  mix-blend-mode: normal !important;
+}
+.callout-content,
+.callout-content > *,
+.callout-content strong,
+.callout-content em { color: var(--bu-label-fg) !important; }
+.callout-icon { display: none !important; }
+/* type tag — small colour-coded stamp overlapping the top-right edge */
+.callout-title {
+  position: absolute !important;
+  top: -10px;
+  right: 12px;
+  margin: 0 !important;
+  padding: 2px 9px !important;
+  background-color: rgb(var(--callout-color)) !important;
+  border-radius: 2px !important;
+  font-family: var(--bu-font-label) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+  font-size: 0.66em !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+.callout-title-inner { color: #ffffff !important; }
+/* links inside a white note invert (dark chip) so they stay legible */
+.callout a.internal-link {
+  background-color: var(--bu-label-fg) !important;
+  color: var(--bu-label-bg) !important;
+}
+.callout a.internal-link:hover {
+  background-color: var(--bu-accent) !important;
+  color: #ffffff !important;
+}
+/* keep §01 number brass — it's a meta marker, not content */
+/* shared read-only row baseline (applies when value is not focused) */
+.theme-dark .metadata-property:not(:focus-within) .metadata-property-value {
+  font-family: var(--bu-font-body);
+  color: var(--bu-text);
+  letter-spacing: 0.01em;
+}
+/* hide the empty-input outline entirely when not focused */
+.theme-dark .metadata-property:not(:focus-within) .metadata-input-longtext,
+.theme-dark .metadata-property:not(:focus-within) .metadata-input-text,
+.theme-dark .metadata-property:not(:focus-within) .metadata-property-value input,
+.theme-dark .metadata-property:not(:focus-within) .metadata-property-value .metadata-input {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+/* row hover — quiet brass tick on the left, no shift */
+.theme-dark .metadata-property {
+  border-left: 2px solid transparent;
+  padding-left: 4px;
+  transition: border-color 80ms linear, background-color 80ms linear;
+}
+.theme-dark .metadata-property:hover {
+  border-left-color: var(--bu-brass);
+  background-color: rgba(202, 154, 78, 0.04);
+}
+/* link values — red accent, uppercase reference, dashed underline on hover */
+.theme-dark .metadata-property-value a.internal-link,
+.theme-dark .metadata-property-value a.external-link {
+  color: var(--bu-accent) !important;
+  text-decoration: none !important;
+  border-bottom: 1px dotted color-mix(in srgb, var(--bu-accent) 45%, transparent);
+  padding-bottom: 1px;
+  letter-spacing: 0.02em;
+}
+.theme-dark .metadata-property-value a.internal-link:hover,
+.theme-dark .metadata-property-value a.external-link:hover {
+  color: var(--bu-accent-hi) !important;
+  border-bottom-style: dashed;
+  border-bottom-color: var(--bu-accent-hi);
+}
+/* unresolved links — faint, italic */
+.theme-dark .metadata-property-value a.internal-link.is-unresolved {
+  color: var(--bu-faint) !important;
+  border-bottom-color: var(--bu-faint);
+  font-style: italic;
+}
+/* date / datetime values — brass, mono, slight uppercase feel */
+.theme-dark .metadata-property[data-property-key-type="date"] .metadata-property-value,
+.theme-dark .metadata-property[data-property-key-type="datetime"] .metadata-property-value,
+.theme-dark .metadata-property[data-property-type="date"] .metadata-property-value,
+.theme-dark .metadata-property[data-property-type="datetime"] .metadata-property-value {
+  color: var(--bu-brass);
+}
+/* number values — brass, tabular */
+.theme-dark .metadata-property[data-property-key-type="number"] .metadata-property-value,
+.theme-dark .metadata-property[data-property-type="number"] .metadata-property-value {
+  color: var(--bu-brass);
+  font-variant-numeric: tabular-nums;
+}
+/* tag values — red-bordered chip set */
+.theme-dark .metadata-property-value .tag,
+.theme-dark .metadata-property[data-property-key-type="tags"] .multi-select-pill,
+.theme-dark .metadata-property[data-property-type="tags"] .multi-select-pill {
+  background: transparent !important;
+  color: var(--bu-accent) !important;
+  border: 1px solid color-mix(in srgb, var(--bu-accent) 55%, transparent) !important;
+  border-radius: 2px !important;
+  font-family: var(--bu-font-body) !important;
+  font-size: 0.78em !important;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  padding: 0 5px !important;
+}
+.theme-dark .metadata-property-value .tag:hover,
+.theme-dark .metadata-property[data-property-key-type="tags"] .multi-select-pill:hover,
+.theme-dark .metadata-property[data-property-type="tags"] .multi-select-pill:hover {
+  color: var(--bu-accent-hi) !important;
+  border-color: var(--bu-accent-hi) !important;
+  background: color-mix(in srgb, var(--bu-accent) 8%, transparent) !important;
+}
+/* checkbox values — red accent, no chrome */
+.theme-dark .metadata-property-value input[type="checkbox"] {
+  accent-color: var(--bu-accent);
+}
+/* text/longtext values — faded when empty placeholder is shown */
+.theme-dark .metadata-property:not(:focus-within) .metadata-input-longtext:empty::before,
+.theme-dark .metadata-property:not(:focus-within) .metadata-input-text:empty::before {
+  color: var(--bu-faint);
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+/* aliases — italic, like a secondary call-sign on the dossier */
+.theme-dark .metadata-property[data-property-key="aliases"] .multi-select-pill {
+  font-style: italic;
+}
+.theme-dark .banner-view .banner-props-slot {
+  max-width: var(--file-line-width, 800px);
+  margin: 0 auto;
+  padding: 18px 24px 56px;
+}
+.theme-dark .banner-view .banner-props-list {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 1px;                                  /* 1px gaps reveal divider color */
+  background: var(--bu-border);              /* shows through the gaps */
+  border: 1px solid var(--bu-border);
+  border-radius: 3px;
+  overflow: hidden;
+  font-family: var(--bu-font-body);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40);
+}
+/* the white filing tag — fills the key cell, centered text */
+.theme-dark .banner-view .banner-props-key {
+  background: var(--bu-label-bg);
+  color: #000 !important;
+  font-family: var(--bu-font-label);
+  font-weight: 900;
+  font-size: 0.78em;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  min-width: 9em;
+}
+/* the value cell — dossier paper */
+.theme-dark .banner-view .banner-props-value {
+  background: var(--bu-bg-alt);
+  color: var(--bu-text);
+  padding: 8px 14px;
+  font-family: var(--bu-font-body);
+  font-size: 0.88em;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 6px;
+}
+/* internal/external link values — red, dotted underline */
+.theme-dark .banner-view .banner-props-value a.internal-link,
+.theme-dark .banner-view .banner-props-value a.external-link {
+  color: var(--bu-accent) !important;
+  text-decoration: none !important;
+  border-bottom: 1px dotted color-mix(in srgb, var(--bu-accent) 45%, transparent);
+  padding-bottom: 1px;
+  letter-spacing: 0.02em;
+}
+.theme-dark .banner-view .banner-props-value a.internal-link:hover,
+.theme-dark .banner-view .banner-props-value a.external-link:hover {
+  color: var(--bu-accent-hi) !important;
+  border-bottom-style: dashed;
+  border-bottom-color: var(--bu-accent-hi);
+}
+/* row hover — subtle warm tint across both cells */
+.theme-dark .banner-view .banner-props-list:hover .banner-props-key { transition: background-color 80ms linear; }
+.theme-dark .banner-view .banner-props-list:hover .banner-props-value { transition: background-color 80ms linear; }
 
 /* ===================================================================
-   BUREAU — PHASE 2b: sidebar concrete texture + frosted blur
-   (grain PNG lifted from Encore; acrylic blur on floating overlays)
+    6  CHROME — titles · controls · buttons · ribbon · status · nav · palette
    =================================================================== */
 
-/* ===================================================================
-   BACKDROP — concrete grain on the app stage; panes + chrome float over it
-   =================================================================== */
-.app-container {
-  background-color: var(--bu-bg-alt);
-  background-image:
-    linear-gradient(rgba(6,6,5, calc(1 - var(--bu-panel-grain-amount, 0.38))),
-                    rgba(6,6,5, calc(1 - var(--bu-panel-grain-amount, 0.38)))),
-    var(--bu-grain);
-  background-repeat: repeat;
+.markdown-source-view.mod-cm6 .cm-line:not(.cm-active) .cm-formatting-header { display: none; }
+/* ---------- HAIRLINE-OUTLINED CONTROLS ---------- */
+button:not(.mod-cta):not(.clickable-icon),
+input[type="text"], input[type="search"], input[type="number"],
+input[type="email"], input[type="password"], textarea,
+.dropdown, select, .search-input-container input {
+  background: transparent !important;
+  border: 1px solid var(--bu-border) !important;
+  border-radius: 2px !important;
+  color: var(--bu-text) !important;
+  box-shadow: none !important;
 }
-/* Style Settings: backdrop texture OFF -> flat stage */
-body:not(.bu-panel-grain) .app-container { background-image: none; }
-
-/* sidebars transparent so the grain stage shows through */
-.workspace-split.mod-left-split,
-.workspace-split.mod-right-split { background-color: transparent; }
-.mod-left-split .workspace-leaf,
-.mod-left-split .workspace-leaf-content,
-.mod-left-split .view-content,
-.mod-left-split .nav-files-container,
-.mod-left-split .workspace-tab-header-container,
-.mod-right-split .workspace-leaf,
-.mod-right-split .workspace-leaf-content,
-.mod-right-split .view-content,
-.mod-right-split .nav-files-container,
-.mod-right-split .workspace-tab-header-container {
-  background-color: transparent !important;
+button:not(.mod-cta):not(.clickable-icon):hover,
+.dropdown:hover, select:hover {
+  border-color: var(--bu-border-hi) !important;
+  background: var(--bu-surface) !important;
 }
-.workspace-split.mod-left-split  { border-right: 1px solid var(--bu-border); }
-.workspace-split.mod-right-split { border-left: 1px solid var(--bu-border); }
-
+input:focus, textarea:focus, select:focus, .dropdown:focus {
+  border-color: var(--bu-accent) !important;
+  box-shadow: 0 0 0 1px var(--bu-accent) !important;
+}
+/* primary CTA = red fill */
+button.mod-cta, .mod-cta {
+  background: var(--bu-accent) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--bu-accent) !important;
+  border-radius: 2px !important;
+}
+button.mod-cta:hover { background: var(--bu-accent-hi) !important; }
+/* settings toggles ON = teal-green */
+.checkbox-container.is-enabled { background-color: var(--bu-green) !important; }
+/* status bar — small institutional caps */
+.status-bar { font-family: var(--bu-font-body); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.72em; }
 /* frosted glass on floating overlays (where blur reads) */
 .menu,
 .suggestion-container,
@@ -654,7 +1138,6 @@ body:not(.bu-panel-grain) .app-container { background-image: none; }
   backdrop-filter: var(--bu-acrylic);
   border: 1px solid var(--bu-border) !important;
 }
-
 /* nav: active file gets a red bureau marker; clean hover */
 .nav-file-title.is-active,
 .tree-item-self.is-active,
@@ -665,18 +1148,12 @@ body:not(.bu-panel-grain) .app-container { background-image: none; }
 }
 .nav-file-title:hover,
 .tree-item-self.is-clickable:hover { background-color: var(--bu-raised) !important; }
-
-/* ===================================================================
-   BUREAU — PHASE 2c: full-app modal blur + Encore-style command palette
-   =================================================================== */
-
 /* full-app blur behind any modal / palette / switcher */
 .modal-bg {
   background-color: rgba(0, 0, 0, 0.44) !important;
   -webkit-backdrop-filter: blur(28px) brightness(0.66) !important;
   backdrop-filter: blur(28px) brightness(0.66) !important;
 }
-
 /* command palette + quick switcher: boxless, floats over the blur */
 .prompt {
   background-color: transparent !important;
@@ -715,7 +1192,6 @@ body:not(.bu-panel-grain) .app-container { background-image: none; }
   font-size: 0.7em;
   color: var(--bu-muted);
 }
-
 /* suggestion rows + hotkey chips (menus, switcher) */
 .suggestion-item { border-radius: 2px; padding: 6px 12px; color: var(--bu-text); }
 .suggestion-item.is-selected {
@@ -733,7 +1209,6 @@ body:not(.bu-panel-grain) .app-container { background-image: none; }
   color: var(--bu-muted) !important;
   padding: 1px 6px;
 }
-
 /* desktop: Encore full-height layout — big title, hints, then results */
 body:not(.is-mobile) .prompt {
   background-color: transparent !important;
@@ -801,312 +1276,6 @@ body:not(.is-mobile) .prompt .suggestion-hotkey {
   border: 1px solid var(--bu-border);
   color: var(--bu-muted);
 }
-
-/* ===== breathing room below headers ===== */
-.markdown-rendered :is(h1,h2,h3,h4,h5,h6) {
-  display: block;
-  width: fit-content;
-  margin-top: 1.3em;
-  margin-bottom: 0.65em;
-}
-.markdown-source-view.mod-cm6 .HyperMD-header { margin-bottom: 0.45em; }
-
-
-/* ===================================================================
-   EDITOR — scrollable paper texture, painted on the scroll container
-   (background-attachment:local) so it fills the pane and scrolls.
-   =================================================================== */
-.markdown-source-view.mod-cm6 .cm-scroller,
-.markdown-reading-view .markdown-preview-view {
-  background-image: var(--scrollable-background) !important;
-  background-size: 100% auto !important;
-  background-repeat: repeat-y !important;
-  background-attachment: local !important;
-}
-
-/* breathing room between the property icon and the name label */
-.theme-dark .metadata-property-icon { margin-right: 9px; }
-
-/* ===================================================================
-   BUREAU — components: callouts (dossier boxes) + code
-   Overrides the callout snippets; recolored to the noir palette.
-   =================================================================== */
-
-/* ---- callouts: flat dossier box, mono uppercase title ---- */
-.callout {
-  background-color: var(--bu-surface) !important;
-  border: 1px solid var(--bu-border) !important;
-  border-left: 3px solid rgb(var(--callout-color)) !important;
-  border-radius: 3px !important;
-  box-shadow: none !important;
-  mix-blend-mode: normal !important;
-  padding: 0.6em 0.9em !important;
-}
-.callout-title {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  padding: 0 0 0.15em 0 !important;
-  margin-bottom: 0.35em !important;
-  font-family: var(--bu-font-body) !important;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  font-weight: 700;
-  font-size: 0.82em;
-}
-.callout-title-inner { color: rgb(var(--callout-color)) !important; }
-.callout-icon, .callout-icon svg { color: rgb(var(--callout-color)) !important; }
-.callout-content { color: var(--bu-text); }
-.callout-content > :first-child { margin-top: 0; }
-.callout-content > :last-child { margin-bottom: 0; }
-
-/* type colours — non-accent noir palette (red/green/gold are reserved for the accent) */
-.callout { --callout-color: 124, 133, 151 !important; }                       /* slate (default) */
-.callout[data-callout="note"], .callout[data-callout="info"], .callout[data-callout="todo"],
-.callout[data-callout="abstract"], .callout[data-callout="summary"], .callout[data-callout="tldr"] {
-  --callout-color: 94, 141, 134 !important;                                    /* teal */
-}
-.callout[data-callout="tip"], .callout[data-callout="hint"],
-.callout[data-callout="success"], .callout[data-callout="check"], .callout[data-callout="done"] {
-  --callout-color: 79, 163, 163 !important;                                    /* cyan */
-}
-.callout[data-callout="question"], .callout[data-callout="help"], .callout[data-callout="faq"] {
-  --callout-color: 131, 111, 160 !important;                                   /* purple */
-}
-.callout[data-callout="important"], .callout[data-callout="warning"],
-.callout[data-callout="caution"], .callout[data-callout="attention"] {
-  --callout-color: 168, 111, 134 !important;                                   /* mauve */
-}
-.callout[data-callout="danger"], .callout[data-callout="error"], .callout[data-callout="failure"],
-.callout[data-callout="fail"], .callout[data-callout="missing"], .callout[data-callout="bug"] {
-  --callout-color: 140, 90, 126 !important;                                    /* plum */
-}
-.callout[data-callout="example"], .callout[data-callout="quote"], .callout[data-callout="cite"] {
-  --callout-color: 92, 122, 158 !important;                                    /* steel blue */
-}
-
-/* ---- emphasis: bold = accent highlighter swipe · italic = sepia ink ---- */
-.markdown-rendered strong,
-.cm-s-obsidian .cm-strong {
-  color: #f5f2ec;
-  font-weight: 700;
-  background-color: color-mix(in srgb, var(--bu-accent) 22%, transparent);
-  padding: 0 0.18em;
-  border-radius: 1px;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-}
-.markdown-rendered em,
-.cm-s-obsidian .cm-em {
-  color: color-mix(in srgb, var(--bu-brass) 85%, var(--bu-text));
-  font-style: italic;
-}
-/* keep bold readable on the light heading label; keep daily free of the accent */
-.markdown-rendered :is(h1,h2,h3,h4,h5,h6) strong {
-  color: inherit;
-  background-color: transparent;
-}
-.daily :is(strong, .cm-strong) { background-color: transparent !important; }
-
-/* ---- code ---- */
-/* fenced blocks = CRT terminal: faint scanlines + phosphor + language chip */
-.markdown-rendered pre {
-  position: relative;
-  background-color: #0a0908 !important;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0) 0px,
-    rgba(0, 0, 0, 0) 2px,
-    rgba(0, 0, 0, 0.35) 3px) !important;
-  border: 1px solid var(--bu-border);
-  border-radius: 3px;
-}
-.markdown-rendered :not(pre) > code {
-  background: var(--bu-surface);
-  border: 1px solid var(--bu-border);
-  border-radius: 3px;
-  padding: 0.04em 0.4em;
-  color: var(--bu-text);
-}
-.markdown-rendered pre code {
-  color: var(--bu-text);
-  text-shadow: 0 0 3px color-mix(in srgb, var(--bu-accent) 30%, transparent);
-}
-
-/* language chip (top-right), same vocabulary as the H# / www tags.
-   Fallback "CODE" for fences with no/unknown language; per-language below. */
-.markdown-rendered pre:has(> code)::after {
-  content: "CODE";
-  position: absolute;
-  top: 6px;
-  right: 8px;
-  z-index: 2;
-  padding: 0.05em 0.42em;
-  border: 1px solid var(--bu-label-tag);
-  border-radius: 2px;
-  background: var(--bu-bg);
-  color: var(--bu-label-tag);
-  font-family: var(--bu-font-label);
-  font-size: 0.66em;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  line-height: 1.3;
-  pointer-events: none;
-}
-.markdown-rendered pre:has(> code.language-js)::after,
-.markdown-rendered pre:has(> code.language-javascript)::after { content: "JS"; }
-.markdown-rendered pre:has(> code.language-ts)::after,
-.markdown-rendered pre:has(> code.language-typescript)::after { content: "TS"; }
-.markdown-rendered pre:has(> code.language-jsx)::after { content: "JSX"; }
-.markdown-rendered pre:has(> code.language-tsx)::after { content: "TSX"; }
-.markdown-rendered pre:has(> code.language-py)::after,
-.markdown-rendered pre:has(> code.language-python)::after { content: "PY"; }
-.markdown-rendered pre:has(> code.language-rb)::after,
-.markdown-rendered pre:has(> code.language-ruby)::after { content: "RB"; }
-.markdown-rendered pre:has(> code.language-go)::after { content: "GO"; }
-.markdown-rendered pre:has(> code.language-rs)::after,
-.markdown-rendered pre:has(> code.language-rust)::after { content: "RS"; }
-.markdown-rendered pre:has(> code.language-c)::after { content: "C"; }
-.markdown-rendered pre:has(> code.language-cpp)::after { content: "C++"; }
-.markdown-rendered pre:has(> code.language-cs)::after,
-.markdown-rendered pre:has(> code.language-csharp)::after { content: "C#"; }
-.markdown-rendered pre:has(> code.language-java)::after { content: "JAVA"; }
-.markdown-rendered pre:has(> code.language-php)::after { content: "PHP"; }
-.markdown-rendered pre:has(> code.language-html)::after { content: "HTML"; }
-.markdown-rendered pre:has(> code.language-css)::after { content: "CSS"; }
-.markdown-rendered pre:has(> code.language-scss)::after { content: "SCSS"; }
-.markdown-rendered pre:has(> code.language-json)::after { content: "JSON"; }
-.markdown-rendered pre:has(> code.language-yaml)::after,
-.markdown-rendered pre:has(> code.language-yml)::after { content: "YAML"; }
-.markdown-rendered pre:has(> code.language-md)::after,
-.markdown-rendered pre:has(> code.language-markdown)::after { content: "MD"; }
-.markdown-rendered pre:has(> code.language-bash)::after,
-.markdown-rendered pre:has(> code.language-sh)::after,
-.markdown-rendered pre:has(> code.language-shell)::after,
-.markdown-rendered pre:has(> code.language-zsh)::after { content: "SH"; }
-.markdown-rendered pre:has(> code.language-sql)::after { content: "SQL"; }
-.markdown-rendered pre:has(> code.language-lua)::after { content: "LUA"; }
-
-/* ---- horizontal rule — ❖ filing-tab ornament (twin of the daily one) ----
-   NB: markdown's ---  ***  ___ all render to one identical <hr>, so every
-   rule outside daily notes shares this single look. */
-.markdown-rendered hr,
-.markdown-source-view.mod-cm6 .cm-hr {
-  border: none !important;
-  height: 10px !important;
-  margin: 24px 0 !important;
-  background-image:
-    linear-gradient(to right,
-      transparent 0%,
-      var(--bu-accent) 18%,
-      var(--bu-accent) 28%,
-      transparent 32%,
-      transparent 68%,
-      var(--bu-accent) 72%,
-      var(--bu-accent) 82%,
-      transparent 100%);
-  position: relative;
-  opacity: 1;
-}
-.markdown-rendered hr::before,
-.markdown-source-view.mod-cm6 .cm-hr::before {
-  content: "\2756";   /* ❖ */
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  color: var(--bu-accent);
-  background: var(--bu-bg);
-  padding: 0 8px;
-  font-size: 0.9em;
-  line-height: 1;
-}
-
-/* ===================================================================
-   BUREAU — "dossier" cards layout (our take on AnuPpuccin's):
-   every pane is a bordered card floating on a dark textured desk.
-   (will become a Style Settings toggle later)
-   =================================================================== */
-
-/* the desk behind the cards */
-.workspace-split.mod-root { background-color: transparent; }
-
-/* horizontal gaps so cards don't touch edges/each other */
-.workspace-split.mod-root .workspace-tabs,
-.mod-left-split .workspace-tabs,
-.mod-right-split .workspace-tabs,
-.workspace-split.mod-vertical > .workspace-tabs {
-  padding-left: calc(var(--bu-card-gap) + 5px);
-  padding-right: calc(var(--bu-card-gap) + 5px);
-}
-.workspace-tab-container { background-color: transparent !important; }
-
-/* each pane content = a dossier card (overrides the sidebar-transparent rule) */
-.workspace-split .workspace-leaf-content {
-  background-color: var(--bu-bg) !important;
-  border: 1px solid var(--bu-line) !important;
-  border-radius: var(--bu-card-radius) !important;
-  margin: 0 0 calc(var(--bu-card-gap) + 5px) 0 !important;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, var(--bu-card-shadow, 0.55)) !important;
-  overflow: hidden;
-}
-/* editor card uses the Card-rounding slider (--bu-card-radius); black fill rounds with it */
-
-/* ===================================================================
-   BUREAU — cards rounder + more spacing (manila); brutalist folder
-   tabs w/ fixed hover; new-tab/empty-state styling.
-   =================================================================== */
-
-/* ---- TABS: brutalist manila folder tabs ---- */
-.workspace-tab-header-container {
-  background-color: transparent !important;
-  border-bottom: none !important;
-}
-/* remove Obsidian's tab-curve pseudo-elements — they drew the dark "square" corners */
-.workspace-tab-header::before,
-.workspace-tab-header::after { display: none !important; }
-
-.workspace-tab-header {
-  position: relative;
-  z-index: 5;                 /* sit above the card so corners don't get clipped */
-  border-radius: 8px 8px 0 0 !important;
-  border: 2px solid transparent !important;
-  border-bottom: none !important;
-  margin-right: 8px;          /* spacing between tabs */
-}
-.workspace-tab-header-inner { padding: 5px 11px !important; }
-.workspace-tab-header-inner-title {
-  font-family: var(--bu-font-label) !important;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  font-size: 0.72em;
-  color: var(--bu-muted);
-}
-/* ---- main tabs: inactive = paper-white + accent text; active = accent fill + white text ---- */
-.mod-root .workspace-tab-header:not(.is-active) {
-  background-color: var(--bu-label-bg) !important;
-}
-.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-title,
-.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-icon,
-.mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-close-button {
-  color: var(--bu-accent) !important;
-}
-.mod-root .workspace-tab-header:not(.is-active):hover .workspace-tab-header-inner-title {
-  color: var(--bu-accent-hi) !important;
-}
-.mod-root .workspace-tab-header.is-active {
-  background-color: var(--bu-accent) !important;
-  border: 2px solid var(--bu-accent) !important;
-  border-bottom: none !important;
-}
-.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-title,
-.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
-.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-close-button {
-  color: #ffffff !important;
-}
-
 /* ---- new-tab / empty state ---- */
 .empty-state-title {
   font-family: var(--bu-font-label);
@@ -1128,63 +1297,6 @@ body:not(.is-mobile) .prompt .suggestion-hotkey {
   color: var(--bu-accent) !important;
   background: var(--bu-raised) !important;
 }
-
-/* ===== rounder cards + rounded properties box + translucent sidebars ===== */
-
-/* properties bounding box rounded to match */
-.theme-dark .metadata-container { border-radius: 8px !important; }
-
-/* sidebars translucent so the desk grain shows through the card */
-.mod-left-split .workspace-leaf-content,
-.mod-right-split .workspace-leaf-content {
-  background-color: rgba(12, 11, 10, 0.60) !important;
-}
-
-/* inline boxes — bordered, soft drop shadow */
-.theme-dark .metadata-container,
-.markdown-rendered pre {
-  border: 1px solid var(--bu-line) !important;
-  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40) !important;
-}
-.callout {
-  border: 1px solid var(--bu-line) !important;
-  border-left: 3px solid rgb(var(--callout-color)) !important;
-  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40) !important;
-}
-
-/* ===== active tab lifts above the card; active window border matches it ===== */
-.workspace-tab-header.is-active {
-  position: relative;
-  z-index: 6;
-}
-.workspace-leaf.mod-active .workspace-leaf-content,
-.workspace-tabs.mod-active .workspace-leaf-content {
-  border-color: var(--bu-label-bg) !important;
-}
-
-/* ===================================================================
-   BUREAU — GRAPH VIEW: Control case-board (black field, white/grey
-   nodes, thin grey links, red active node). No warm tones.
-   =================================================================== */
-
-.workspace-leaf-content[data-type="graph"] .view-content,
-.workspace-leaf-content[data-type="localgraph"] .view-content {
-  background-color: #060605;
-}
-.graph-controls {
-  background-color: rgba(12, 11, 10, 0.88) !important;
-  border: 1px solid var(--bu-line) !important;
-  border-radius: 4px !important;
-  -webkit-backdrop-filter: var(--bu-acrylic);
-  backdrop-filter: var(--bu-acrylic);
-}
-
-/* ===================================================================
-   BUREAU — chrome: status bar, ribbon, buttons.
-   Brutalist & tactile (heavy borders, solid fills, pressed states),
-   red accent sprinkled across hover/active.
-   =================================================================== */
-
 /* ---- generic buttons: heavy, solid, uppercase mono ---- */
 button:not(.clickable-icon):not(.mod-cta),
 input[type="button"], input[type="submit"] {
@@ -1217,7 +1329,6 @@ button:not(.clickable-icon):active,
   text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700;
   border: 2px solid var(--bu-accent) !important;
 }
-
 /* ---- clickable icons everywhere: red on hover/active ---- */
 .clickable-icon:hover {
   color: var(--bu-accent) !important;
@@ -1225,13 +1336,6 @@ button:not(.clickable-icon):active,
 }
 .clickable-icon.is-active, .clickable-icon.is-active svg,
 .nav-action-button.is-active { color: var(--bu-accent) !important; }
-.nav-action-button:hover,
-.workspace-tab-header-new-tab:hover,
-.view-action:hover {
-  color: var(--bu-accent) !important;
-  background-color: var(--bu-surface) !important;
-}
-
 /* nav header icon spacing — give the dangling-links / sort / etc. buttons room */
 .nav-header .nav-action-button + .nav-action-button,
 .nav-buttons-container .nav-action-button + .nav-action-button {
@@ -1242,7 +1346,6 @@ button:not(.clickable-icon):active,
   padding: 4px;
   border-radius: 3px;
 }
-
 /* ---- left ribbon: heavy bar ---- */
 .workspace-ribbon {
   background-color: transparent !important;
@@ -1253,7 +1356,6 @@ button:not(.clickable-icon):active,
   color: var(--bu-accent) !important;
   background-color: var(--bu-surface) !important;
 }
-
 /* ---- status bar: heavy footer, mono caps, red on hover ---- */
 .status-bar {
   background-color: var(--bu-bg-alt) !important;
@@ -1265,27 +1367,6 @@ button:not(.clickable-icon):active,
 }
 .status-bar-item { color: var(--bu-muted); }
 .status-bar-item:hover, .status-bar-item.mod-clickable:hover { color: var(--bu-accent) !important; }
-
-/* ===== sidebar icon-tabs: white icons, folder-tab, active = red ===== */
-.mod-left-split .workspace-tab-header-inner-icon,
-.mod-right-split .workspace-tab-header-inner-icon,
-.mod-left-split .workspace-tab-header-inner-icon svg,
-.mod-right-split .workspace-tab-header-inner-icon svg {
-  color: var(--bu-text) !important;
-}
-.mod-left-split .workspace-tab-header.is-active,
-.mod-right-split .workspace-tab-header.is-active {
-  background-color: var(--bu-surface) !important;
-  border: 2px solid var(--bu-line) !important;
-  border-bottom: none !important;
-}
-.mod-left-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
-.mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
-.mod-left-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon svg,
-.mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon svg {
-  color: var(--bu-accent) !important;
-}
-
 /* ===== status-bar hover = title-label look (white bg, black text) ===== */
 .status-bar-item:hover,
 .status-bar-item.mod-clickable:hover {
@@ -1295,20 +1376,107 @@ button:not(.clickable-icon):active,
 }
 .status-bar-item.mod-clickable:hover .status-bar-item-icon,
 .status-bar-item:hover span { color: var(--bu-label-fg) !important; }
+.status-bar-item { padding: 2px 6px; overflow: visible; }
+/* ---- left ribbon = a card (transparent bar, icons not clipped) ---- */
+.workspace-ribbon.mod-left,
+.workspace-ribbon.mod-left:before {
+  background-color: transparent !important;
+  border: none !important;
+}
+/* un-smush the view-header action icons (give them gap + hit-area padding) */
+.view-header .view-actions,
+.view-actions {
+  gap: 5px !important;
+  padding-right: 4px;
+}
+.view-header .view-actions .clickable-icon,
+.view-actions .clickable-icon,
+.view-action {
+  padding: 5px !important;
+  margin: 0 !important;
+}
+/* pull the prompt/search clear (x) button in from the right edge */
+.prompt .search-input-clear-button,
+.prompt-input-container .search-input-clear-button {
+  right: 22px !important;
+}
+/* palette: hovered/selected result = rounded filled box (no edge lines) */
+.prompt .suggestion-item.is-selected,
+.prompt .suggestion-item:hover {
+  box-shadow: none !important;
+  border-radius: 8px !important;
+  background-color: rgba(255, 255, 255, 0.07) !important;
+}
+body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item { margin-left: 14px; margin-right: 14px; }
 
 /* ===================================================================
-   BUREAU — extend cards to the chrome: sidebar icon-strip card,
-   ribbon card, vault-profile card, connected active tab.
+    7  LAYOUT — dossier cards (panes · tabs · sidebars)
    =================================================================== */
 
-/* ---- sidebar icon-tab strip = ONE grey card around all icons + top margin ---- */
-.mod-left-split .workspace-tab-header-container-inner,
-.mod-right-split .workspace-tab-header-container-inner {
-  background-color: var(--bu-surface) !important;
+/* sidebars transparent so the grain stage shows through */
+.workspace-split.mod-left-split,
+.workspace-split.mod-right-split { background-color: transparent; }
+.workspace-split.mod-left-split  { border-right: 1px solid var(--bu-border); }
+.workspace-split.mod-right-split { border-left: 1px solid var(--bu-border); }
+/* the desk behind the cards */
+.workspace-split.mod-root { background-color: transparent; }
+/* horizontal gaps so cards don't touch edges/each other */
+.workspace-split.mod-root .workspace-tabs,
+.mod-left-split .workspace-tabs,
+.mod-right-split .workspace-tabs,
+.workspace-split.mod-vertical > .workspace-tabs {
+  padding-left: calc(var(--bu-card-gap) + 5px);
+  padding-right: calc(var(--bu-card-gap) + 5px);
+}
+.workspace-tab-container { background-color: transparent !important; }
+/* each pane content = a dossier card (overrides the sidebar-transparent rule) */
+.workspace-split .workspace-leaf-content {
+  background-color: var(--bu-bg) !important;
   border: 1px solid var(--bu-line) !important;
   border-radius: var(--bu-card-radius) !important;
-  margin: 10px var(--bu-card-gap) 4px !important;
-  padding: 3px !important;
+  margin: 0 0 calc(var(--bu-card-gap) + 5px) 0 !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, var(--bu-card-shadow, 0.55)) !important;
+  overflow: hidden;
+}
+/* remove Obsidian's tab-curve pseudo-elements — they drew the dark "square" corners */
+.workspace-tab-header::before,
+.workspace-tab-header::after { display: none !important; }
+.workspace-tab-header {
+  position: relative;
+  z-index: 5;                 /* sit above the card so corners don't get clipped */
+  border-radius: 8px 8px 0 0 !important;
+  border: 2px solid transparent !important;
+  border-bottom: none !important;
+  margin-right: 8px;          /* spacing between tabs */
+}
+/* ---- main tabs: inactive = paper-white + accent text; active = accent fill + white text ---- */
+.mod-root .workspace-tab-header:not(.is-active) {
+  background-color: var(--bu-label-bg) !important;
+}
+.mod-root .workspace-tab-header.is-active {
+  background-color: var(--bu-accent) !important;
+  border: 2px solid var(--bu-accent) !important;
+  border-bottom: none !important;
+}
+/* sidebars translucent so the desk grain shows through the card */
+.mod-left-split .workspace-leaf-content,
+.mod-right-split .workspace-leaf-content {
+  background-color: rgba(12, 11, 10, 0.60) !important;
+}
+/* ===== active tab lifts above the card; active window border matches it ===== */
+.workspace-tab-header.is-active {
+  position: relative;
+  z-index: 6;
+}
+.workspace-leaf.mod-active .workspace-leaf-content,
+.workspace-tabs.mod-active .workspace-leaf-content {
+  border-color: var(--bu-label-bg) !important;
+}
+.mod-left-split .workspace-tab-header.is-active,
+.mod-right-split .workspace-tab-header.is-active {
+  background-color: var(--bu-surface) !important;
+  border: 2px solid var(--bu-line) !important;
+  border-bottom: none !important;
 }
 /* drop the per-active box — active is just the red icon now */
 .mod-left-split .workspace-tab-header.is-active,
@@ -1316,7 +1484,6 @@ button:not(.clickable-icon):active,
   background-color: transparent !important;
   border: none !important;
 }
-
 /* ---- vault title + settings = a card ---- */
 .workspace-sidedock-vault-profile {
   background-color: var(--bu-surface) !important;
@@ -1327,28 +1494,12 @@ button:not(.clickable-icon):active,
   max-width: calc(100% - 2 * var(--bu-card-gap)) !important;
   overflow: hidden !important;
 }
-
-/* ---- connect the active tab into its content card ---- */
-.mod-root .workspace-tab-header-container-inner {
-  position: relative;
-  z-index: 4;
-  margin-bottom: -2px;
-}
 .mod-root .workspace-tab-header.is-active { border-bottom: none !important; }
-
 /* don't clip the bottom icon groups (settings/help/sync, vault) */
 .side-dock-settings,
 .workspace-sidedock-vault-profile,
 .status-bar { overflow: visible !important; }
 .side-dock-settings { padding: 4px !important; }
-.status-bar-item { padding: 2px 6px; overflow: visible; }
-
-/* ---- left ribbon = a card (transparent bar, icons not clipped) ---- */
-.workspace-ribbon.mod-left,
-.workspace-ribbon.mod-left:before {
-  background-color: transparent !important;
-  border: none !important;
-}
 .side-dock-actions {
   background-color: var(--bu-surface) !important;
   border: 1px solid var(--bu-line) !important;
@@ -1371,10 +1522,6 @@ button:not(.clickable-icon):active,
 }
 /* bottom groups (settings/help/sync) must not clip either */
 .side-dock-settings, .side-dock-settings .clickable-icon { overflow: visible !important; }
-
-/* drop the default padding on the tab-header inner */
-.workspace-tab-header-container-inner { padding: 0; }
-
 /* resize handles: hidden until hover (then a red drag line) */
 .workspace-leaf-resize-handle {
   background-color: transparent !important;
@@ -1385,42 +1532,49 @@ button:not(.clickable-icon):active,
   opacity: 1;
   background-color: var(--bu-accent) !important;
 }
-
-/* tab-header inner: top padding back on (sides/bottom stay off) */
-.workspace-tab-header-container-inner { padding: 8px 0 0 0; }
-
-/* un-smush the view-header action icons (give them gap + hit-area padding) */
-.view-header .view-actions,
-.view-actions {
-  gap: 5px !important;
-  padding-right: 4px;
+/* when Cards layout is OFF (no .bu-cards), flatten everything */
+body:not(.bu-cards) .workspace-split .workspace-leaf-content {
+  border: none !important; border-radius: 0 !important;
+  margin: 0 !important; box-shadow: none !important;
 }
-.view-header .view-actions .clickable-icon,
-.view-actions .clickable-icon,
-.view-action {
-  padding: 5px !important;
-  margin: 0 !important;
+body:not(.bu-cards) .workspace-split.mod-root .workspace-tabs,
+body:not(.bu-cards) .mod-left-split .workspace-tabs,
+body:not(.bu-cards) .mod-right-split .workspace-tabs {
+  padding-left: 0 !important; padding-right: 0 !important;
 }
-
-/* tab-header container: drop the fixed height so it grows to fit its icons
-   (was pinned to --header-height, clipping them); keep it as a floor */
-.workspace-tab-header-container {
-  height: auto !important;
-  min-height: var(--header-height);
+/* vault name shouldn't stretch / overflow its profile — truncate long names */
+.workspace-drawer-vault-name,
+.workspace-sidedock-vault-profile .workspace-drawer-vault-name,
+.workspace-sidedock-vault-profile .tree-item-inner,
+.workspace-drawer-vault-switcher .workspace-drawer-vault-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* ===================================================================
-   BUREAU — Notebook Navigator (match the theme: dark/parchment/red,
-   mono labels, red selection, red section headers)
+    8  PLUGINS — Notebook Navigator · graph · search
    =================================================================== */
 
+.workspace-leaf-content[data-type="graph"] .view-content,
+.workspace-leaf-content[data-type="localgraph"] .view-content {
+  background-color: #060605;
+}
+.graph-controls {
+  background-color: rgba(12, 11, 10, 0.88) !important;
+  border: 1px solid var(--bu-line) !important;
+  border-radius: 4px !important;
+  -webkit-backdrop-filter: var(--bu-acrylic);
+  backdrop-filter: var(--bu-acrylic);
+}
 /* panes transparent so the sidebar card + grain show through */
 .nn-bg-primary, .nn-bg-secondary,
 .nn-navigation-pane, .nn-navigation-pane-content, .nn-navigation-pane-scroller,
 .nn-list-pane, .nn-list-pane-content, .nn-list-pane-scroller {
   background-color: transparent !important;
 }
-
 /* item text: mono names, muted meta */
 .nn-navitem-name, .nn-file-name {
   font-family: var(--bu-font-body) !important;
@@ -1430,17 +1584,14 @@ button:not(.clickable-icon):active,
 .nn-navitem-count, .nn-file-word-count-suffix { color: var(--bu-muted) !important; }
 .nn-navitem-icon, .nn-file-icon, .nn-navitem-chevron { color: var(--bu-muted); }
 .nn-file-tag { color: var(--bu-teal); }
-
 /* hover */
 .nn-navitem:hover, .nn-file:hover { background-color: var(--bu-surface) !important; }
-
 /* selected = red inset marker + bright name + red icon */
 .nn-navitem.nn-selected, .nn-file.nn-selected { box-shadow: inset 2px 0 0 var(--bu-accent); }
 .nn-navitem.nn-selected .nn-navitem-name,
 .nn-file.nn-selected .nn-file-name { color: var(--bu-text-hi) !important; }
 .nn-navitem.nn-selected .nn-navitem-icon,
 .nn-navitem.nn-selected .nn-navitem-chevron { color: var(--bu-accent) !important; }
-
 /* group headers + pane title = red uppercase mono (section labels) */
 .nn-list-group-header-text, .nn-list-title-text {
   font-family: var(--bu-font-body) !important;
@@ -1449,7 +1600,6 @@ button:not(.clickable-icon):active,
   color: var(--bu-accent) !important;
   font-size: 0.82em;
 }
-
 /* NN header buttons are <button> but not .clickable-icon, so the generic
    button rule (button:not(.clickable-icon):not(.mod-cta)) wraps each in a
    box. That selector out-specifies a bare .nn-icon-button, so match its
@@ -1467,7 +1617,6 @@ button.nn-icon-button:not(.clickable-icon),
   color: var(--bu-accent) !important;
   background-color: var(--bu-surface) !important;
 }
-
 /* ===== NN categories (folders) = header styling: white condensed caps ===== */
 .nn-navitem-name {
   font-family: var(--bu-font-label) !important;
@@ -1476,67 +1625,12 @@ button.nn-icon-button:not(.clickable-icon),
   color: var(--bu-text-hi) !important;
 }
 /* active = transparent red (drop the solid marker) */
-
 .nn-navitem.nn-selected { box-shadow: none !important; }
 .nn-navitem.nn-selected .nn-navitem-name { color: var(--bu-text-hi) !important; }
 .nn-navitem.nn-selected .nn-navitem-icon,
 .nn-navitem.nn-selected .nn-navitem-chevron { color: var(--bu-accent) !important; }
 /* hover: more noticeable */
 .nn-navitem:hover { background-color: rgba(240, 235, 220, 0.08) !important; }
-
-/* ===== Style Settings hooks: cards on/off + grain intensity ===== */
-/* grain opacity is now controllable */
-body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05) !important; }
-
-/* when Cards layout is OFF (no .bu-cards), flatten everything */
-body:not(.bu-cards) .workspace-split .workspace-leaf-content {
-  border: none !important; border-radius: 0 !important;
-  margin: 0 !important; box-shadow: none !important;
-}
-body:not(.bu-cards) .workspace-split.mod-root .workspace-tabs,
-body:not(.bu-cards) .mod-left-split .workspace-tabs,
-body:not(.bu-cards) .mod-right-split .workspace-tabs {
-  padding-left: 0 !important; padding-right: 0 !important;
-}
-body:not(.bu-cards) .side-dock-actions,
-body:not(.bu-cards) .workspace-sidedock-vault-profile,
-body:not(.bu-cards) .mod-left-split .workspace-tab-header-container-inner,
-body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
-  border: none !important; border-radius: 0 !important;
-  margin: 0 !important; background-color: transparent !important;
-}
-
-/* ===================================================================
-   FIXES — vault title overflow + command-palette clear button position
-   =================================================================== */
-/* vault name shouldn't stretch / overflow its profile — truncate long names */
-.workspace-drawer-vault-name,
-.workspace-sidedock-vault-profile .workspace-drawer-vault-name,
-.workspace-sidedock-vault-profile .tree-item-inner,
-.workspace-drawer-vault-switcher .workspace-drawer-vault-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-  max-width: 100%;
-}
-/* pull the prompt/search clear (x) button in from the right edge */
-.prompt .search-input-clear-button,
-.prompt-input-container .search-input-clear-button {
-  right: 22px !important;
-}
-/* palette: hovered/selected result = rounded filled box (no edge lines) */
-.prompt .suggestion-item.is-selected,
-.prompt .suggestion-item:hover {
-  box-shadow: none !important;
-  border-radius: 8px !important;
-  background-color: rgba(255, 255, 255, 0.07) !important;
-}
-body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item { margin-left: 14px; margin-right: 14px; }
-
-/* ===================================================================
-   SEARCH RESULTS (search pane + embedded query blocks) — dossier list
-   =================================================================== */
 /* group / file title rows = red uppercase mono labels */
 .search-result-file-title,
 .search-result-file-title .tree-item-inner {
@@ -1586,8 +1680,9 @@ body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item { margin-left:
 }
 
 /* ===================================================================
-   CRT — scanlines (default on) + phosphor text glow (default off)
+    9  CRT & FX — scanlines · text glow · tooltips · fullscreen
    =================================================================== */
+
 body.bu-scanlines .markdown-source-view.mod-cm6 .cm-editor,
 body.bu-scanlines .markdown-reading-view { position: relative; }
 body.bu-scanlines .markdown-source-view.mod-cm6 .cm-editor::after,
@@ -1608,10 +1703,6 @@ body.bu-text-glow .markdown-rendered p,
 body.bu-text-glow .markdown-rendered li {
   text-shadow: 0 0 calc(var(--bu-glow-text, 55) * 0.08px) color-mix(in srgb, var(--bu-accent) calc(var(--bu-glow-text, 55) * 1%), transparent);
 }
-
-/* ===================================================================
-   TOOLTIPS — noir card; typewriter reveal (Style Settings toggle)
-   =================================================================== */
 .tooltip {
   font-family: var(--bu-font-body) !important;
   background-color: var(--bu-surface) !important;
@@ -1629,12 +1720,6 @@ body.bu-tooltip-type .tooltip {
   from { clip-path: inset(0 100% 0 0); }
   to   { clip-path: inset(0 0 0 0); }
 }
-
-/* ===================================================================
-   FULLSCREEN — CRT terminal mode (Style Settings: Fullscreen CRT, default on)
-   tube vignette + glass sheen (faked curvature) · amped scanlines/glow ·
-   chrome recedes (returns on hover)
-   =================================================================== */
 /* 1 + curvature: CRT tube vignette + convex-glass sheen (overrides the atmosphere layer) */
 body.is-fullscreen.bu-fullscreen-crt .markdown-source-view.mod-cm6 .cm-editor,
 body.is-fullscreen.bu-fullscreen-crt .markdown-reading-view { position: relative; }
@@ -1680,87 +1765,267 @@ body.is-fullscreen.bu-fullscreen-crt .workspace-split.mod-right-split:hover {
 }
 
 /* ===================================================================
-   TABLES — accent header row + zebra striping
+   10  DAILY NOTES — per-day themes + dossier overlay
    =================================================================== */
-.markdown-rendered table,
-.markdown-source-view.mod-cm6 table {
-  border-collapse: collapse;
-  border: 1px solid var(--bu-line);
-  border-radius: 3px;
-  overflow: hidden;
-  font-family: var(--bu-font-body);
+
+.daily :is(strong, .cm-strong) { background-color: transparent !important; }
+.daily {
+  color: var(--highlight);
+  background-color: var(--dark);
+  --text-normal: var(--highlight);
+  --text-muted: var(--highlight);
+  --text-faint: var(--highlight);
+  --checklist-done-color: var(--highlight);
+  --metadata-label-text-color: var(--highlight);
+  --metadata-input-text-color: var(--highlight);
+  --tag-color: var(--dark);
+  --tag-background: var(--primary);
+  --hr-color: var(--primary);
+  --blockquote-border-color: var(--primary);
+  --interactive-accent: var(--primary);
+  --collapse-icon-color-collapsed: var(--primary);
+  --checkbox-color: var(--primary);
+  --checkbox-marker-color: var(--dark);
+  --checkbox-color-hover: var(--highlight);
+  --checkbox-border-color: var(--highlight);
+  --list-marker-color: var(--highlight);
+  --code-background: black;
+  --code-normal: var(--primary);
+  --background-modifier-border-focus: var(--primary);
+  --background-modifier-border: color-mix(in srgb, var(--highlight) 60%, transparent);
+  --background-modifier-hover: color-mix(in srgb, var(--highlight) 60%, transparent);
 }
-.markdown-rendered th,
-.markdown-source-view.mod-cm6 th {
-  background-color: var(--bu-accent) !important;
-  color: #ffffff !important;
+.sunday,.Sunday       { --highlight: var(--bu-sun-hl,#c6a3b5); --primary: var(--bu-sun-pri,#9e6b86); --dark: var(--bu-sun-bg,#161114); }
+.monday,.Monday       { --highlight: var(--bu-mon-hl,#a6b6c8); --primary: var(--bu-mon-pri,#5b7a9e); --dark: var(--bu-mon-bg,#0f131a); }
+.tuesday,.Tuesday     { --highlight: var(--bu-tue-hl,#a4c2bc); --primary: var(--bu-tue-pri,#5e8d86); --dark: var(--bu-tue-bg,#0e1413); }
+.wednesday,.Wednesday { --highlight: var(--bu-wed-hl,#b6a9c9); --primary: var(--bu-wed-pri,#836fa0); --dark: var(--bu-wed-bg,#131019); }
+.thursday,.Thursday   { --highlight: var(--bu-thu-hl,#b2b8c4); --primary: var(--bu-thu-pri,#7c8597); --dark: var(--bu-thu-bg,#101216); }
+.friday,.Friday       { --highlight: var(--bu-fri-hl,#9ec8c8); --primary: var(--bu-fri-pri,#4f9a9a); --dark: var(--bu-fri-bg,#0c1515); }
+.saturday,.Saturday   { --highlight: var(--bu-sat-hl,#c0a0b6); --primary: var(--bu-sat-pri,#8c5a7e); --dark: var(--bu-sat-bg,#151013); }
+.daily :is(h1, .HyperMD-header.HyperMD-header-1) { color: var(--primary); text-align: center; font-size: 60px; padding: 0 !important; }
+.daily :is(h2, .HyperMD-header.HyperMD-header-2) { color: var(--highlight); text-align: center; font-size: 30px; font-style: italic; padding: 0 !important; }
+.daily :is(h3, .HyperMD-header.HyperMD-header-3) { color: var(--primary); text-align: center; font-size: 32px; padding-top: 0; }
+.daily :is(h4, .HyperMD-header.HyperMD-header-4) { background-color: var(--primary); color: var(--dark); font-weight: 900; margin-bottom: 0; padding: 0 6px; font-size: 20px; width: fit-content; border-radius: 8px; }
+.daily p { margin: 4px 0; }
+.daily :is(a:link, .cm-hmd-internal-link) { color: var(--primary); }
+.daily :is(a:hover, .cm-hmd-internal-link:hover) { color: var(--highlight); }
+.daily hr { margin: 20px 0 !important; }
+.daily img { display: block !important; margin-left: auto !important; margin-right: auto !important; }
+/* counter for §01, §02, ... section numbering */
+.daily { counter-reset: bu-section; }
+/* H1 — case-file header, left-aligned, stamped underline */
+.daily :is(h1, .HyperMD-header.HyperMD-header-1) {
   font-family: var(--bu-font-label) !important;
+  text-align: left !important;
+  font-size: 2.2em !important;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  color: var(--primary) !important;
+  border-bottom: 1px solid var(--primary);
+  padding: 0 0 8px !important;
+  margin: 4px 0 18px !important;
+  position: relative;
+}
+.daily :is(h1, .HyperMD-header.HyperMD-header-1)::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 64px;
+  height: 1px;
+  background: var(--primary);
+}
+/* day-header — punched-card / stamped strip */
+.daily .day-header {
+  background-color: rgba(0, 0, 0, 0.35);
+  background-image: var(--bu-grain);
+  background-blend-mode: overlay;
+  border: 1px solid var(--primary);
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px 10px;
+  margin: 0 0 20px 0;
+  font-family: var(--bu-font-body);
+  font-size: 0.92em;
+  letter-spacing: 0.04em;
+  position: relative;
+  border-radius: 2px;
+}
+.daily .day-header::before {
+  content: "DAY LOG / FILE";
+  position: absolute;
+  top: -9px;
+  right: 12px;
+  font-size: 0.62em;
+  letter-spacing: 0.18em;
   font-weight: 700;
-  border-color: var(--bu-accent) !important;
+  background: var(--dark);
+  padding: 1px 8px;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 2px;
+  text-transform: uppercase;
 }
-.markdown-rendered td,
-.markdown-source-view.mod-cm6 td {
-  border-color: var(--bu-border) !important;
-  color: var(--bu-text);
+.daily .day-header strong {
+  color: var(--primary);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.85em;
 }
-.markdown-rendered tbody tr:nth-child(even),
-.markdown-source-view.mod-cm6 tbody tr:nth-child(even) {
-  background-color: color-mix(in srgb, var(--bu-accent) 8%, transparent);
+.daily .day-header p { margin: 4px 0; }
+/* Directive blockquote — slim brass-flagged legend */
+.daily > blockquote:not(.callout),
+.daily .markdown-preview-section > blockquote:not(.callout) {
+  border-left: 2px solid var(--bu-brass) !important;
+  background: transparent !important;
+  font-family: var(--bu-font-body);
+  font-size: 0.82em !important;
+  font-style: normal;
+  color: var(--bu-muted) !important;
+  padding: 4px 12px !important;
+  margin: 0 0 14px 0 !important;
 }
-.markdown-rendered tbody tr:hover,
-.markdown-source-view.mod-cm6 tbody tr:hover {
-  background-color: color-mix(in srgb, var(--bu-accent) 17%, transparent);
+/* Callouts — numbered case files */
+.daily .callout {
+  counter-increment: bu-section;
+  background: rgba(0, 0, 0, 0.30) !important;
+  border: 1px solid var(--bu-line) !important;
+  border-left: 3px solid rgb(var(--callout-color)) !important;
+  border-radius: 2px !important;
+  margin: 16px 0 !important;
+  padding: 0 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35) !important;
 }
+.daily .callout-title {
+  background: rgba(0, 0, 0, 0.45) !important;
+  border-bottom: 1px solid var(--bu-line) !important;
+  padding: 8px 14px !important;
+  margin: 0 !important;
+  font-family: var(--bu-font-body) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.10em !important;
+  font-weight: 700 !important;
+  font-size: 0.80em !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 0 !important;
+}
+.daily .callout-title::before {
+  content: "§ " counter(bu-section, decimal-leading-zero);
+  color: var(--bu-brass);
+  font-weight: 900;
+  margin-right: 2px;
+  letter-spacing: 0.06em;
+  font-size: 0.95em;
+}
+.daily .callout-title-inner { color: rgb(var(--callout-color)) !important; }
+.daily .callout-icon { display: none !important; }
+/* drop the lucide icon — number is the seal */
+.daily .callout-content {
+  padding: 12px 16px 14px !important;
+  color: var(--highlight);
+}
+.daily .callout-content > :first-child { margin-top: 0; }
+.daily .callout-content > :last-child { margin-bottom: 0; }
+/* task lists in callouts — typed register rows */
+.daily .callout-content ul.contains-task-list,
+.daily ul.contains-task-list {
+  padding-left: 0 !important;
+  margin: 4px 0 !important;
+  list-style: none !important;
+}
+.daily ul.contains-task-list li.task-list-item {
+  padding: 5px 4px !important;
+  font-family: var(--bu-font-body) !important;
+  font-size: 0.90em !important;
+  letter-spacing: 0.01em;
+  border-bottom: 1px dotted rgba(240, 235, 220, 0.06);
+  list-style: none !important;
+}
+.daily ul.contains-task-list li.task-list-item:last-child { border-bottom: none; }
+.daily ul.contains-task-list li.task-list-item input[type="checkbox"] {
+  margin-right: 8px;
+  accent-color: var(--primary);
+}
+/* HR — ornament filing tab divider */
+.daily hr {
+  border: none !important;
+  height: 10px !important;
+  margin: 24px 0 !important;
+  background-image:
+    linear-gradient(to right,
+      transparent 0%,
+      var(--primary) 18%,
+      var(--primary) 28%,
+      transparent 32%,
+      transparent 68%,
+      var(--primary) 72%,
+      var(--primary) 82%,
+      transparent 100%);
+  position: relative;
+}
+.daily hr::before {
+  content: "\2756";   /* ❖ */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--primary);
+  background: var(--dark);
+  padding: 0 8px;
+  font-size: 0.9em;
+}
+/* dataview block — terminal stream */
+.daily .block-language-dataview,
+.daily .block-language-dataviewjs {
+  font-family: var(--bu-font-body) !important;
+  font-size: 0.88em !important;
+  background: rgba(0, 0, 0, 0.55) !important;
+  padding: 10px 14px !important;
+  border-left: 2px solid var(--bu-brass) !important;
+  border-radius: 2px;
+  margin: 10px 0 !important;
+}
+.daily .block-language-dataview ul,
+.daily .block-language-dataview ol {
+  margin: 4px 0 !important;
+  padding-left: 1.2em !important;
+}
+.daily .block-language-dataview a.internal-link {
+  color: var(--bu-brass) !important;
+  text-decoration: none !important;
+  border-bottom: 1px dotted rgba(202, 154, 78, 0.4);
+}
+.daily .block-language-dataview a.internal-link:hover {
+  color: var(--highlight) !important;
+}
+/* embedded base — frame it like a sealed appendix */
+.daily .internal-embed.markdown-embed,
+.daily .markdown-embed {
+  border: 1px solid var(--bu-line) !important;
+  border-radius: 2px !important;
+  background: rgba(0, 0, 0, 0.25) !important;
+  margin: 14px 0 !important;
+}
+/* strong text accent throughout body */
+.daily strong { color: var(--primary); }
+/* recolor every callout in a daily note to the day's accent so the page
+   reads as one color-keyed shift, not a rainbow of callout types.
+   We override the painted properties directly (border + title color)
+   instead of `--callout-color`, since that var expects an RGB tuple
+   and `--primary` is hex. */
+.daily .callout {
+  border-left: 3px solid var(--primary) !important;
+}
+.daily .callout-title-inner { color: var(--primary) !important; }
+.daily .callout-icon,
+.daily .callout-icon svg { color: var(--primary) !important; }
 
 /* ===================================================================
-   CALLOUTS — white "post-it" notes; type stamped in the top-right corner
+   11  STYLE SETTINGS — one Bureau panel (Color · Atmosphere · CRT · Cards · Daily)
    =================================================================== */
-.callout {
-  background-color: var(--bu-label-bg) !important;
-  color: var(--bu-label-fg) !important;
-  border: none !important;
-  border-left: 4px solid rgb(var(--callout-color)) !important;
-  border-radius: 0 3px 3px 0 !important;
-  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.55) !important;
-  position: relative;
-  overflow: visible !important;
-  margin: 26px 0 22px !important;
-  padding: 15px 16px 13px !important;
-  mix-blend-mode: normal !important;
-}
-.callout-content,
-.callout-content > *,
-.callout-content strong,
-.callout-content em { color: var(--bu-label-fg) !important; }
-.callout-icon { display: none !important; }
-/* type tag — small colour-coded stamp overlapping the top-right edge */
-.callout-title {
-  position: absolute !important;
-  top: -10px;
-  right: 12px;
-  margin: 0 !important;
-  padding: 2px 9px !important;
-  background-color: rgb(var(--callout-color)) !important;
-  border-radius: 2px !important;
-  font-family: var(--bu-font-label) !important;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  font-weight: 700;
-  font-size: 0.66em !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
-}
-.callout-title-inner { color: #ffffff !important; }
-/* links inside a white note invert (dark chip) so they stay legible */
-.callout a.internal-link {
-  background-color: var(--bu-label-fg) !important;
-  color: var(--bu-label-bg) !important;
-}
-.callout a.internal-link:hover {
-  background-color: var(--bu-accent) !important;
-  color: #ffffff !important;
-}
 
 /* @settings
 
@@ -2092,471 +2357,3 @@ settings:
     default: '#151013'
 
 */
-
-/* ===================================================================
-   BUREAU — Daily Note Themes (folded from CyanVoxel snippet).
-   Per-day colors are now driven by variables (set via Style Settings).
-   DISABLE the "Daily Note Themes" snippet once this is in.
-   =================================================================== */
-.daily {
-  color: var(--highlight);
-  background-color: var(--dark);
-  --text-normal: var(--highlight);
-  --text-muted: var(--highlight);
-  --text-faint: var(--highlight);
-  --checklist-done-color: var(--highlight);
-  --metadata-label-text-color: var(--highlight);
-  --metadata-input-text-color: var(--highlight);
-  --tag-color: var(--dark);
-  --tag-background: var(--primary);
-  --hr-color: var(--primary);
-  --blockquote-border-color: var(--primary);
-  --interactive-accent: var(--primary);
-  --collapse-icon-color-collapsed: var(--primary);
-  --checkbox-color: var(--primary);
-  --checkbox-marker-color: var(--dark);
-  --checkbox-color-hover: var(--highlight);
-  --checkbox-border-color: var(--highlight);
-  --list-marker-color: var(--highlight);
-  --code-background: black;
-  --code-normal: var(--primary);
-  --background-modifier-border-focus: var(--primary);
-  --background-modifier-border: color-mix(in srgb, var(--highlight) 60%, transparent);
-  --background-modifier-hover: color-mix(in srgb, var(--highlight) 60%, transparent);
-}
-
-.sunday,.Sunday       { --highlight: var(--bu-sun-hl,#c6a3b5); --primary: var(--bu-sun-pri,#9e6b86); --dark: var(--bu-sun-bg,#161114); }
-.monday,.Monday       { --highlight: var(--bu-mon-hl,#a6b6c8); --primary: var(--bu-mon-pri,#5b7a9e); --dark: var(--bu-mon-bg,#0f131a); }
-.tuesday,.Tuesday     { --highlight: var(--bu-tue-hl,#a4c2bc); --primary: var(--bu-tue-pri,#5e8d86); --dark: var(--bu-tue-bg,#0e1413); }
-.wednesday,.Wednesday { --highlight: var(--bu-wed-hl,#b6a9c9); --primary: var(--bu-wed-pri,#836fa0); --dark: var(--bu-wed-bg,#131019); }
-.thursday,.Thursday   { --highlight: var(--bu-thu-hl,#b2b8c4); --primary: var(--bu-thu-pri,#7c8597); --dark: var(--bu-thu-bg,#101216); }
-.friday,.Friday       { --highlight: var(--bu-fri-hl,#9ec8c8); --primary: var(--bu-fri-pri,#4f9a9a); --dark: var(--bu-fri-bg,#0c1515); }
-.saturday,.Saturday   { --highlight: var(--bu-sat-hl,#c0a0b6); --primary: var(--bu-sat-pri,#8c5a7e); --dark: var(--bu-sat-bg,#151013); }
-
-.daily :is(h1, .HyperMD-header.HyperMD-header-1) { color: var(--primary); text-align: center; font-size: 60px; padding: 0 !important; }
-.daily :is(h2, .HyperMD-header.HyperMD-header-2) { color: var(--highlight); text-align: center; font-size: 30px; font-style: italic; padding: 0 !important; }
-.daily :is(h3, .HyperMD-header.HyperMD-header-3) { color: var(--primary); text-align: center; font-size: 32px; padding-top: 0; }
-.daily :is(h4, .HyperMD-header.HyperMD-header-4) { background-color: var(--primary); color: var(--dark); font-weight: 900; margin-bottom: 0; padding: 0 6px; font-size: 20px; width: fit-content; border-radius: 8px; }
-.daily p { margin: 4px 0; }
-.daily :is(a:link, .cm-hmd-internal-link) { color: var(--primary); }
-.daily :is(a:hover, .cm-hmd-internal-link:hover) { color: var(--highlight); }
-.daily hr { margin: 20px 0 !important; }
-.daily img { display: block !important; margin-left: auto !important; margin-right: auto !important; }
-
-/* ===================================================================
-   BUREAU — Daily Notes: full dossier overlay
-   Numbered case-file sections, stamped day-header strip, typewriter
-   callouts, terminal-styled dataview, ornament filing-tab hr.
-   Layered on top of the per-day color block above.
-   =================================================================== */
-
-/* counter for §01, §02, ... section numbering */
-.daily { counter-reset: bu-section; }
-
-/* H1 — case-file header, left-aligned, stamped underline */
-.daily :is(h1, .HyperMD-header.HyperMD-header-1) {
-  font-family: var(--bu-font-label) !important;
-  text-align: left !important;
-  font-size: 2.2em !important;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--primary) !important;
-  border-bottom: 1px solid var(--primary);
-  padding: 0 0 8px !important;
-  margin: 4px 0 18px !important;
-  position: relative;
-}
-.daily :is(h1, .HyperMD-header.HyperMD-header-1)::after {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  width: 64px;
-  height: 1px;
-  background: var(--primary);
-}
-
-/* day-header — punched-card / stamped strip */
-.daily .day-header {
-  background-color: rgba(0, 0, 0, 0.35);
-  background-image: var(--bu-grain);
-  background-blend-mode: overlay;
-  border: 1px solid var(--primary);
-  border-left: 4px solid var(--primary);
-  padding: 12px 16px 10px;
-  margin: 0 0 20px 0;
-  font-family: var(--bu-font-body);
-  font-size: 0.92em;
-  letter-spacing: 0.04em;
-  position: relative;
-  border-radius: 2px;
-}
-.daily .day-header::before {
-  content: "DAY LOG / FILE";
-  position: absolute;
-  top: -9px;
-  right: 12px;
-  font-size: 0.62em;
-  letter-spacing: 0.18em;
-  font-weight: 700;
-  background: var(--dark);
-  padding: 1px 8px;
-  color: var(--primary);
-  border: 1px solid var(--primary);
-  border-radius: 2px;
-  text-transform: uppercase;
-}
-.daily .day-header strong {
-  color: var(--primary);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  font-size: 0.85em;
-}
-.daily .day-header p { margin: 4px 0; }
-
-/* Directive blockquote — slim brass-flagged legend */
-.daily > blockquote:not(.callout),
-.daily .markdown-preview-section > blockquote:not(.callout) {
-  border-left: 2px solid var(--bu-brass) !important;
-  background: transparent !important;
-  font-family: var(--bu-font-body);
-  font-size: 0.82em !important;
-  font-style: normal;
-  color: var(--bu-muted) !important;
-  padding: 4px 12px !important;
-  margin: 0 0 14px 0 !important;
-}
-
-/* Callouts — numbered case files */
-.daily .callout {
-  counter-increment: bu-section;
-  background: rgba(0, 0, 0, 0.30) !important;
-  border: 1px solid var(--bu-line) !important;
-  border-left: 3px solid rgb(var(--callout-color)) !important;
-  border-radius: 2px !important;
-  margin: 16px 0 !important;
-  padding: 0 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35) !important;
-}
-.daily .callout-title {
-  background: rgba(0, 0, 0, 0.45) !important;
-  border-bottom: 1px solid var(--bu-line) !important;
-  padding: 8px 14px !important;
-  margin: 0 !important;
-  font-family: var(--bu-font-body) !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.10em !important;
-  font-weight: 700 !important;
-  font-size: 0.80em !important;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-radius: 0 !important;
-}
-.daily .callout-title::before {
-  content: "§ " counter(bu-section, decimal-leading-zero);
-  color: var(--bu-brass);
-  font-weight: 900;
-  margin-right: 2px;
-  letter-spacing: 0.06em;
-  font-size: 0.95em;
-}
-.daily .callout-title-inner { color: rgb(var(--callout-color)) !important; }
-.daily .callout-icon { display: none !important; }   /* drop the lucide icon — number is the seal */
-.daily .callout-content {
-  padding: 12px 16px 14px !important;
-  color: var(--highlight);
-}
-.daily .callout-content > :first-child { margin-top: 0; }
-.daily .callout-content > :last-child { margin-bottom: 0; }
-
-/* task lists in callouts — typed register rows */
-.daily .callout-content ul.contains-task-list,
-.daily ul.contains-task-list {
-  padding-left: 0 !important;
-  margin: 4px 0 !important;
-  list-style: none !important;
-}
-.daily ul.contains-task-list li.task-list-item {
-  padding: 5px 4px !important;
-  font-family: var(--bu-font-body) !important;
-  font-size: 0.90em !important;
-  letter-spacing: 0.01em;
-  border-bottom: 1px dotted rgba(240, 235, 220, 0.06);
-  list-style: none !important;
-}
-.daily ul.contains-task-list li.task-list-item:last-child { border-bottom: none; }
-.daily ul.contains-task-list li.task-list-item input[type="checkbox"] {
-  margin-right: 8px;
-  accent-color: var(--primary);
-}
-
-/* HR — ornament filing tab divider */
-.daily hr {
-  border: none !important;
-  height: 10px !important;
-  margin: 24px 0 !important;
-  background-image:
-    linear-gradient(to right,
-      transparent 0%,
-      var(--primary) 18%,
-      var(--primary) 28%,
-      transparent 32%,
-      transparent 68%,
-      var(--primary) 72%,
-      var(--primary) 82%,
-      transparent 100%);
-  position: relative;
-}
-.daily hr::before {
-  content: "\2756";   /* ❖ */
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  color: var(--primary);
-  background: var(--dark);
-  padding: 0 8px;
-  font-size: 0.9em;
-}
-
-/* dataview block — terminal stream */
-.daily .block-language-dataview,
-.daily .block-language-dataviewjs {
-  font-family: var(--bu-font-body) !important;
-  font-size: 0.88em !important;
-  background: rgba(0, 0, 0, 0.55) !important;
-  padding: 10px 14px !important;
-  border-left: 2px solid var(--bu-brass) !important;
-  border-radius: 2px;
-  margin: 10px 0 !important;
-}
-.daily .block-language-dataview ul,
-.daily .block-language-dataview ol {
-  margin: 4px 0 !important;
-  padding-left: 1.2em !important;
-}
-.daily .block-language-dataview a.internal-link {
-  color: var(--bu-brass) !important;
-  text-decoration: none !important;
-  border-bottom: 1px dotted rgba(202, 154, 78, 0.4);
-}
-.daily .block-language-dataview a.internal-link:hover {
-  color: var(--highlight) !important;
-}
-
-/* embedded base — frame it like a sealed appendix */
-.daily .internal-embed.markdown-embed,
-.daily .markdown-embed {
-  border: 1px solid var(--bu-line) !important;
-  border-radius: 2px !important;
-  background: rgba(0, 0, 0, 0.25) !important;
-  margin: 14px 0 !important;
-}
-
-/* strong text accent throughout body */
-.daily strong { color: var(--primary); }
-
-/* recolor every callout in a daily note to the day's accent so the page
-   reads as one color-keyed shift, not a rainbow of callout types.
-   We override the painted properties directly (border + title color)
-   instead of `--callout-color`, since that var expects an RGB tuple
-   and `--primary` is hex. */
-.daily .callout {
-  border-left: 3px solid var(--primary) !important;
-}
-.daily .callout-title-inner { color: var(--primary) !important; }
-.daily .callout-icon,
-.daily .callout-icon svg { color: var(--primary) !important; }
-/* keep §01 number brass — it's a meta marker, not content */
-
-/* ===================================================================
-   BUREAU — read-only properties: typed dossier entries
-   Treat each row as a typed line on stationery. Mono values, accent
-   links, brass numerics/dates, red tags, subtle row hover.
-   =================================================================== */
-
-/* shared read-only row baseline (applies when value is not focused) */
-.theme-dark .metadata-property:not(:focus-within) .metadata-property-value {
-  font-family: var(--bu-font-body);
-  color: var(--bu-text);
-  letter-spacing: 0.01em;
-}
-
-/* hide the empty-input outline entirely when not focused */
-.theme-dark .metadata-property:not(:focus-within) .metadata-input-longtext,
-.theme-dark .metadata-property:not(:focus-within) .metadata-input-text,
-.theme-dark .metadata-property:not(:focus-within) .metadata-property-value input,
-.theme-dark .metadata-property:not(:focus-within) .metadata-property-value .metadata-input {
-  background: transparent !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-}
-
-/* row hover — quiet brass tick on the left, no shift */
-.theme-dark .metadata-property {
-  border-left: 2px solid transparent;
-  padding-left: 4px;
-  transition: border-color 80ms linear, background-color 80ms linear;
-}
-.theme-dark .metadata-property:hover {
-  border-left-color: var(--bu-brass);
-  background-color: rgba(202, 154, 78, 0.04);
-}
-
-/* link values — red accent, uppercase reference, dashed underline on hover */
-.theme-dark .metadata-property-value a.internal-link,
-.theme-dark .metadata-property-value a.external-link {
-  color: var(--bu-accent) !important;
-  text-decoration: none !important;
-  border-bottom: 1px dotted color-mix(in srgb, var(--bu-accent) 45%, transparent);
-  padding-bottom: 1px;
-  letter-spacing: 0.02em;
-}
-.theme-dark .metadata-property-value a.internal-link:hover,
-.theme-dark .metadata-property-value a.external-link:hover {
-  color: var(--bu-accent-hi) !important;
-  border-bottom-style: dashed;
-  border-bottom-color: var(--bu-accent-hi);
-}
-/* unresolved links — faint, italic */
-.theme-dark .metadata-property-value a.internal-link.is-unresolved {
-  color: var(--bu-faint) !important;
-  border-bottom-color: var(--bu-faint);
-  font-style: italic;
-}
-
-/* date / datetime values — brass, mono, slight uppercase feel */
-.theme-dark .metadata-property[data-property-key-type="date"] .metadata-property-value,
-.theme-dark .metadata-property[data-property-key-type="datetime"] .metadata-property-value,
-.theme-dark .metadata-property[data-property-type="date"] .metadata-property-value,
-.theme-dark .metadata-property[data-property-type="datetime"] .metadata-property-value {
-  color: var(--bu-brass);
-}
-
-/* number values — brass, tabular */
-.theme-dark .metadata-property[data-property-key-type="number"] .metadata-property-value,
-.theme-dark .metadata-property[data-property-type="number"] .metadata-property-value {
-  color: var(--bu-brass);
-  font-variant-numeric: tabular-nums;
-}
-
-/* tag values — red-bordered chip set */
-.theme-dark .metadata-property-value .tag,
-.theme-dark .metadata-property[data-property-key-type="tags"] .multi-select-pill,
-.theme-dark .metadata-property[data-property-type="tags"] .multi-select-pill {
-  background: transparent !important;
-  color: var(--bu-accent) !important;
-  border: 1px solid color-mix(in srgb, var(--bu-accent) 55%, transparent) !important;
-  border-radius: 2px !important;
-  font-family: var(--bu-font-body) !important;
-  font-size: 0.78em !important;
-  letter-spacing: 0.04em;
-  text-transform: lowercase;
-  padding: 0 5px !important;
-}
-.theme-dark .metadata-property-value .tag:hover,
-.theme-dark .metadata-property[data-property-key-type="tags"] .multi-select-pill:hover,
-.theme-dark .metadata-property[data-property-type="tags"] .multi-select-pill:hover {
-  color: var(--bu-accent-hi) !important;
-  border-color: var(--bu-accent-hi) !important;
-  background: color-mix(in srgb, var(--bu-accent) 8%, transparent) !important;
-}
-
-/* checkbox values — red accent, no chrome */
-.theme-dark .metadata-property-value input[type="checkbox"] {
-  accent-color: var(--bu-accent);
-}
-
-/* text/longtext values — faded when empty placeholder is shown */
-.theme-dark .metadata-property:not(:focus-within) .metadata-input-longtext:empty::before,
-.theme-dark .metadata-property:not(:focus-within) .metadata-input-text:empty::before {
-  color: var(--bu-faint);
-  font-style: italic;
-  letter-spacing: 0.02em;
-}
-
-/* aliases — italic, like a secondary call-sign on the dossier */
-.theme-dark .metadata-property[data-property-key="aliases"] .multi-select-pill {
-  font-style: italic;
-}
-
-/* ===================================================================
-   BUREAU — Custom Views BANNER properties (dossier filing table)
-   The banner-view's JS renders frontmatter as .banner-props-key /
-   .banner-props-value pairs in a grid. Style them to match the native
-   Bureau property panel — white uppercase filing tags, mono values,
-   row dividers, red link/tag accents.
-   =================================================================== */
-
-.theme-dark .banner-view .banner-props-slot {
-  max-width: var(--file-line-width, 800px);
-  margin: 0 auto;
-  padding: 18px 24px 56px;
-}
-
-.theme-dark .banner-view .banner-props-list {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 1px;                                  /* 1px gaps reveal divider color */
-  background: var(--bu-border);              /* shows through the gaps */
-  border: 1px solid var(--bu-border);
-  border-radius: 3px;
-  overflow: hidden;
-  font-family: var(--bu-font-body);
-  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40);
-}
-
-/* the white filing tag — fills the key cell, centered text */
-.theme-dark .banner-view .banner-props-key {
-  background: var(--bu-label-bg);
-  color: #000 !important;
-  font-family: var(--bu-font-label);
-  font-weight: 900;
-  font-size: 0.78em;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em;
-  padding: 8px 14px;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  min-width: 9em;
-}
-
-/* the value cell — dossier paper */
-.theme-dark .banner-view .banner-props-value {
-  background: var(--bu-bg-alt);
-  color: var(--bu-text);
-  padding: 8px 14px;
-  font-family: var(--bu-font-body);
-  font-size: 0.88em;
-  letter-spacing: 0.01em;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0 6px;
-}
-
-/* internal/external link values — red, dotted underline */
-.theme-dark .banner-view .banner-props-value a.internal-link,
-.theme-dark .banner-view .banner-props-value a.external-link {
-  color: var(--bu-accent) !important;
-  text-decoration: none !important;
-  border-bottom: 1px dotted color-mix(in srgb, var(--bu-accent) 45%, transparent);
-  padding-bottom: 1px;
-  letter-spacing: 0.02em;
-}
-.theme-dark .banner-view .banner-props-value a.internal-link:hover,
-.theme-dark .banner-view .banner-props-value a.external-link:hover {
-  color: var(--bu-accent-hi) !important;
-  border-bottom-style: dashed;
-  border-bottom-color: var(--bu-accent-hi);
-}
-
-/* row hover — subtle warm tint across both cells */
-.theme-dark .banner-view .banner-props-list:hover .banner-props-key { transition: background-color 80ms linear; }
-.theme-dark .banner-view .banner-props-list:hover .banner-props-value { transition: background-color 80ms linear; }
-
-
