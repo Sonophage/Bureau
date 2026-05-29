@@ -261,6 +261,90 @@ body:not(.bu-vignette) { --bu-vignette-amount: 0 !important; }
   color: var(--bu-label-fg) !important;
 }
 
+/* ===== external links: a "www" chip in place of the core ↗ icon =====
+   body = darkened-accent chip (matches the H# tag) · in a header = bright accent */
+.markdown-rendered a.external-link {
+  background-image: none !important;   /* drop Obsidian's ↗ icon */
+}
+.markdown-rendered a.external-link::after {
+  content: "www";
+  display: inline-block;
+  margin-left: 0.35em;
+  padding: 0.05em 0.32em;
+  border: 1px solid var(--bu-accent);
+  border-radius: 2px;
+  background: var(--bu-accent);
+  color: #fff;
+  font-family: var(--bu-font-body);
+  font-weight: 500;
+  font-size: 0.62em;
+  letter-spacing: 0.06em;
+  vertical-align: 0.14em;
+  text-decoration: none;
+  line-height: 1.1;
+}
+.markdown-rendered a.external-link:hover::after {
+  background: var(--bu-accent-hi);
+  border-color: var(--bu-accent-hi);
+  color: #fff;
+}
+/* external link inside a header: accent text (legible on the white label) */
+.markdown-rendered :is(h1,h2,h3,h4,h5,h6) a.external-link {
+  color: var(--bu-accent) !important;
+  text-decoration-color: var(--bu-accent);
+}
+/* --- Live Preview: same chip, hung off the link-text span (brackets/url
+   collapse off the active line; .cm-link is external-only, [[ ]] use cm-hmd) --- */
+.markdown-source-view.mod-cm6 .cm-line:not(.cm-active) .cm-link:not(.cm-formatting-link)::after {
+  content: "www";
+  display: inline-block;
+  margin-left: 0.35em;
+  padding: 0.05em 0.32em;
+  border: 1px solid var(--bu-accent);
+  border-radius: 2px;
+  background: var(--bu-accent);
+  color: #fff;
+  font-family: var(--bu-font-body);
+  font-weight: 500;
+  font-size: 0.62em;
+  letter-spacing: 0.06em;
+  vertical-align: 0.14em;
+  text-decoration: none;
+  line-height: 1.1;
+}
+/* ===== external link TEXT = redaction chip with ACCENT text =====
+   mimics the internal-link redaction box, but accent text instead of black/white.
+   body = light box · header = inverted dark box (also keeps it legible on the
+   white heading label, fixing the white-on-white in editing). */
+.markdown-rendered a.external-link,
+.markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting-link) {
+  background-color: var(--bu-label-bg);
+  color: var(--bu-accent) !important;
+  -webkit-text-fill-color: var(--bu-accent) !important;
+  text-decoration: none !important;
+  padding: 0 0.3em;
+  border-radius: 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.markdown-rendered a.external-link:hover,
+.markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting-link):hover {
+  background-color: var(--bu-accent);
+  color: var(--bu-label-bg) !important;
+  -webkit-text-fill-color: var(--bu-label-bg) !important;
+}
+.markdown-rendered :is(h1,h2,h3,h4,h5,h6) a.external-link,
+.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6) .cm-link:not(.cm-formatting-link) {
+  background-color: var(--bu-label-fg) !important;
+  color: var(--bu-accent) !important;
+  -webkit-text-fill-color: var(--bu-accent) !important;
+}
+/* keep the www chip's own white lettering (don't inherit the accent text-fill) */
+.markdown-rendered a.external-link::after,
+.markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting-link)::after {
+  -webkit-text-fill-color: #fff;
+}
+
 /* ===== strikethrough = redacted: black-on-black, readable on hover ===== */
 .markdown-rendered del,
 .markdown-rendered s,
@@ -802,9 +886,39 @@ body:not(.is-mobile) .prompt .suggestion-hotkey {
   --callout-color: 92, 122, 158 !important;                                    /* steel blue */
 }
 
+/* ---- emphasis: bold = accent highlighter swipe · italic = sepia ink ---- */
+.markdown-rendered strong,
+.cm-s-obsidian .cm-strong {
+  color: #f5f2ec;
+  font-weight: 700;
+  background-color: color-mix(in srgb, var(--bu-accent) 22%, transparent);
+  padding: 0 0.18em;
+  border-radius: 1px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.markdown-rendered em,
+.cm-s-obsidian .cm-em {
+  color: color-mix(in srgb, var(--bu-brass) 85%, var(--bu-text));
+  font-style: italic;
+}
+/* keep bold readable on the light heading label; keep daily free of the accent */
+.markdown-rendered :is(h1,h2,h3,h4,h5,h6) strong {
+  color: inherit;
+  background-color: transparent;
+}
+.daily :is(strong, .cm-strong) { background-color: transparent !important; }
+
 /* ---- code ---- */
+/* fenced blocks = CRT terminal: faint scanlines + phosphor + language chip */
 .markdown-rendered pre {
-  background: #0a0908 !important;
+  position: relative;
+  background-color: #0a0908 !important;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.35) 3px) !important;
   border: 1px solid var(--bu-border);
   border-radius: 3px;
 }
@@ -815,7 +929,100 @@ body:not(.is-mobile) .prompt .suggestion-hotkey {
   padding: 0.04em 0.4em;
   color: var(--bu-text);
 }
-.markdown-rendered pre code { color: var(--bu-text); }
+.markdown-rendered pre code {
+  color: var(--bu-text);
+  text-shadow: 0 0 3px color-mix(in srgb, var(--bu-accent) 30%, transparent);
+}
+
+/* language chip (top-right), same vocabulary as the H# / www tags.
+   Fallback "CODE" for fences with no/unknown language; per-language below. */
+.markdown-rendered pre:has(> code)::after {
+  content: "CODE";
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  z-index: 2;
+  padding: 0.05em 0.42em;
+  border: 1px solid var(--bu-label-tag);
+  border-radius: 2px;
+  background: var(--bu-bg);
+  color: var(--bu-label-tag);
+  font-family: var(--bu-font-label);
+  font-size: 0.66em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  pointer-events: none;
+}
+.markdown-rendered pre:has(> code.language-js)::after,
+.markdown-rendered pre:has(> code.language-javascript)::after { content: "JS"; }
+.markdown-rendered pre:has(> code.language-ts)::after,
+.markdown-rendered pre:has(> code.language-typescript)::after { content: "TS"; }
+.markdown-rendered pre:has(> code.language-jsx)::after { content: "JSX"; }
+.markdown-rendered pre:has(> code.language-tsx)::after { content: "TSX"; }
+.markdown-rendered pre:has(> code.language-py)::after,
+.markdown-rendered pre:has(> code.language-python)::after { content: "PY"; }
+.markdown-rendered pre:has(> code.language-rb)::after,
+.markdown-rendered pre:has(> code.language-ruby)::after { content: "RB"; }
+.markdown-rendered pre:has(> code.language-go)::after { content: "GO"; }
+.markdown-rendered pre:has(> code.language-rs)::after,
+.markdown-rendered pre:has(> code.language-rust)::after { content: "RS"; }
+.markdown-rendered pre:has(> code.language-c)::after { content: "C"; }
+.markdown-rendered pre:has(> code.language-cpp)::after { content: "C++"; }
+.markdown-rendered pre:has(> code.language-cs)::after,
+.markdown-rendered pre:has(> code.language-csharp)::after { content: "C#"; }
+.markdown-rendered pre:has(> code.language-java)::after { content: "JAVA"; }
+.markdown-rendered pre:has(> code.language-php)::after { content: "PHP"; }
+.markdown-rendered pre:has(> code.language-html)::after { content: "HTML"; }
+.markdown-rendered pre:has(> code.language-css)::after { content: "CSS"; }
+.markdown-rendered pre:has(> code.language-scss)::after { content: "SCSS"; }
+.markdown-rendered pre:has(> code.language-json)::after { content: "JSON"; }
+.markdown-rendered pre:has(> code.language-yaml)::after,
+.markdown-rendered pre:has(> code.language-yml)::after { content: "YAML"; }
+.markdown-rendered pre:has(> code.language-md)::after,
+.markdown-rendered pre:has(> code.language-markdown)::after { content: "MD"; }
+.markdown-rendered pre:has(> code.language-bash)::after,
+.markdown-rendered pre:has(> code.language-sh)::after,
+.markdown-rendered pre:has(> code.language-shell)::after,
+.markdown-rendered pre:has(> code.language-zsh)::after { content: "SH"; }
+.markdown-rendered pre:has(> code.language-sql)::after { content: "SQL"; }
+.markdown-rendered pre:has(> code.language-lua)::after { content: "LUA"; }
+
+/* ---- horizontal rule — ❖ filing-tab ornament (twin of the daily one) ----
+   NB: markdown's ---  ***  ___ all render to one identical <hr>, so every
+   rule outside daily notes shares this single look. */
+.markdown-rendered hr,
+.markdown-source-view.mod-cm6 .cm-hr {
+  border: none !important;
+  height: 10px !important;
+  margin: 24px 0 !important;
+  background-image:
+    linear-gradient(to right,
+      transparent 0%,
+      var(--bu-accent) 18%,
+      var(--bu-accent) 28%,
+      transparent 32%,
+      transparent 68%,
+      var(--bu-accent) 72%,
+      var(--bu-accent) 82%,
+      transparent 100%);
+  position: relative;
+  opacity: 1;
+}
+.markdown-rendered hr::before,
+.markdown-source-view.mod-cm6 .cm-hr::before {
+  content: "\2756";   /* ❖ */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--bu-accent);
+  background: var(--bu-bg);
+  padding: 0 8px;
+  font-size: 0.9em;
+  line-height: 1;
+}
 
 /* ===================================================================
    BUREAU — "dossier" cards layout (our take on AnuPpuccin's):
@@ -1500,11 +1707,11 @@ body.is-fullscreen.bu-fullscreen-crt .workspace-split.mod-right-split:hover {
 }
 .markdown-rendered tbody tr:nth-child(even),
 .markdown-source-view.mod-cm6 tbody tr:nth-child(even) {
-  background-color: var(--bu-bg-alt);
+  background-color: color-mix(in srgb, var(--bu-accent) 8%, transparent);
 }
 .markdown-rendered tbody tr:hover,
 .markdown-source-view.mod-cm6 tbody tr:hover {
-  background-color: color-mix(in srgb, var(--bu-accent) 9%, transparent);
+  background-color: color-mix(in srgb, var(--bu-accent) 17%, transparent);
 }
 
 /* ===================================================================
