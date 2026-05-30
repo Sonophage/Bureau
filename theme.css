@@ -2117,9 +2117,10 @@ body.bu-anim.bu-glow-pulse::after {
 /* terminal block caret (shape always; blink only when animations on) */
 body.bu-block-caret .cm-editor .cm-cursor,
 body.bu-block-caret .cm-editor .cm-cursor-primary {
-  border-left-width: 0.55em !important;
+  border-left-width: 0.72em !important;
+  border-left-style: solid !important;
   border-color: var(--bu-accent) !important;
-  opacity: 0.6;
+  opacity: 0.85;
 }
 @keyframes bu-caret-blink { 0%, 50% { opacity: 0.6; } 50.01%, 100% { opacity: 0; } }
 body.bu-anim.bu-block-caret .cm-editor .cm-cursor-primary {
@@ -2174,10 +2175,32 @@ body.bu-anim.bu-boot-scan .workspace::before {
   box-shadow: 0 0 16px 3px color-mix(in srgb, var(--bu-accent) 55%, transparent);
   animation: bu-boot-sweep calc(var(--bu-anim-speed, 600) * 1.8ms) var(--bu-anim-ease) both;
 }
-/* channel-change crossfade — new content fades in on note switch (reading mode) */
-@keyframes bu-crossfade { from { opacity: 0; } to { opacity: 1; } }
+/* channel-change — content fades in FROM BLACK + a scan line wipes down, on
+   each reading-mode note switch (the sizer remounts per note) */
+@keyframes bu-crossfade {
+  0%   { opacity: 0; filter: brightness(0.18); }
+  100% { opacity: 1; filter: brightness(1); }
+}
+@keyframes bu-sizer-sweep {
+  0%   { transform: translateY(0); opacity: 0; }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { transform: translateY(82vh); opacity: 0; }
+}
 body.bu-anim.bu-crossfade .markdown-reading-view .markdown-preview-sizer {
+  position: relative;
   animation: bu-crossfade calc(var(--bu-anim-speed, 600) * 1ms) var(--bu-anim-ease);
+}
+body.bu-anim.bu-crossfade .markdown-reading-view .markdown-preview-sizer::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 3px;
+  z-index: 50;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--bu-accent) 85%, white);
+  box-shadow: 0 0 16px 3px color-mix(in srgb, var(--bu-accent) 55%, transparent);
+  animation: bu-sizer-sweep calc(var(--bu-anim-speed, 600) * 1.4ms) var(--bu-anim-ease) both;
 }
 /* loading throbber — CRT accent ring (best-effort across spinner classes) */
 @keyframes bu-throb { 0% { transform: rotate(0); opacity: 0.5; } 50% { opacity: 1; } 100% { transform: rotate(360deg); opacity: 0.5; } }
