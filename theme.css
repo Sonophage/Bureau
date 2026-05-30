@@ -555,6 +555,10 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05); }
   width: fit-content;
   padding: 1px 6px;
   border-radius: 2px;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 14em;
+  white-space: nowrap;
 }
 .theme-dark .metadata-property-icon { color: var(--bu-muted); }
 
@@ -602,14 +606,6 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05); }
 .theme-dark .metadata-property-value .metadata-input:focus {
   background: var(--bu-bg);
   border-color: var(--bu-border-hi);
-}
-
-.theme-dark .metadata-property-key-input {
-  flex: 0 1 auto;
-  width: fit-content;
-  min-width: 0;
-  max-width: 14em;
-  white-space: nowrap;
 }
 
 .theme-dark .metadata-property-icon { margin-right: 9px; }
