@@ -3,6 +3,12 @@
 A dark, noir-bureau theme for [Obsidian](https://obsidian.md) — a worn case-file
 on a concrete desk, wired to a humming CRT terminal.
 
+I've always been fond of the *bureau-redacted* look — the noiresque elements, the
+brutalism of it: heavy type, stamped labels, blacked-out lines, concrete and
+steel. I wanted a UI that felt like a brutalist-noir interface that was actually
+*cohesive* — not a pile of effects, but a single room you could work inside.
+Bureau is that attempt.
+
 Its mood is stitched from three places:
 
 - **Control** — the austere institutional dread of the Federal Bureau of Control (the default **red** accent).
@@ -96,7 +102,7 @@ key its palette. Disable the old "Daily Note Themes" snippet — Bureau owns thi
 Bureau borrows ideas, gratefully, from:
 
 - **[blobob](https://github.com/kazi-aidah/blobob)** — the hiding/focus options, the animation principles, and the tab styling approach.
-- **Daily Notes** (CyanVoxel's Daily Note Themes) — the per-weekday colour-scheme idea.
+- **[Daily Note Themes](https://github.com/CyanVoxel/Obsidian-Daily-Themes)** (CyanVoxel) — the per-weekday colour-scheme idea.
 - **[Elysian](https://github.com/matothetomato/elysian)** — styling inspiration.
 - **[Minimalist Paradise](https://github.com/bellebasso/Minimalists-Paradise)** — styling inspiration.
 

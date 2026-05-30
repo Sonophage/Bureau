@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@500;600;700;900&display=swap');
 
-/* Bureau — dark Obsidian theme ("Disco Elysium meets Control" + CRT) · v1.48.4
+/* Bureau — dark Obsidian theme ("Disco Elysium meets Control" + CRT) · v1.55.7
    Sonophage · github.com/Sonophage/Bureau
    Retheme from the .theme-dark token block; Style Settings config in the @settings block at the foot. */
 
@@ -123,7 +123,6 @@
   width: fit-content;
   max-width: 100%;
   -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
   background: var(--bu-label-bg);
   color: var(--bu-label-fg);
   font-family: var(--bu-font-label);
@@ -155,7 +154,6 @@
   background: var(--bu-label-bg);
   color: var(--bu-label-fg) !important;
   -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
   padding: 0.04em 0.36em;
   font-family: var(--bu-font-label);
   text-transform: uppercase;
@@ -171,7 +169,6 @@
   color: var(--bu-label-tag);
   background: none;
   -webkit-box-decoration-break: initial;
-  box-decoration-break: initial;
   margin-right: 0.45em;
   padding-right: 0.4em;
   border-right: 1px solid rgba(20,17,13,0.28);
@@ -220,9 +217,6 @@
   white-space: nowrap;
   vertical-align: 0.12em;
 }
-.markdown-source-view.mod-cm6 :is(.HyperMD-header-1,.HyperMD-header-2,.HyperMD-header-3,.HyperMD-header-4,.HyperMD-header-5,.HyperMD-header-6)::after {
-  text-indent: 0;
-}
 
 .inline-title { font-family: var(--bu-font-label) !important; }
 .markdown-source-view.mod-cm6 .HyperMD-header { margin-bottom: 0.45em; }
@@ -235,7 +229,6 @@
   padding: 0 0.18em;
   border-radius: 1px;
   -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
 }
 .markdown-rendered em,
 .cm-s-obsidian .cm-em {
@@ -254,8 +247,6 @@
 .cm-s-obsidian .cm-link {
   color: var(--bu-text);
   text-decoration: underline;
-  text-decoration-color: var(--bu-accent);
-  text-decoration-thickness: 1px;
   text-underline-offset: 2px;
 }
 .markdown-rendered a.external-link:hover,
@@ -313,7 +304,6 @@
 
 .markdown-rendered :is(h1,h2,h3,h4,h5,h6) a.external-link {
   color: var(--bu-accent) !important;
-  text-decoration-color: var(--bu-accent);
 }
 
 .markdown-source-view.mod-cm6 .cm-line:not(.cm-active) .cm-link:not(.cm-formatting-link)::after {
@@ -343,7 +333,6 @@
   padding: 0 0.3em;
   border-radius: 2px;
   -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
 }
 .markdown-rendered a.external-link:hover,
 .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting-link):hover {
@@ -371,7 +360,6 @@
   text-decoration: none !important;
   border-radius: 1px;
   -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
   box-shadow: 0 0 0 1px var(--bu-accent);
   transition: color 90ms ease;
 }
@@ -407,7 +395,7 @@
   text-shadow: 0 0 3px color-mix(in srgb, var(--bu-accent) 30%, transparent);
 }
 
-.markdown-rendered pre:has(> code)::after {
+.markdown-rendered pre::after {
   content: "CODE";
   position: absolute;
   top: 6px;
@@ -426,39 +414,39 @@
   line-height: 1.3;
   pointer-events: none;
 }
-.markdown-rendered pre:has(> code.language-js)::after,
-.markdown-rendered pre:has(> code.language-javascript)::after { content: "JS"; }
-.markdown-rendered pre:has(> code.language-ts)::after,
-.markdown-rendered pre:has(> code.language-typescript)::after { content: "TS"; }
-.markdown-rendered pre:has(> code.language-jsx)::after { content: "JSX"; }
-.markdown-rendered pre:has(> code.language-tsx)::after { content: "TSX"; }
-.markdown-rendered pre:has(> code.language-py)::after,
-.markdown-rendered pre:has(> code.language-python)::after { content: "PY"; }
-.markdown-rendered pre:has(> code.language-rb)::after,
-.markdown-rendered pre:has(> code.language-ruby)::after { content: "RB"; }
-.markdown-rendered pre:has(> code.language-go)::after { content: "GO"; }
-.markdown-rendered pre:has(> code.language-rs)::after,
-.markdown-rendered pre:has(> code.language-rust)::after { content: "RS"; }
-.markdown-rendered pre:has(> code.language-c)::after { content: "C"; }
-.markdown-rendered pre:has(> code.language-cpp)::after { content: "C++"; }
-.markdown-rendered pre:has(> code.language-cs)::after,
-.markdown-rendered pre:has(> code.language-csharp)::after { content: "C#"; }
-.markdown-rendered pre:has(> code.language-java)::after { content: "JAVA"; }
-.markdown-rendered pre:has(> code.language-php)::after { content: "PHP"; }
-.markdown-rendered pre:has(> code.language-html)::after { content: "HTML"; }
-.markdown-rendered pre:has(> code.language-css)::after { content: "CSS"; }
-.markdown-rendered pre:has(> code.language-scss)::after { content: "SCSS"; }
-.markdown-rendered pre:has(> code.language-json)::after { content: "JSON"; }
-.markdown-rendered pre:has(> code.language-yaml)::after,
-.markdown-rendered pre:has(> code.language-yml)::after { content: "YAML"; }
-.markdown-rendered pre:has(> code.language-md)::after,
-.markdown-rendered pre:has(> code.language-markdown)::after { content: "MD"; }
-.markdown-rendered pre:has(> code.language-bash)::after,
-.markdown-rendered pre:has(> code.language-sh)::after,
-.markdown-rendered pre:has(> code.language-shell)::after,
-.markdown-rendered pre:has(> code.language-zsh)::after { content: "SH"; }
-.markdown-rendered pre:has(> code.language-sql)::after { content: "SQL"; }
-.markdown-rendered pre:has(> code.language-lua)::after { content: "LUA"; }
+.markdown-rendered pre.language-js::after,
+.markdown-rendered pre.language-javascript::after { content: "JS"; }
+.markdown-rendered pre.language-ts::after,
+.markdown-rendered pre.language-typescript::after { content: "TS"; }
+.markdown-rendered pre.language-jsx::after { content: "JSX"; }
+.markdown-rendered pre.language-tsx::after { content: "TSX"; }
+.markdown-rendered pre.language-py::after,
+.markdown-rendered pre.language-python::after { content: "PY"; }
+.markdown-rendered pre.language-rb::after,
+.markdown-rendered pre.language-ruby::after { content: "RB"; }
+.markdown-rendered pre.language-go::after { content: "GO"; }
+.markdown-rendered pre.language-rs::after,
+.markdown-rendered pre.language-rust::after { content: "RS"; }
+.markdown-rendered pre.language-c::after { content: "C"; }
+.markdown-rendered pre.language-cpp::after { content: "C++"; }
+.markdown-rendered pre.language-cs::after,
+.markdown-rendered pre.language-csharp::after { content: "C#"; }
+.markdown-rendered pre.language-java::after { content: "JAVA"; }
+.markdown-rendered pre.language-php::after { content: "PHP"; }
+.markdown-rendered pre.language-html::after { content: "HTML"; }
+.markdown-rendered pre.language-css::after { content: "CSS"; }
+.markdown-rendered pre.language-scss::after { content: "SCSS"; }
+.markdown-rendered pre.language-json::after { content: "JSON"; }
+.markdown-rendered pre.language-yaml::after,
+.markdown-rendered pre.language-yml::after { content: "YAML"; }
+.markdown-rendered pre.language-md::after,
+.markdown-rendered pre.language-markdown::after { content: "MD"; }
+.markdown-rendered pre.language-bash::after,
+.markdown-rendered pre.language-sh::after,
+.markdown-rendered pre.language-shell::after,
+.markdown-rendered pre.language-zsh::after { content: "SH"; }
+.markdown-rendered pre.language-sql::after { content: "SQL"; }
+.markdown-rendered pre.language-lua::after { content: "LUA"; }
 
 .markdown-rendered hr,
 .markdown-source-view.mod-cm6 .cm-hr {
@@ -532,7 +520,7 @@ body:not(.bu-panel-grain) .app-container { background-image: none; }
   background-attachment: local !important;
 }
 
-body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05) !important; }
+body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05); }
 
 .metadata-properties-heading .metadata-properties-title,
 .setting-item-heading .setting-item-name,
@@ -1340,9 +1328,8 @@ body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
 }
 
 body.bu-cards .workspace-split.mod-root .workspace-leaf-content {
-  box-shadow: none !important;
+  box-shadow: none;
   -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 64px), transparent);
-  mask-image: linear-gradient(to bottom, #000 calc(100% - 64px), transparent);
 }
 
 .workspace-tab-header::before,
@@ -1383,16 +1370,16 @@ body.bu-tabs-pill .mod-root .workspace-tab-header-container-inner {
   margin-bottom: 0 !important;
 }
 
-body.bu-main-icons  .mod-root .workspace-tab-header-inner-title { display: none !important; }
-body.bu-main-labels .mod-root .workspace-tab-header-inner-icon  { display: none !important; }
+body.bu-main-icons  .mod-root .workspace-tab-header-inner-title { display: none; }
+body.bu-main-labels .mod-root .workspace-tab-header-inner-icon  { display: none; }
 body.bu-left-labels  .mod-left-split  .workspace-tab-header-inner-title,
-body.bu-left-both    .mod-left-split  .workspace-tab-header-inner-title { display: inline-flex !important; }
-body.bu-left-labels  .mod-left-split  .workspace-tab-header-inner-icon  { display: none !important; }
+body.bu-left-both    .mod-left-split  .workspace-tab-header-inner-title { display: inline-flex; }
+body.bu-left-labels  .mod-left-split  .workspace-tab-header-inner-icon  { display: none; }
 body.bu-right-labels .mod-right-split .workspace-tab-header-inner-title,
-body.bu-right-both   .mod-right-split .workspace-tab-header-inner-title { display: inline-flex !important; }
-body.bu-right-labels .mod-right-split .workspace-tab-header-inner-icon  { display: none !important; }
+body.bu-right-both   .mod-right-split .workspace-tab-header-inner-title { display: inline-flex; }
+body.bu-right-labels .mod-right-split .workspace-tab-header-inner-icon  { display: none; }
 
-body.bu-pin-icon-only .workspace-tab-header.mod-pinned .workspace-tab-header-inner-title { display: none !important; }
+body.bu-pin-icon-only .workspace-tab-header.mod-pinned .workspace-tab-header-inner-title { display: none; }
 
 .mod-left-split .workspace-leaf-content,
 .mod-right-split .workspace-leaf-content {
@@ -1636,8 +1623,8 @@ body.bu-tooltip-type .tooltip {
   animation: bu-typewriter 0.5s steps(30, end) both;
 }
 @keyframes bu-typewriter {
-  from { clip-path: inset(0 100% 0 0); }
-  to   { clip-path: inset(0 0 0 0); }
+  from { -webkit-clip-path: inset(0 100% 0 0); }
+  to   { -webkit-clip-path: inset(0 0 0 0); }
 }
 
 body.is-fullscreen.bu-fullscreen-crt .markdown-source-view.mod-cm6 .cm-editor,
@@ -1658,13 +1645,13 @@ body.is-fullscreen.bu-fullscreen-crt.bu-scanlines .markdown-reading-view::after 
     transparent 0,
     transparent calc(var(--bu-scanline-period, 3) * 1px - 1px),
     rgba(0, 0, 0, 0.5) calc(var(--bu-scanline-period, 3) * 1px - 1px),
-    rgba(0, 0, 0, 0.5) calc(var(--bu-scanline-period, 3) * 1px)) !important;
+    rgba(0, 0, 0, 0.5) calc(var(--bu-scanline-period, 3) * 1px));
 }
 
 body.is-fullscreen.bu-fullscreen-crt.bu-text-glow .markdown-source-view.mod-cm6 .cm-line,
 body.is-fullscreen.bu-fullscreen-crt.bu-text-glow .markdown-rendered p,
 body.is-fullscreen.bu-fullscreen-crt.bu-text-glow .markdown-rendered li {
-  text-shadow: 0 0 calc(var(--bu-glow-text, 55) * 0.13px) color-mix(in srgb, var(--bu-accent) calc(var(--bu-glow-text, 55) * 1.4%), transparent) !important;
+  text-shadow: 0 0 calc(var(--bu-glow-text, 55) * 0.13px) color-mix(in srgb, var(--bu-accent) calc(var(--bu-glow-text, 55) * 1.4%), transparent);
 }
 
 body.is-fullscreen.bu-fullscreen-crt .workspace-ribbon,
@@ -1936,15 +1923,15 @@ body.is-fullscreen.bu-fullscreen-crt .workspace-split.mod-right-split:hover {
 
 body.bu-focus .mod-root .workspace-tab-header-container,
 body.bu-focus .titlebar-button-container,
-body.bu-focus .status-bar { display: none !important; }
-body.bu-hide-status-bar .status-bar { display: none !important; }
+body.bu-focus .status-bar { display: none; }
+body.bu-hide-status-bar .status-bar { display: none; }
 body.bu-hide-breadcrumbs .view-header-breadcrumb,
-body.bu-hide-breadcrumbs .view-header-breadcrumb-separator { display: none !important; }
-body.bu-hide-tab-close .workspace-tab-header-inner-close-button { display: none !important; }
-body.bu-hide-sidebar-toggle-left .sidebar-toggle-button.mod-left { display: none !important; }
-body.bu-hide-sidebar-toggle-right .sidebar-toggle-button.mod-right { display: none !important; }
-body.bu-hide-folder-arrow .nav-folder-title .tree-item-icon.collapse-icon { display: none !important; }
-body.bu-hide-prompt-instructions .prompt-instructions { display: none !important; }
+body.bu-hide-breadcrumbs .view-header-breadcrumb-separator { display: none; }
+body.bu-hide-tab-close .workspace-tab-header-inner-close-button { display: none; }
+body.bu-hide-sidebar-toggle-left .sidebar-toggle-button.mod-left { display: none; }
+body.bu-hide-sidebar-toggle-right .sidebar-toggle-button.mod-right { display: none; }
+body.bu-hide-folder-arrow .nav-folder-title .tree-item-icon.collapse-icon { display: none; }
+body.bu-hide-prompt-instructions .prompt-instructions { display: none; }
 
 @keyframes bu-poweron {
   0%   { opacity: 0; transform: scaleY(0.99); filter: brightness(0.18); }
@@ -2047,7 +2034,7 @@ body.bu-anim.bu-hover-bloom :is(.clickable-icon, button:not(.mod-cta),
 @keyframes bu-line-sweep { from { background-position: 200% 0; } to { background-position: -200% 0; } }
 body.bu-anim.bu-line-scan .markdown-source-view.mod-cm6 .cm-line.cm-active {
   background-image: linear-gradient(90deg, transparent 20%,
-    color-mix(in srgb, var(--bu-accent) 9%, transparent) 50%, transparent 80%) !important;
+    color-mix(in srgb, var(--bu-accent) 9%, transparent) 50%, transparent 80%);
   background-size: 200% 100%;
   background-repeat: no-repeat;
   animation: bu-line-sweep calc(var(--bu-anim-speed, 600) * 6ms) linear infinite;
