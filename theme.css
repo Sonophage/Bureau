@@ -2095,6 +2095,24 @@ body.bu-anim.bu-glow-ease .cm-line {
 body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .popover.hover-popover) {
   animation: bu-fade-scale var(--bu-t-slow) var(--bu-anim-ease);
 }
+/* --- ambient CRT motion (gentle, optional) --- */
+@keyframes bu-scan-drift {
+  from { background-position-y: 0; }
+  to   { background-position-y: calc(var(--bu-scanline-period, 3) * 1px); }
+}
+@keyframes bu-glow-breathe {
+  0%, 100% { opacity: 0.82; }
+  50%      { opacity: 1; }
+}
+/* scanlines slowly creep (needs CRT scanlines on) */
+body.bu-anim.bu-scan-anim.bu-scanlines .markdown-source-view.mod-cm6 .cm-editor::after,
+body.bu-anim.bu-scan-anim.bu-scanlines .markdown-reading-view::after {
+  animation: bu-scan-drift calc(var(--bu-anim-speed, 600) * 5ms) linear infinite;
+}
+/* ambient accent glow breathes */
+body.bu-anim.bu-glow-pulse::after {
+  animation: bu-glow-breathe calc(var(--bu-anim-speed, 600) * 10ms) ease-in-out infinite;
+}
 /* kill switch — disable on mobile when chosen */
 body.is-mobile.bu-anim-mobile-off * { transition: none !important; animation: none !important; }
 
@@ -2387,6 +2405,14 @@ settings:
     default: true
   - id: bu-menu-fade
     title: Fade menus & modals
+    type: class-toggle
+    default: true
+  - id: bu-scan-anim
+    title: Drift the CRT scanlines
+    type: class-toggle
+    default: true
+  - id: bu-glow-pulse
+    title: Breathe the ambient glow
     type: class-toggle
     default: true
   - id: bu-anim-mobile-off
