@@ -2004,9 +2004,10 @@ body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .po
 /* a single faint white line that scans down the editor and flickers */
 @keyframes bu-scanline-roll { from { top: -3px; } to { top: 100%; } }
 @keyframes bu-scanline-flick {
-  0% { opacity: 0.75; } 9% { opacity: 0.4; } 17% { opacity: 0.95; } 26% { opacity: 0.55; }
-  38% { opacity: 1; } 49% { opacity: 0.45; } 60% { opacity: 0.85; } 71% { opacity: 0.5; }
-  83% { opacity: 0.92; } 100% { opacity: 0.65; }
+  0% { opacity: 1; } 4% { opacity: 0; } 8% { opacity: 1; } 17% { opacity: 1; }
+  20% { opacity: 0; } 24% { opacity: 1; } 44% { opacity: 1; } 47% { opacity: 0; }
+  51% { opacity: 1; } 70% { opacity: 1; } 73% { opacity: 0; } 77% { opacity: 1; }
+  90% { opacity: 1; } 93% { opacity: 0; } 97% { opacity: 1; } 100% { opacity: 1; }
 }
 body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-view) { position: relative; }
 body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-view)::after {
@@ -2016,10 +2017,10 @@ body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-v
   height: 1px;
   z-index: 6;
   pointer-events: none;
-  background: rgba(255, 255, 255, 0.42);
-  box-shadow: 0 0 7px 1px rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.08);
   animation: bu-scanline-roll calc(var(--bu-anim-speed, 600) * 36ms) linear infinite,
-             bu-scanline-flick 0.5s linear infinite;
+             bu-scanline-flick 0.4s linear infinite;
 }
 
 body.bu-anim.bu-glow-pulse::after {
