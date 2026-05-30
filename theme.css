@@ -116,6 +116,7 @@
   --bu-card-gap:    calc(var(--bu-card-gap-n, 12) * 1px);
   --bu-card-radius: calc(var(--bu-card-radius-n, 12) * 1px);
   --bu-card-shadow: 0.55;
+  --bu-anim-ease: cubic-bezier(0.22, 1, 0.36, 1);   /* elegant ease-out, no overshoot */
   --bu-line: #564c3e;
   --graph-line: color-mix(in srgb, var(--bu-accent) 38%, transparent);    /* accent graph links */
   --list-marker-color: var(--bu-accent);                                  /* accent bullets / list markers */
@@ -2039,6 +2040,45 @@ body.bu-hide-folder-arrow .nav-folder-title .tree-item-icon.collapse-icon { disp
 body.bu-hide-prompt-instructions .prompt-instructions { display: none !important; }
 
 /* ===================================================================
+   ANIMATION — restrained, CRT-flavoured (eased, no bounce). Master toggle
+   bu-anim (default on) + per-effect toggles + a speed slider (ms).
+   =================================================================== */
+@keyframes bu-poweron {
+  0%   { opacity: 0; transform: scaleY(0.985); filter: brightness(1.6); }
+  55%  { opacity: 1; filter: brightness(1.12); }
+  100% { transform: scaleY(1); filter: brightness(1); }
+}
+@keyframes bu-fade-scale {
+  from { opacity: 0; transform: scale(0.985); }
+  to   { opacity: 1; transform: scale(1); }
+}
+/* smooth state transitions (colour/opacity only — no movement) */
+body.bu-anim :is(.workspace-tab-header, .clickable-icon, button, .nav-file-title,
+  .nav-folder-title, .tree-item-self, a.internal-link, a.external-link, .nn-navitem,
+  .nn-file, .suggestion-item, .status-bar-item, .checkbox-container, .menu-item) {
+  transition:
+    background-color calc(var(--bu-anim-speed, 220) * 1ms) var(--bu-anim-ease),
+    color            calc(var(--bu-anim-speed, 220) * 1ms) var(--bu-anim-ease),
+    border-color     calc(var(--bu-anim-speed, 220) * 1ms) var(--bu-anim-ease),
+    opacity          calc(var(--bu-anim-speed, 220) * 1ms) var(--bu-anim-ease),
+    box-shadow       calc(var(--bu-anim-speed, 220) * 1ms) var(--bu-anim-ease);
+}
+/* CRT power-on when a view mounts */
+body.bu-anim.bu-poweron :is(.markdown-reading-view, .markdown-source-view.mod-cm6) {
+  animation: bu-poweron calc(var(--bu-anim-speed, 220) * 1.6ms) var(--bu-anim-ease);
+}
+/* ease the phosphor glow on the active line */
+body.bu-anim.bu-glow-ease .cm-line {
+  transition: text-shadow calc(var(--bu-anim-speed, 220) * 1ms) var(--bu-anim-ease);
+}
+/* fade + slight scale-in on menus / modals / palette */
+body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .popover.hover-popover) {
+  animation: bu-fade-scale calc(var(--bu-anim-speed, 220) * 1ms) var(--bu-anim-ease);
+}
+/* kill switch — disable on mobile when chosen */
+body.is-mobile.bu-anim-mobile-off * { transition: none !important; animation: none !important; }
+
+/* ===================================================================
    11  STYLE SETTINGS — one Bureau panel (Color · Atmosphere · CRT · Cards · Daily)
    =================================================================== */
 
@@ -2296,6 +2336,40 @@ settings:
     default: false
   - id: bu-hide-prompt-instructions
     title: Hide command-palette instructions
+    type: class-toggle
+    default: false
+
+  - id: bu-anim-heading
+    title: Animation
+    type: heading
+    level: 2
+    collapsed: false
+  - id: bu-anim
+    title: Animations
+    description: Restrained, CRT-flavoured transitions. Turn off to disable all motion.
+    type: class-toggle
+    default: true
+  - id: bu-anim-speed
+    title: Animation speed (ms)
+    type: variable-number-slider
+    default: 220
+    min: 80
+    max: 600
+    step: 10
+  - id: bu-poweron
+    title: CRT power-on (on note/pane open)
+    type: class-toggle
+    default: true
+  - id: bu-glow-ease
+    title: Ease the phosphor glow
+    type: class-toggle
+    default: true
+  - id: bu-menu-fade
+    title: Fade menus & modals
+    type: class-toggle
+    default: true
+  - id: bu-anim-mobile-off
+    title: MOBILE — disable animations
     type: class-toggle
     default: false
 
