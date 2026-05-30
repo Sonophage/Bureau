@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@500;600;700;900&display=swap');
 
-/* Bureau — dark Obsidian theme ("Disco Elysium meets Control" + CRT) · v1.20.5
+/* Bureau — dark Obsidian theme ("Disco Elysium meets Control" + CRT) · v1.35.14
    Sonophage · github.com/Sonophage/Bureau
    Retheme from the .theme-dark token block; Style Settings config in the @settings block at the foot. */
 
@@ -2002,7 +2002,7 @@ body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .po
   to   { background-position-y: calc(var(--bu-scanline-period, 3) * 1px); }
 }
 @keyframes bu-glow-breathe {
-  0%, 100% { opacity: 0.82; }
+  0%, 100% { opacity: 0.6; }
   50%      { opacity: 1; }
 }
 
@@ -2036,6 +2036,16 @@ body.bu-anim.bu-line-scan .markdown-source-view.mod-cm6 .cm-line.cm-active {
   background-size: 200% 100%;
   background-repeat: no-repeat;
   animation: bu-line-sweep calc(var(--bu-anim-speed, 600) * 6ms) linear infinite;
+}
+
+/* focus line — dim every line but the one you're on + an accent edge-marker */
+body.bu-focus-line .markdown-source-view.mod-cm6 .cm-line {
+  opacity: var(--bu-focus-dim, 0.4);
+  transition: opacity var(--bu-t-fast, 180ms) var(--bu-anim-ease);
+}
+body.bu-focus-line .markdown-source-view.mod-cm6 .cm-line.cm-active {
+  opacity: 1;
+  box-shadow: inset 2px 0 0 var(--bu-accent);
 }
 
 @keyframes bu-flicker {
@@ -2236,6 +2246,19 @@ settings:
     description: In fullscreen, add a curved CRT-glass vignette, amp scanlines/glow, and recede the chrome.
     type: class-toggle
     default: true
+  - id: bu-focus-line
+    title: Focus line (dim the rest)
+    description: Dim every line but the one you're editing and mark it with an accent edge.
+    type: class-toggle
+    default: false
+  - id: bu-focus-dim
+    title: Focus dim amount
+    description: How dark the off-focus lines get (lower = dimmer).
+    type: variable-number-slider
+    default: 0.4
+    min: 0.15
+    max: 0.75
+    step: 0.05
   - id: bu-cards-heading
     title: Cards & layout
     type: heading
