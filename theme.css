@@ -2005,8 +2005,10 @@ body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .po
 @keyframes bu-scanline-roll { from { top: -3px; } to { top: 100%; } }
 @keyframes bu-scanline-flick {
   0%, 60% { opacity: 1; }
-  61% { opacity: 0; } 62.5% { opacity: 1; } 64% { opacity: 0; } 65.5% { opacity: 1; }
-  67% { opacity: 0; } 68.5% { opacity: 1; } 70% { opacity: 0; } 71.5% { opacity: 1; }
+  61% { opacity: var(--bu-scan-dip, 0); } 62.5% { opacity: 1; }
+  64% { opacity: var(--bu-scan-dip, 0); } 65.5% { opacity: 1; }
+  67% { opacity: var(--bu-scan-dip, 0); } 68.5% { opacity: 1; }
+  70% { opacity: var(--bu-scan-dip, 0); } 71.5% { opacity: 1; }
   73%, 100% { opacity: 1; }
 }
 body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-view) { position: relative; }
@@ -2017,10 +2019,10 @@ body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-v
   height: 1px;
   z-index: 6;
   pointer-events: none;
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, var(--bu-scan-bright, 0.2));
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, calc(var(--bu-scan-bright, 0.2) * 0.4));
   animation: bu-scanline-roll calc(var(--bu-anim-speed, 600) * 36ms) linear infinite,
-             bu-scanline-flick 7s linear infinite;
+             bu-scanline-flick calc(var(--bu-scan-interval, 7) * 1s) linear infinite;
 }
 
 body.bu-anim.bu-glow-pulse::after {
@@ -2443,9 +2445,32 @@ settings:
     default: true
   - id: bu-scan-anim
     title: Scanning line
-    description: A faint white line scans down the editor and flickers (the static scanlines stay still).
+    description: A faint white line scans down the editor; stays steady, then glitches now and then (the static scanlines stay still).
     type: class-toggle
     default: true
+  - id: bu-scan-bright
+    title: Scanning line — brightness
+    type: variable-number-slider
+    default: 0.2
+    min: 0.05
+    max: 0.6
+    step: 0.01
+  - id: bu-scan-interval
+    title: Scanning line — glitch every (sec)
+    description: How often the loose-wire blink-burst happens.
+    type: variable-number-slider
+    default: 7
+    min: 2
+    max: 20
+    step: 1
+  - id: bu-scan-dip
+    title: Scanning line — glitch depth
+    description: How far the line blinks out during a glitch (0 = fully out / most violent).
+    type: variable-number-slider
+    default: 0
+    min: 0
+    max: 0.7
+    step: 0.05
   - id: bu-glow-pulse
     title: Breathe the ambient glow
     type: class-toggle
