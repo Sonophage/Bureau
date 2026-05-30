@@ -2076,7 +2076,7 @@ body.bu-anim .mod-root .workspace-tab-header:not(.is-active):hover { transform: 
 body.bu-anim :is(.nav-file-title, .nav-folder-title, .tree-item-self.is-clickable, .nn-navitem, .nn-file):hover { transform: translateX(2px); }
 body.bu-anim .clickable-icon:hover { transform: scale(1.1); }
 /* CRT power-on when a view mounts (open note / pane) */
-body.bu-anim.bu-poweron :is(.markdown-reading-view, .markdown-source-view.mod-cm6, .markdown-reading-view .markdown-preview-sizer) {
+body.bu-anim.bu-poweron :is(.markdown-source-view.mod-cm6, .markdown-preview-view) {
   animation: bu-poweron var(--bu-t-slow) var(--bu-anim-ease);
 }
 /* whole-app CRT turn-on at launch */
@@ -2184,10 +2184,10 @@ body.bu-anim.bu-boot-scan .workspace::before {
   85%  { opacity: 1; }
   100% { transform: translateY(96vh); opacity: 0; }
 }
-body.bu-anim.bu-crossfade :is(.markdown-reading-view, .markdown-source-view.mod-cm6, .markdown-reading-view .markdown-preview-sizer) {
+body.bu-anim.bu-crossfade :is(.markdown-source-view.mod-cm6, .markdown-preview-view) {
   position: relative;
 }
-body.bu-anim.bu-crossfade :is(.markdown-reading-view, .markdown-source-view.mod-cm6, .markdown-reading-view .markdown-preview-sizer)::before {
+body.bu-anim.bu-crossfade :is(.markdown-source-view.mod-cm6, .markdown-preview-view)::before {
   content: "";
   position: absolute;
   left: 0; right: 0; top: 0;
