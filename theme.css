@@ -4,7 +4,8 @@
    Sonophage · github.com/Sonophage/Bureau
    Retheme from the .theme-dark token block; Style Settings config in the @settings block at the foot. */
 
-.theme-dark {
+.theme-dark,
+.theme-light {
   --bu-bg: #0c0b0a;
   --bu-bg-alt: #060605;
   --bu-surface: #151310;
@@ -122,6 +123,43 @@
   --nn-selected-file-tag-bg: color-mix(in srgb, var(--bu-accent) 18%, transparent);
   --nn-selected-file-property-bg: var(--bu-surface);
   --nn-selected-navitem-count-bg: var(--bu-accent);
+}
+
+/* LIGHT MODE — "the case file in daylight". Overrides only the base colour
+   literals; every var(--bu-*)-derived token above follows automatically.
+   Accent presets, fonts, sizes, card/anim calcs are shared (mode-agnostic). */
+.theme-light {
+  --bu-bg: #efe9db;          /* aged paper */
+  --bu-bg-alt: #e4dcc9;      /* deeper paper — the desk/stage */
+  --bu-surface: #e7e0cf;     /* inset paper */
+  --bu-raised: #f4efe4;      /* raised paper */
+  --bu-border: #cabfa6;
+  --bu-border-hi: #b3a787;
+  --bu-text: #1e1a14;        /* typewriter ink */
+  --bu-text-hi: #0d0a06;     /* darkest ink — headings/bold */
+  --bu-muted: #6f6655;
+  --bu-faint: #9b9079;
+  --bu-brass: #8a6a24;       /* darker brass reads on paper */
+  --bu-teal: #2f6058;
+  --bu-label-bg: #1c1813;    /* INVERTED: dark stamp on paper */
+  --bu-label-fg: #efe9db;    /* paper text on the stamp */
+  --bu-on-accent: #ffffff;
+  --bu-veil: #000000;        /* hover veils darken on light */
+  --bu-code-bg: #e6dfce;     /* paper-grey code block */
+  --bu-line: #b8ad93;        /* pencil rule */
+
+  /* dark-specific core-var literals → light */
+  --background-modifier-hover: #e8e1d0;
+  --background-modifier-active-hover: #ddd4bf;
+  --code-background: var(--bu-code-bg);
+  --graph-node: #4a463d;
+  --graph-node-tag: #6e6a60;
+  --graph-node-attachment: #837c6d;
+  --graph-node-unresolved: #a39a86;
+  --graph-text: #423e36;
+
+  /* drop the dark-tuned marginalia ledger in light (revisit with a paper version) */
+  --scrollable-background: none;
 }
 
 .inline-title {
@@ -388,6 +426,7 @@
   color: var(--bu-text);
   text-shadow: 0 0 3px color-mix(in srgb, var(--bu-accent) 30%, transparent);
 }
+body.theme-light .markdown-rendered pre code { text-shadow: none; }
 
 .markdown-rendered pre::after {
   content: "CODE";
@@ -474,7 +513,7 @@
   line-height: 1;
 }
 
-body::after {
+body.theme-dark::after {
   content: "";
   position: fixed;
   inset: 0;
@@ -506,6 +545,7 @@ body.bu-grain::before {
 }
 
 body:not(.bu-panel-grain) .app-container { background-image: none; }
+body.theme-light.bu-panel-grain .app-container { background-image: var(--bu-grain); }
 .markdown-source-view.mod-cm6 .cm-scroller,
 .markdown-reading-view .markdown-preview-view {
   background-image: var(--scrollable-background);
@@ -1658,8 +1698,8 @@ body .nn-split-container[data-navigator-focused="false"] {
 
 body.bu-scanlines .markdown-source-view.mod-cm6 .cm-editor,
 body.bu-scanlines .markdown-reading-view { position: relative; }
-body.bu-scanlines .markdown-source-view.mod-cm6 .cm-editor::after,
-body.bu-scanlines .markdown-reading-view::after {
+body.theme-dark.bu-scanlines .markdown-source-view.mod-cm6 .cm-editor::after,
+body.theme-dark.bu-scanlines .markdown-reading-view::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -1671,9 +1711,9 @@ body.bu-scanlines .markdown-reading-view::after {
     rgba(0, 0, 0, 0.34) calc(var(--bu-scanline-period, 3) * 1px - 1px),
     rgba(0, 0, 0, 0.34) calc(var(--bu-scanline-period, 3) * 1px));
 }
-body.bu-text-glow .markdown-source-view.mod-cm6 .cm-line,
-body.bu-text-glow .markdown-rendered p,
-body.bu-text-glow .markdown-rendered li {
+body.theme-dark.bu-text-glow .markdown-source-view.mod-cm6 .cm-line,
+body.theme-dark.bu-text-glow .markdown-rendered p,
+body.theme-dark.bu-text-glow .markdown-rendered li {
   text-shadow: 0 0 calc(var(--bu-glow-text, 55) * 0.08px) color-mix(in srgb, var(--bu-accent) calc(var(--bu-glow-text, 55) * 1%), transparent);
 }
 .tooltip {
@@ -1689,8 +1729,8 @@ body.bu-text-glow .markdown-rendered li {
 
 body.is-fullscreen.bu-fullscreen-crt .markdown-source-view.mod-cm6 .cm-editor,
 body.is-fullscreen.bu-fullscreen-crt .markdown-reading-view { position: relative; }
-body.is-fullscreen.bu-fullscreen-crt .markdown-source-view.mod-cm6 .cm-editor::before,
-body.is-fullscreen.bu-fullscreen-crt .markdown-reading-view::before {
+body.theme-dark.is-fullscreen.bu-fullscreen-crt .markdown-source-view.mod-cm6 .cm-editor::before,
+body.theme-dark.is-fullscreen.bu-fullscreen-crt .markdown-reading-view::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -1699,8 +1739,8 @@ body.is-fullscreen.bu-fullscreen-crt .markdown-reading-view::before {
   background: radial-gradient(130% 110% at 50% 50%, transparent 32%, rgba(0, 0, 0, 0.5) 68%, rgba(0, 0, 0, 0.95) 100%);
 }
 
-body.is-fullscreen.bu-fullscreen-crt.bu-scanlines .markdown-source-view.mod-cm6 .cm-editor::after,
-body.is-fullscreen.bu-fullscreen-crt.bu-scanlines .markdown-reading-view::after {
+body.theme-dark.is-fullscreen.bu-fullscreen-crt.bu-scanlines .markdown-source-view.mod-cm6 .cm-editor::after,
+body.theme-dark.is-fullscreen.bu-fullscreen-crt.bu-scanlines .markdown-reading-view::after {
   background: repeating-linear-gradient(to bottom,
     transparent 0,
     transparent calc(var(--bu-scanline-period, 3) * 1px - 1px),
@@ -1708,9 +1748,9 @@ body.is-fullscreen.bu-fullscreen-crt.bu-scanlines .markdown-reading-view::after 
     rgba(0, 0, 0, 0.5) calc(var(--bu-scanline-period, 3) * 1px));
 }
 
-body.is-fullscreen.bu-fullscreen-crt.bu-text-glow .markdown-source-view.mod-cm6 .cm-line,
-body.is-fullscreen.bu-fullscreen-crt.bu-text-glow .markdown-rendered p,
-body.is-fullscreen.bu-fullscreen-crt.bu-text-glow .markdown-rendered li {
+body.theme-dark.is-fullscreen.bu-fullscreen-crt.bu-text-glow .markdown-source-view.mod-cm6 .cm-line,
+body.theme-dark.is-fullscreen.bu-fullscreen-crt.bu-text-glow .markdown-rendered p,
+body.theme-dark.is-fullscreen.bu-fullscreen-crt.bu-text-glow .markdown-rendered li {
   text-shadow: 0 0 calc(var(--bu-glow-text, 55) * 0.13px) color-mix(in srgb, var(--bu-accent) calc(var(--bu-glow-text, 55) * 1.4%), transparent);
 }
 
