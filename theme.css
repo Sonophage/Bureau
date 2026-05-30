@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@500;600;700;900&display=swap');
 
-/* Bureau — dark Obsidian theme ("Disco Elysium meets Control" + CRT) · v1.20.5
+/* Bureau — dark Obsidian theme ("Disco Elysium meets Control" + CRT) · v1.43.22
    Sonophage · github.com/Sonophage/Bureau
    Retheme from the .theme-dark token block; Style Settings config in the @settings block at the foot. */
 
@@ -1997,18 +1997,32 @@ body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .po
   animation: bu-fade-scale var(--bu-t-slow) var(--bu-anim-ease);
 }
 
-@keyframes bu-scan-drift {
-  from { background-position-y: 0; }
-  to   { background-position-y: calc(var(--bu-scanline-period, 3) * 1px); }
-}
 @keyframes bu-glow-breathe {
-  0%, 100% { opacity: 0.82; }
+  0%, 100% { opacity: 0.6; }
   50%      { opacity: 1; }
 }
-
-body.bu-anim.bu-scan-anim.bu-scanlines .markdown-source-view.mod-cm6 .cm-editor::after,
-body.bu-anim.bu-scan-anim.bu-scanlines .markdown-reading-view::after {
-  animation: bu-scan-drift calc(var(--bu-anim-speed, 600) * 5ms) linear infinite;
+/* a single faint white line that scans down the editor and flickers */
+@keyframes bu-scanline-roll { from { top: -3px; } to { top: 100%; } }
+@keyframes bu-scanline-flick {
+  0%, 60% { opacity: 1; }
+  61% { opacity: var(--bu-scan-dip, 0); } 62.5% { opacity: 1; }
+  64% { opacity: var(--bu-scan-dip, 0); } 65.5% { opacity: 1; }
+  67% { opacity: var(--bu-scan-dip, 0); } 68.5% { opacity: 1; }
+  70% { opacity: var(--bu-scan-dip, 0); } 71.5% { opacity: 1; }
+  73%, 100% { opacity: 1; }
+}
+body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-view) { position: relative; }
+body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-view)::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: -3px;
+  height: 1px;
+  z-index: 6;
+  pointer-events: none;
+  background: rgba(255, 255, 255, var(--bu-scan-bright, 0.2));
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, calc(var(--bu-scan-bright, 0.2) * 0.4));
+  animation: bu-scanline-roll calc(var(--bu-anim-speed, 600) * 36ms) linear infinite,
+             bu-scanline-flick calc(var(--bu-scan-interval, 7) * 1s) linear infinite;
 }
 
 body.bu-anim.bu-glow-pulse::after {
@@ -2036,6 +2050,26 @@ body.bu-anim.bu-line-scan .markdown-source-view.mod-cm6 .cm-line.cm-active {
   background-size: 200% 100%;
   background-repeat: no-repeat;
   animation: bu-line-sweep calc(var(--bu-anim-speed, 600) * 6ms) linear infinite;
+}
+
+/* focus line — dim every line but the one you're on + an accent edge-marker */
+body.bu-focus-line .markdown-source-view.mod-cm6 .cm-line {
+  opacity: var(--bu-focus-dim, 0.4);
+  transition: opacity var(--bu-t-fast, 180ms) var(--bu-anim-ease);
+}
+body.bu-focus-line .markdown-source-view.mod-cm6 .cm-line.cm-active {
+  opacity: 1;
+  position: relative;
+}
+body.bu-focus-line .markdown-source-view.mod-cm6 .cm-line.cm-active::before {
+  content: "";
+  position: absolute;
+  left: -0.7em;
+  top: 2px;
+  bottom: 2px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--bu-accent);
 }
 
 @keyframes bu-flicker {
@@ -2236,6 +2270,19 @@ settings:
     description: In fullscreen, add a curved CRT-glass vignette, amp scanlines/glow, and recede the chrome.
     type: class-toggle
     default: true
+  - id: bu-focus-line
+    title: Focus line (dim the rest)
+    description: Dim every line but the one you're editing and mark it with an accent edge.
+    type: class-toggle
+    default: false
+  - id: bu-focus-dim
+    title: Focus dim amount
+    description: How dark the off-focus lines get (lower = dimmer).
+    type: variable-number-slider
+    default: 0.4
+    min: 0.15
+    max: 0.75
+    step: 0.05
   - id: bu-cards-heading
     title: Cards & layout
     type: heading
@@ -2397,9 +2444,33 @@ settings:
     type: class-toggle
     default: true
   - id: bu-scan-anim
-    title: Drift the CRT scanlines
+    title: Scanning line
+    description: A faint white line scans down the editor; stays steady, then glitches now and then (the static scanlines stay still).
     type: class-toggle
     default: true
+  - id: bu-scan-bright
+    title: Scanning line — brightness
+    type: variable-number-slider
+    default: 0.2
+    min: 0.05
+    max: 0.6
+    step: 0.01
+  - id: bu-scan-interval
+    title: Scanning line — glitch every (sec)
+    description: How often the loose-wire blink-burst happens.
+    type: variable-number-slider
+    default: 7
+    min: 2
+    max: 20
+    step: 1
+  - id: bu-scan-dip
+    title: Scanning line — glitch depth
+    description: How far the line blinks out during a glitch (0 = fully out / most violent).
+    type: variable-number-slider
+    default: 0
+    min: 0
+    max: 0.7
+    step: 0.05
   - id: bu-glow-pulse
     title: Breathe the ambient glow
     type: class-toggle
