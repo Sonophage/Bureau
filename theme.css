@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@500;600;700;900&display=swap');
 
-/* Bureau — dark Obsidian theme ("Disco Elysium meets Control" + CRT) · v1.43.22
+/* Bureau — dark Obsidian theme ("Disco Elysium meets Control" + CRT) · v1.48.4
    Sonophage · github.com/Sonophage/Bureau
    Retheme from the .theme-dark token block; Style Settings config in the @settings block at the foot. */
 
@@ -2002,7 +2002,7 @@ body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .po
   50%      { opacity: 1; }
 }
 /* a single faint white line that scans down the editor and flickers */
-@keyframes bu-scanline-roll { from { top: -3px; } to { top: 100%; } }
+@keyframes bu-scanline-roll { from { top: -2%; } to { top: 102%; } }
 @keyframes bu-scanline-flick {
   0%, 60% { opacity: 1; }
   61% { opacity: var(--bu-scan-dip, 0); } 62.5% { opacity: 1; }
@@ -2011,14 +2011,15 @@ body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .po
   70% { opacity: var(--bu-scan-dip, 0); } 71.5% { opacity: 1; }
   73%, 100% { opacity: 1; }
 }
-body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-view) { position: relative; }
-body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-view)::after {
+body.bu-anim.bu-scan-anim .workspace-leaf-content[data-type="markdown"] .view-content { position: relative; }
+body.bu-anim.bu-scan-anim .workspace-leaf-content[data-type="markdown"] .view-content::after {
   content: "";
   position: absolute;
-  left: 0; right: 0; top: -3px;
+  left: 0; right: 0; top: -2%;
   height: 1px;
   z-index: 6;
   pointer-events: none;
+  will-change: top, opacity;
   background: rgba(255, 255, 255, var(--bu-scan-bright, 0.2));
   box-shadow: 0 0 6px 1px rgba(255, 255, 255, calc(var(--bu-scan-bright, 0.2) * 0.4));
   animation: bu-scanline-roll calc(var(--bu-anim-speed, 600) * 36ms) linear infinite,
@@ -2143,11 +2144,46 @@ body.bu-anim.bu-check-anim input[type="checkbox"]:checked {
 
 body.is-mobile.bu-anim-mobile-off * { transition: none !important; animation: none !important; }
 
+/* EFFECTS MODE — override layer (Custom = no override, your toggles apply).
+   Low + Medium kill motion + CRT; Low also kills textures/glow. High = nothing
+   suppressed. The individual toggles are never modified, so Custom preserves them. */
+body:is(.bu-mode-low, .bu-mode-medium) *,
+body:is(.bu-mode-low, .bu-mode-medium) *::before,
+body:is(.bu-mode-low, .bu-mode-medium) *::after,
+body:is(.bu-mode-low, .bu-mode-medium)::before,
+body:is(.bu-mode-low, .bu-mode-medium)::after { animation: none !important; transition: none !important; }
+body:is(.bu-mode-low, .bu-mode-medium) :is(.cm-editor, .markdown-source-view.mod-cm6, .markdown-reading-view, .view-content)::before,
+body:is(.bu-mode-low, .bu-mode-medium) :is(.cm-editor, .markdown-source-view.mod-cm6, .markdown-reading-view, .view-content)::after { display: none !important; }
+body:is(.bu-mode-low, .bu-mode-medium) :is(.cm-line, .markdown-rendered p, .markdown-rendered li, .markdown-rendered pre code) { text-shadow: none !important; }
+body.bu-mode-low::before,
+body.bu-mode-low::after { display: none !important; }
+body.bu-mode-low .app-container { background-image: none !important; }
+
 /* @settings
 
 name: Bureau
 id: bureau
 settings:
+  - id: bu-mode-heading
+    title: Mode
+    type: heading
+    level: 2
+    collapsed: false
+  - id: bu-mode
+    title: Effects mode
+    description: "Quick preset. Low = base styling only · Medium = + textures & glow · High = everything on · Custom = use the toggles below. Your toggles are always preserved — Custom restores them."
+    type: class-select
+    default: bu-mode-custom
+    allowEmpty: false
+    options:
+      - label: Low
+        value: bu-mode-low
+      - label: Medium
+        value: bu-mode-medium
+      - label: High
+        value: bu-mode-high
+      - label: Custom
+        value: bu-mode-custom
   - id: bu-color-heading
     title: Color & accent
     type: heading
