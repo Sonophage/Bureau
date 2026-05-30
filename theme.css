@@ -116,8 +116,14 @@
   --bu-card-gap:    calc(var(--bu-card-gap-n, 12) * 1px);
   --bu-card-radius: calc(var(--bu-card-radius-n, 12) * 1px);
   --bu-card-shadow: 0.55;
+  --bu-anim-ease: cubic-bezier(0.16, 1, 0.3, 1);    /* easeOutExpo — fast start, smooth settle, no bounce */
+  --bu-t-fast: calc(var(--bu-anim-speed, 600) * 0.3ms);  /* responsive hover/state */
+  --bu-t-slow: calc(var(--bu-anim-speed, 600) * 1ms);    /* entrances */
   --bu-line: #564c3e;
-  --graph-line: rgba(208, 206, 198, 0.18);
+  --graph-line: color-mix(in srgb, var(--bu-accent) 38%, transparent);    /* accent graph links */
+  --list-marker-color: var(--bu-accent);                                  /* accent bullets / list markers */
+  --indentation-guide-color: color-mix(in srgb, var(--bu-accent) 22%, transparent);
+  --indentation-guide-color-active: color-mix(in srgb, var(--bu-accent) 60%, transparent);
   --graph-node: #d4d2ca;
   --graph-node-focused: var(--bu-accent);
   --graph-node-tag: #8f8a80;
@@ -1381,15 +1387,13 @@ body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
   padding-right: calc(var(--bu-card-gap) + 5px);
 }
 .workspace-tab-container { background-color: transparent !important; }
-/* lift both sidebars ~20px off the bottom edge (match across) */
+/* lift the editor + both sidebars ~20px off the bottom edge (match across).
+   padding on the split shrinks the pane from the bottom (and shortens the leaf,
+   so it's not a square full-column block) without shifting the top. */
+.workspace-split.mod-root,
 .workspace-split.mod-left-split,
 .workspace-split.mod-right-split {
   padding-bottom: 20px;
-}
-/* editor (root): lift via the card's own bottom margin so its drop-shadow
-   isn't clipped square by the split's padding box (that made the hard line) */
-.workspace-split.mod-root .workspace-leaf-content {
-  margin-bottom: calc(var(--bu-card-gap) + 25px) !important;
 }
 /* each pane content = a dossier card (overrides the sidebar-transparent rule) */
 .workspace-split .workspace-leaf-content {
@@ -1399,6 +1403,13 @@ body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
   margin: 0 0 calc(var(--bu-card-gap) + 5px) 0 !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, var(--bu-card-shadow, 0.55)) !important;
   overflow: hidden;
+}
+/* editor: dissolve the bottom edge into a gradient (no hard full-black edge);
+   drop the box-shadow there so nothing competes with the fade */
+body.bu-cards .workspace-split.mod-root .workspace-leaf-content {
+  box-shadow: none !important;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 64px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 64px), transparent);
 }
 /* remove Obsidian's tab-curve pseudo-elements — they drew the dark "square" corners */
 .workspace-tab-header::before,
@@ -1422,19 +1433,51 @@ body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
   border: 2px solid var(--bu-accent) !important;
   border-bottom: none !important;
 }
+/* --- TAB SHAPE — Folder (connected, the default above) · Pill (bu-tabs-pill):
+   fully-rounded floating tabs that keep the manila/accent palette --- */
+body.bu-tabs-pill .workspace-tab-header {
+  border-radius: 999px !important;
+  border-bottom-width: 2px !important;
+  border-bottom-style: solid !important;
+  margin-bottom: 5px !important;
+}
+body.bu-tabs-pill .mod-root .workspace-tab-header:not(.is-active) {
+  border-bottom-color: color-mix(in srgb, var(--bu-label-bg), #000 26%) !important;
+}
+body.bu-tabs-pill .mod-root .workspace-tab-header.is-active {
+  border-bottom-color: var(--bu-accent) !important;
+}
+body.bu-tabs-pill .mod-root .workspace-tab-header-container-inner {
+  margin-bottom: 0 !important;   /* pills float — don't pull the strip into the card */
+}
+/* --- PER-DOCK tab content: Icons / Labels / Icons+Labels ---
+   Main tabs default to both; sidebars default to icon-only (Obsidian's default),
+   with the title revealed for the Labels/Both modes. */
+body.bu-main-icons  .mod-root .workspace-tab-header-inner-title { display: none !important; }
+body.bu-main-labels .mod-root .workspace-tab-header-inner-icon  { display: none !important; }
+body.bu-left-labels  .mod-left-split  .workspace-tab-header-inner-title,
+body.bu-left-both    .mod-left-split  .workspace-tab-header-inner-title { display: inline-flex !important; }
+body.bu-left-labels  .mod-left-split  .workspace-tab-header-inner-icon  { display: none !important; }
+body.bu-right-labels .mod-right-split .workspace-tab-header-inner-title,
+body.bu-right-both   .mod-right-split .workspace-tab-header-inner-title { display: inline-flex !important; }
+body.bu-right-labels .mod-right-split .workspace-tab-header-inner-icon  { display: none !important; }
+/* pinned tabs → icon only */
+body.bu-pin-icon-only .workspace-tab-header.mod-pinned .workspace-tab-header-inner-title { display: none !important; }
 /* sidebars translucent so the desk grain shows through the card */
 .mod-left-split .workspace-leaf-content,
 .mod-right-split .workspace-leaf-content {
   background-color: rgba(12, 11, 10, 0.60) !important;
 }
-/* ===== active tab lifts above the card; active window border matches it ===== */
+/* ===== active tab lifts above the card ===== */
 .workspace-tab-header.is-active {
   position: relative;
   z-index: 6;
 }
+/* active pane: faint accent-tinted edge (was stark white --bu-label-bg,
+   which read as a hard line around the editor) */
 .workspace-leaf.mod-active .workspace-leaf-content,
 .workspace-tabs.mod-active .workspace-leaf-content {
-  border-color: var(--bu-label-bg) !important;
+  border-color: color-mix(in srgb, var(--bu-accent) 30%, var(--bu-line)) !important;
 }
 /* sidebar active tab = just the red icon, no box */
 .mod-left-split .workspace-tab-header.is-active,
@@ -1982,6 +2025,140 @@ body.is-fullscreen.bu-fullscreen-crt .workspace-split.mod-right-split:hover {
 .daily .callout-icon svg { color: var(--primary) !important; }
 
 /* ===================================================================
+   HIDE / FOCUS — Style Settings toggles that strip chrome.
+   Focus Mode is one toggle (bind a hotkey to the Style Settings command);
+   the rest are à-la-carte. All display:none, so order is irrelevant.
+   =================================================================== */
+body.bu-focus .mod-root .workspace-tab-header-container,
+body.bu-focus .titlebar-button-container,
+body.bu-focus .status-bar { display: none !important; }
+body.bu-hide-status-bar .status-bar { display: none !important; }
+body.bu-hide-breadcrumbs .view-header-breadcrumb,
+body.bu-hide-breadcrumbs .view-header-breadcrumb-separator { display: none !important; }
+body.bu-hide-tab-close .workspace-tab-header-inner-close-button { display: none !important; }
+body.bu-hide-sidebar-toggle-left .sidebar-toggle-button.mod-left { display: none !important; }
+body.bu-hide-sidebar-toggle-right .sidebar-toggle-button.mod-right { display: none !important; }
+body.bu-hide-folder-arrow .nav-folder-title .tree-item-icon.collapse-icon { display: none !important; }
+body.bu-hide-prompt-instructions .prompt-instructions { display: none !important; }
+
+/* ===================================================================
+   ANIMATION — restrained, CRT-flavoured (eased, no bounce). Master toggle
+   bu-anim (default on) + per-effect toggles + a speed slider (ms).
+   =================================================================== */
+@keyframes bu-poweron {
+  0%   { opacity: 0; transform: scaleY(0.985); filter: brightness(1.6); }
+  55%  { opacity: 1; filter: brightness(1.12); }
+  100% { transform: scaleY(1); filter: brightness(1); }
+}
+@keyframes bu-fade-scale {
+  from { opacity: 0; transform: scale(0.985); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes bu-appstart {           /* whole-app CRT warm-up at launch */
+  0%   { opacity: 0; transform: scaleY(0.97); filter: brightness(1.8) blur(1px); }
+  45%  { opacity: 1; filter: brightness(1.22) blur(0); }
+  100% { transform: scaleY(1); filter: brightness(1); }
+}
+/* responsive eased state transitions (~0.3x the slider) */
+body.bu-anim :is(.workspace-tab-header, .clickable-icon, button, .nav-file-title,
+  .nav-folder-title, .tree-item-self, a.internal-link, a.external-link, .nn-navitem,
+  .nn-file, .suggestion-item, .status-bar-item, .checkbox-container, .menu-item, .view-action) {
+  transition:
+    background-color var(--bu-t-fast) var(--bu-anim-ease),
+    color            var(--bu-t-fast) var(--bu-anim-ease),
+    border-color     var(--bu-t-fast) var(--bu-anim-ease),
+    opacity          var(--bu-t-fast) var(--bu-anim-ease),
+    transform        var(--bu-t-fast) var(--bu-anim-ease),
+    box-shadow       var(--bu-t-fast) var(--bu-anim-ease);
+}
+/* micro-hovers — subtle, eased (no bounce) */
+body.bu-anim .mod-root .workspace-tab-header:not(.is-active):hover { transform: translateY(-1px); }
+body.bu-anim :is(.nav-file-title, .nav-folder-title, .tree-item-self.is-clickable, .nn-navitem, .nn-file):hover { transform: translateX(2px); }
+body.bu-anim .clickable-icon:hover { transform: scale(1.1); }
+/* CRT power-on when a view mounts (open note / pane) */
+body.bu-anim.bu-poweron :is(.markdown-reading-view, .markdown-source-view.mod-cm6) {
+  animation: bu-poweron var(--bu-t-slow) var(--bu-anim-ease);
+}
+/* whole-app CRT turn-on at launch */
+body.bu-anim.bu-poweron .workspace {
+  animation: bu-appstart calc(var(--bu-anim-speed, 600) * 1.3ms) var(--bu-anim-ease);
+}
+/* new tab / empty state fades in */
+body.bu-anim.bu-poweron .empty-state {
+  animation: bu-fade-scale var(--bu-t-slow) var(--bu-anim-ease);
+}
+/* ease the phosphor glow on the active line */
+body.bu-anim.bu-glow-ease .cm-line {
+  transition: text-shadow var(--bu-t-slow) var(--bu-anim-ease);
+}
+/* fade + slight scale-in on menus / modals / palette */
+body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .popover.hover-popover) {
+  animation: bu-fade-scale var(--bu-t-slow) var(--bu-anim-ease);
+}
+/* --- ambient CRT motion (gentle, optional) --- */
+@keyframes bu-scan-drift {
+  from { background-position-y: 0; }
+  to   { background-position-y: calc(var(--bu-scanline-period, 3) * 1px); }
+}
+@keyframes bu-glow-breathe {
+  0%, 100% { opacity: 0.82; }
+  50%      { opacity: 1; }
+}
+/* scanlines slowly creep (needs CRT scanlines on) */
+body.bu-anim.bu-scan-anim.bu-scanlines .markdown-source-view.mod-cm6 .cm-editor::after,
+body.bu-anim.bu-scan-anim.bu-scanlines .markdown-reading-view::after {
+  animation: bu-scan-drift calc(var(--bu-anim-speed, 600) * 5ms) linear infinite;
+}
+/* ambient accent glow breathes */
+body.bu-anim.bu-glow-pulse::after {
+  animation: bu-glow-breathe calc(var(--bu-anim-speed, 600) * 10ms) ease-in-out infinite;
+}
+
+/* terminal block caret (shape always; blink only when animations on) */
+body.bu-block-caret .cm-editor .cm-cursor,
+body.bu-block-caret .cm-editor .cm-cursor-primary {
+  border-left-width: 0.55em !important;
+  border-color: var(--bu-accent) !important;
+  opacity: 0.6;
+}
+@keyframes bu-caret-blink { 0%, 50% { opacity: 0.6; } 50.01%, 100% { opacity: 0; } }
+body.bu-anim.bu-block-caret .cm-editor .cm-cursor-primary {
+  animation: bu-caret-blink 1.1s steps(1, jump-none) infinite;
+}
+/* hover bloom — soft phosphor glow on hover */
+body.bu-anim.bu-hover-bloom :is(.clickable-icon, button:not(.mod-cta),
+  .mod-root .workspace-tab-header, a.internal-link, a.external-link,
+  .nav-file-title, .nn-file):hover {
+  box-shadow: 0 0 10px color-mix(in srgb, var(--bu-accent) 40%, transparent);
+}
+/* active-line scan sweep */
+@keyframes bu-line-sweep { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+body.bu-anim.bu-line-scan .markdown-source-view.mod-cm6 .cm-line.cm-active {
+  background-image: linear-gradient(90deg, transparent 20%,
+    color-mix(in srgb, var(--bu-accent) 9%, transparent) 50%, transparent 80%) !important;
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: bu-line-sweep calc(var(--bu-anim-speed, 600) * 6ms) linear infinite;
+}
+/* CRT flicker — ultra subtle (default off) */
+@keyframes bu-flicker {
+  0%, 100% { filter: brightness(1); }
+  6%  { filter: brightness(0.992); }
+  10% { filter: brightness(1.008); }
+  28% { filter: brightness(0.996); }
+  44% { filter: brightness(1.006); }
+  62% { filter: brightness(0.99); }
+  78% { filter: brightness(1.004); }
+  90% { filter: brightness(0.997); }
+}
+body.bu-anim.bu-flicker .markdown-source-view.mod-cm6 .cm-editor,
+body.bu-anim.bu-flicker .markdown-reading-view {
+  animation: bu-flicker 4.2s linear infinite;
+}
+/* kill switch — disable on mobile when chosen */
+body.is-mobile.bu-anim-mobile-off * { transition: none !important; animation: none !important; }
+
+/* ===================================================================
    11  STYLE SETTINGS — one Bureau panel (Color · Atmosphere · CRT · Cards · Daily)
    =================================================================== */
 
@@ -2145,6 +2322,161 @@ settings:
     min: 0
     max: 0.9
     step: 0.05
+
+  - id: bu-tabs-heading
+    title: Tabs
+    type: heading
+    level: 2
+    collapsed: false
+  - id: bu-tab-shape
+    title: Tab shape
+    description: Folder = connected file-folder tabs. Pill = fully-rounded floating tabs.
+    type: class-select
+    default: bu-tabs-folder
+    allowEmpty: false
+    options:
+      - label: Folder (connected)
+        value: bu-tabs-folder
+      - label: Pill
+        value: bu-tabs-pill
+  - id: bu-dock-main
+    title: Main tab content
+    type: class-select
+    default: bu-main-both
+    allowEmpty: false
+    options:
+      - label: Icons + Labels
+        value: bu-main-both
+      - label: Icons only
+        value: bu-main-icons
+      - label: Labels only
+        value: bu-main-labels
+  - id: bu-dock-left
+    title: Left sidebar tab content
+    type: class-select
+    default: bu-left-icons
+    allowEmpty: false
+    options:
+      - label: Icons only
+        value: bu-left-icons
+      - label: Labels only
+        value: bu-left-labels
+      - label: Icons + Labels
+        value: bu-left-both
+  - id: bu-dock-right
+    title: Right sidebar tab content
+    type: class-select
+    default: bu-right-icons
+    allowEmpty: false
+    options:
+      - label: Icons only
+        value: bu-right-icons
+      - label: Labels only
+        value: bu-right-labels
+      - label: Icons + Labels
+        value: bu-right-both
+  - id: bu-pin-icon-only
+    title: Pinned tabs — icon only
+    type: class-toggle
+    default: false
+
+  - id: bu-hide-heading
+    title: Hide / Focus
+    type: heading
+    level: 2
+    collapsed: false
+  - id: bu-focus
+    title: Focus Mode
+    description: Hides the tab bar, window buttons & status bar. Bind a hotkey to "Style Settings → Toggle Focus Mode".
+    type: class-toggle
+    default: false
+  - id: bu-hide-status-bar
+    title: Hide status bar
+    type: class-toggle
+    default: false
+  - id: bu-hide-breadcrumbs
+    title: Hide breadcrumbs
+    type: class-toggle
+    default: false
+  - id: bu-hide-tab-close
+    title: Hide tab close button
+    type: class-toggle
+    default: false
+  - id: bu-hide-sidebar-toggle-left
+    title: Hide left sidebar toggle
+    type: class-toggle
+    default: false
+  - id: bu-hide-sidebar-toggle-right
+    title: Hide right sidebar toggle
+    type: class-toggle
+    default: false
+  - id: bu-hide-folder-arrow
+    title: Hide folder collapse arrow
+    type: class-toggle
+    default: false
+  - id: bu-hide-prompt-instructions
+    title: Hide command-palette instructions
+    type: class-toggle
+    default: false
+
+  - id: bu-anim-heading
+    title: Animation
+    type: heading
+    level: 2
+    collapsed: false
+  - id: bu-anim
+    title: Animations
+    description: Restrained, CRT-flavoured transitions. Turn off to disable all motion.
+    type: class-toggle
+    default: true
+  - id: bu-anim-speed
+    title: Animation speed (ms)
+    description: Entrance speed. Hover/state transitions run at ~0.3× this for responsiveness.
+    type: variable-number-slider
+    default: 600
+    min: 400
+    max: 1000
+    step: 20
+  - id: bu-poweron
+    title: CRT power-on (on note/pane open)
+    type: class-toggle
+    default: true
+  - id: bu-glow-ease
+    title: Ease the phosphor glow
+    type: class-toggle
+    default: true
+  - id: bu-menu-fade
+    title: Fade menus & modals
+    type: class-toggle
+    default: true
+  - id: bu-scan-anim
+    title: Drift the CRT scanlines
+    type: class-toggle
+    default: true
+  - id: bu-glow-pulse
+    title: Breathe the ambient glow
+    type: class-toggle
+    default: true
+  - id: bu-block-caret
+    title: Terminal block caret
+    type: class-toggle
+    default: true
+  - id: bu-hover-bloom
+    title: Hover bloom (accent glow)
+    type: class-toggle
+    default: true
+  - id: bu-line-scan
+    title: Active-line scan sweep
+    type: class-toggle
+    default: false
+  - id: bu-flicker
+    title: CRT flicker (subtle)
+    type: class-toggle
+    default: false
+  - id: bu-anim-mobile-off
+    title: MOBILE — disable animations
+    type: class-toggle
+    default: false
 
   - id: bu-daily-note
     title: Daily notes
