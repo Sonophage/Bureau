@@ -100,6 +100,9 @@
   --bu-anim-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --bu-t-fast: calc(var(--bu-anim-speed, 600) * 0.3ms);
   --bu-t-slow: calc(var(--bu-anim-speed, 600) * 1ms);
+  --file-line-width: calc(var(--bu-line-width-n, 800) * 1px);
+  --line-height-normal: var(--bu-line-height, 1.5);
+  --p-spacing: calc(var(--bu-p-spacing-n, 16) * 1px);
   --bu-line: #564c3e;
   --graph-line: color-mix(in srgb, var(--bu-accent) 38%, transparent);
   --list-marker-color: var(--bu-accent);
@@ -2146,6 +2149,25 @@ body.bu-mode-low::before,
 body.bu-mode-low::after { display: none !important; }
 body.bu-mode-low .app-container { background-image: none !important; }
 
+/* ACCESSIBILITY — honor the OS "reduce motion" preference (toggle, default on).
+   Kills the whole animation suite and the scanning-line/sweep remnant. */
+@media (prefers-reduced-motion: reduce) {
+  body.bu-respect-motion *,
+  body.bu-respect-motion *::before,
+  body.bu-respect-motion *::after { animation: none !important; transition: none !important; }
+  body.bu-respect-motion .workspace-leaf-content[data-type="markdown"] .view-content::after { display: none !important; }
+}
+
+/* MOBILE — lighten heavy effects on phones/tablets (toggle, default on):
+   drop film grain, scanlines, the scanning line, and all motion for perf + legibility. */
+body.is-mobile.bu-mobile-lighten *,
+body.is-mobile.bu-mobile-lighten *::before,
+body.is-mobile.bu-mobile-lighten *::after { animation: none !important; }
+body.is-mobile.bu-mobile-lighten.bu-grain::before { display: none !important; }
+body.is-mobile.bu-mobile-lighten .markdown-source-view.mod-cm6 .cm-editor::after,
+body.is-mobile.bu-mobile-lighten .markdown-preview-view::after,
+body.is-mobile.bu-mobile-lighten .workspace-leaf-content[data-type="markdown"] .view-content::after { display: none !important; }
+
 /* @settings
 
 name: Bureau
@@ -2339,6 +2361,30 @@ settings:
     min: 0
     max: 0.9
     step: 0.05
+  - id: bu-line-width-n
+    title: Reading line width
+    description: Max line width with "Readable line length" on, in pixels.
+    type: variable-number-slider
+    default: 800
+    min: 480
+    max: 1200
+    step: 10
+  - id: bu-line-height
+    title: Line height
+    description: Body text line spacing.
+    type: variable-number-slider
+    default: 1.5
+    min: 1.2
+    max: 2.2
+    step: 0.05
+  - id: bu-p-spacing-n
+    title: Paragraph spacing
+    description: Gap between paragraphs, in pixels.
+    type: variable-number-slider
+    default: 16
+    min: 0
+    max: 36
+    step: 1
 
   - id: bu-tabs-heading
     title: Tabs
@@ -2534,6 +2580,16 @@ settings:
     title: MOBILE — disable animations
     type: class-toggle
     default: false
+  - id: bu-respect-motion
+    title: Respect "reduce motion"
+    description: Honor the OS reduced-motion setting — disables animation when the system asks.
+    type: class-toggle
+    default: true
+  - id: bu-mobile-lighten
+    title: MOBILE — lighten effects
+    description: On phones/tablets, drop film grain, scanlines, and the scanning line for performance and legibility.
+    type: class-toggle
+    default: true
 
   - id: bu-daily-note
     title: Daily notes
