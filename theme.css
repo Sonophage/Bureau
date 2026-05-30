@@ -2113,6 +2113,48 @@ body.bu-anim.bu-scan-anim.bu-scanlines .markdown-reading-view::after {
 body.bu-anim.bu-glow-pulse::after {
   animation: bu-glow-breathe calc(var(--bu-anim-speed, 600) * 10ms) ease-in-out infinite;
 }
+
+/* terminal block caret (shape always; blink only when animations on) */
+body.bu-block-caret .cm-editor .cm-cursor,
+body.bu-block-caret .cm-editor .cm-cursor-primary {
+  border-left-width: 0.55em !important;
+  border-color: var(--bu-accent) !important;
+  opacity: 0.6;
+}
+@keyframes bu-caret-blink { 0%, 50% { opacity: 0.6; } 50.01%, 100% { opacity: 0; } }
+body.bu-anim.bu-block-caret .cm-editor .cm-cursor-primary {
+  animation: bu-caret-blink 1.1s steps(1, jump-none) infinite;
+}
+/* hover bloom — soft phosphor glow on hover */
+body.bu-anim.bu-hover-bloom :is(.clickable-icon, button:not(.mod-cta),
+  .mod-root .workspace-tab-header, a.internal-link, a.external-link,
+  .nav-file-title, .nn-file):hover {
+  box-shadow: 0 0 10px color-mix(in srgb, var(--bu-accent) 40%, transparent);
+}
+/* active-line scan sweep */
+@keyframes bu-line-sweep { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+body.bu-anim.bu-line-scan .markdown-source-view.mod-cm6 .cm-line.cm-active {
+  background-image: linear-gradient(90deg, transparent 20%,
+    color-mix(in srgb, var(--bu-accent) 9%, transparent) 50%, transparent 80%) !important;
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: bu-line-sweep calc(var(--bu-anim-speed, 600) * 6ms) linear infinite;
+}
+/* CRT flicker — ultra subtle (default off) */
+@keyframes bu-flicker {
+  0%, 100% { filter: brightness(1); }
+  6%  { filter: brightness(0.992); }
+  10% { filter: brightness(1.008); }
+  28% { filter: brightness(0.996); }
+  44% { filter: brightness(1.006); }
+  62% { filter: brightness(0.99); }
+  78% { filter: brightness(1.004); }
+  90% { filter: brightness(0.997); }
+}
+body.bu-anim.bu-flicker .markdown-source-view.mod-cm6 .cm-editor,
+body.bu-anim.bu-flicker .markdown-reading-view {
+  animation: bu-flicker 4.2s linear infinite;
+}
 /* kill switch — disable on mobile when chosen */
 body.is-mobile.bu-anim-mobile-off * { transition: none !important; animation: none !important; }
 
@@ -2415,6 +2457,22 @@ settings:
     title: Breathe the ambient glow
     type: class-toggle
     default: true
+  - id: bu-block-caret
+    title: Terminal block caret
+    type: class-toggle
+    default: true
+  - id: bu-hover-bloom
+    title: Hover bloom (accent glow)
+    type: class-toggle
+    default: true
+  - id: bu-line-scan
+    title: Active-line scan sweep
+    type: class-toggle
+    default: false
+  - id: bu-flicker
+    title: CRT flicker (subtle)
+    type: class-toggle
+    default: false
   - id: bu-anim-mobile-off
     title: MOBILE — disable animations
     type: class-toggle
