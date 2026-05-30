@@ -97,8 +97,8 @@ Bureau borrows ideas, gratefully, from:
 
 - **[blobob](https://github.com/kazi-aidah/blobob)** — the hiding/focus options, the animation principles, and the tab styling approach.
 - **Daily Notes** (CyanVoxel's Daily Note Themes) — the per-weekday colour-scheme idea.
-- **Elysian** — styling inspiration.
-- **Minimalist Paradise** — styling inspiration.
+- **[Elysian](https://github.com/matothetomato/elysian)** — styling inspiration.
+- **[Minimalist Paradise](https://github.com/bellebasso/Minimalists-Paradise)** — styling inspiration.
 
 Fonts (loaded via Google Fonts, with system fallbacks): **Urbanist** and
 **Courier Prime**, both OFL.
