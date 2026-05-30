@@ -1430,6 +1430,36 @@ body.bu-cards .workspace-split.mod-root .workspace-leaf-content {
   border: 2px solid var(--bu-accent) !important;
   border-bottom: none !important;
 }
+/* --- TAB SHAPE — Folder (connected, the default above) · Pill (bu-tabs-pill):
+   fully-rounded floating tabs that keep the manila/accent palette --- */
+body.bu-tabs-pill .workspace-tab-header {
+  border-radius: 999px !important;
+  border-bottom-width: 2px !important;
+  border-bottom-style: solid !important;
+  margin-bottom: 5px !important;
+}
+body.bu-tabs-pill .mod-root .workspace-tab-header:not(.is-active) {
+  border-bottom-color: color-mix(in srgb, var(--bu-label-bg), #000 26%) !important;
+}
+body.bu-tabs-pill .mod-root .workspace-tab-header.is-active {
+  border-bottom-color: var(--bu-accent) !important;
+}
+body.bu-tabs-pill .mod-root .workspace-tab-header-container-inner {
+  margin-bottom: 0 !important;   /* pills float — don't pull the strip into the card */
+}
+/* --- PER-DOCK tab content: Icons / Labels / Icons+Labels ---
+   Main tabs default to both; sidebars default to icon-only (Obsidian's default),
+   with the title revealed for the Labels/Both modes. */
+body.bu-main-icons  .mod-root .workspace-tab-header-inner-title { display: none !important; }
+body.bu-main-labels .mod-root .workspace-tab-header-inner-icon  { display: none !important; }
+body.bu-left-labels  .mod-left-split  .workspace-tab-header-inner-title,
+body.bu-left-both    .mod-left-split  .workspace-tab-header-inner-title { display: inline-flex !important; }
+body.bu-left-labels  .mod-left-split  .workspace-tab-header-inner-icon  { display: none !important; }
+body.bu-right-labels .mod-right-split .workspace-tab-header-inner-title,
+body.bu-right-both   .mod-right-split .workspace-tab-header-inner-title { display: inline-flex !important; }
+body.bu-right-labels .mod-right-split .workspace-tab-header-inner-icon  { display: none !important; }
+/* pinned tabs → icon only */
+body.bu-pin-icon-only .workspace-tab-header.mod-pinned .workspace-tab-header-inner-title { display: none !important; }
 /* sidebars translucent so the desk grain shows through the card */
 .mod-left-split .workspace-leaf-content,
 .mod-right-split .workspace-leaf-content {
@@ -2155,6 +2185,63 @@ settings:
     min: 0
     max: 0.9
     step: 0.05
+
+  - id: bu-tabs-heading
+    title: Tabs
+    type: heading
+    level: 2
+    collapsed: false
+  - id: bu-tab-shape
+    title: Tab shape
+    description: Folder = connected file-folder tabs. Pill = fully-rounded floating tabs.
+    type: class-select
+    default: bu-tabs-folder
+    allowEmpty: false
+    options:
+      - label: Folder (connected)
+        value: bu-tabs-folder
+      - label: Pill
+        value: bu-tabs-pill
+  - id: bu-dock-main
+    title: Main tab content
+    type: class-select
+    default: bu-main-both
+    allowEmpty: false
+    options:
+      - label: Icons + Labels
+        value: bu-main-both
+      - label: Icons only
+        value: bu-main-icons
+      - label: Labels only
+        value: bu-main-labels
+  - id: bu-dock-left
+    title: Left sidebar tab content
+    type: class-select
+    default: bu-left-icons
+    allowEmpty: false
+    options:
+      - label: Icons only
+        value: bu-left-icons
+      - label: Labels only
+        value: bu-left-labels
+      - label: Icons + Labels
+        value: bu-left-both
+  - id: bu-dock-right
+    title: Right sidebar tab content
+    type: class-select
+    default: bu-right-icons
+    allowEmpty: false
+    options:
+      - label: Icons only
+        value: bu-right-icons
+      - label: Labels only
+        value: bu-right-labels
+      - label: Icons + Labels
+        value: bu-right-both
+  - id: bu-pin-icon-only
+    title: Pinned tabs — icon only
+    type: class-toggle
+    default: false
 
   - id: bu-daily-note
     title: Daily notes
