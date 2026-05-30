@@ -734,6 +734,69 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05); }
   background-color: color-mix(in srgb, var(--bu-accent) 17%, transparent);
 }
 
+/* Bases — native database views, dressed as a case-file dossier. Scoped to
+   .bases-* so regular markdown tables (above) are untouched. */
+.bases-view {
+  font-family: var(--bu-font-body);
+  --bases-row-even: color-mix(in srgb, var(--bu-accent) 8%, transparent);
+  --bases-row-hover: color-mix(in srgb, var(--bu-accent) 17%, transparent);
+}
+.bases-table { border-collapse: collapse; }
+.bases-th,
+.bases-table-header {
+  background-color: var(--bu-accent) !important;
+  color: #ffffff !important;
+  font-family: var(--bu-font-label) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  border-color: var(--bu-accent) !important;
+}
+.bases-table-header-name,
+.bases-table-header-icon { color: #ffffff !important; }
+.bases-tr { border-bottom: 1px solid var(--bu-line); }
+.bases-tbody .bases-tr:nth-child(even) { background-color: var(--bases-row-even); }
+.bases-tbody .bases-tr:hover { background-color: var(--bases-row-hover); }
+.bases-td,
+.bases-table-cell {
+  color: var(--bu-text);
+  border-color: var(--bu-border) !important;
+}
+.bases-rendered-value,
+.bases-metadata-value { color: var(--bu-text); }
+.bases-td.mod-formula,
+.bases-table-cell.mod-formula {
+  color: color-mix(in srgb, var(--bu-brass) 85%, var(--bu-text));
+  font-style: italic;
+}
+.bases-boolean,
+.bases-view input[type="checkbox"] { accent-color: var(--bu-accent); }
+
+/* Cards view — dossier cards on the dark desk. */
+.bases-cards-item {
+  background-color: var(--bu-surface);
+  border: 1px solid var(--bu-line);
+  border-radius: var(--bu-card-radius);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.4);
+  --custom-bases-overlay-background-color: color-mix(in srgb, var(--bu-bg) 82%, transparent);
+  --custom-bases-overlay-text-color: var(--bu-text);
+}
+.bases-cards-item .title {
+  color: var(--bu-accent);
+  font-family: var(--bu-font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.bases-cards-item .subtitle { color: color-mix(in srgb, var(--bu-text) 60%, transparent); }
+.bases-cards-item .tag,
+.bases-cards-item .pill {
+  background-color: var(--bu-label-bg);
+  color: var(--bu-label-fg);
+  border-radius: 2px;
+  font-family: var(--bu-font-label);
+  letter-spacing: 0.02em;
+}
+
 .theme-dark .metadata-property:not(:focus-within) .metadata-property-value {
   font-family: var(--bu-font-body);
   color: var(--bu-text);
