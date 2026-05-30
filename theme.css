@@ -2003,19 +2003,19 @@ body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .po
 }
 /* a single faint white line that scans down the editor and flickers */
 @keyframes bu-scanline-roll { from { top: -3px; } to { top: 100%; } }
-@keyframes bu-scanline-flick { 0% { opacity: 0.45; } 35% { opacity: 0.28; } 55% { opacity: 0.5; } 80% { opacity: 0.32; } 100% { opacity: 0.42; } }
+@keyframes bu-scanline-flick { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
 body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-view) { position: relative; }
 body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-view)::after {
   content: "";
   position: absolute;
   left: 0; right: 0; top: -3px;
-  height: 2px;
+  height: 1px;
   z-index: 6;
   pointer-events: none;
-  background: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.22);
-  animation: bu-scanline-roll calc(var(--bu-anim-speed, 600) * 11ms) linear infinite,
-             bu-scanline-flick 0.14s steps(3, jump-none) infinite;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.28);
+  animation: bu-scanline-roll calc(var(--bu-anim-speed, 600) * 18ms) linear infinite,
+             bu-scanline-flick 5s ease-in-out infinite;
 }
 
 body.bu-anim.bu-glow-pulse::after {
