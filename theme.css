@@ -2022,6 +2022,23 @@ body.is-fullscreen.bu-fullscreen-crt .workspace-split.mod-right-split:hover {
 .daily .callout-icon svg { color: var(--primary) !important; }
 
 /* ===================================================================
+   HIDE / FOCUS — Style Settings toggles that strip chrome.
+   Focus Mode is one toggle (bind a hotkey to the Style Settings command);
+   the rest are à-la-carte. All display:none, so order is irrelevant.
+   =================================================================== */
+body.bu-focus .mod-root .workspace-tab-header-container,
+body.bu-focus .titlebar-button-container,
+body.bu-focus .status-bar { display: none !important; }
+body.bu-hide-status-bar .status-bar { display: none !important; }
+body.bu-hide-breadcrumbs .view-header-breadcrumb,
+body.bu-hide-breadcrumbs .view-header-breadcrumb-separator { display: none !important; }
+body.bu-hide-tab-close .workspace-tab-header-inner-close-button { display: none !important; }
+body.bu-hide-sidebar-toggle-left .sidebar-toggle-button.mod-left { display: none !important; }
+body.bu-hide-sidebar-toggle-right .sidebar-toggle-button.mod-right { display: none !important; }
+body.bu-hide-folder-arrow .nav-folder-title .tree-item-icon.collapse-icon { display: none !important; }
+body.bu-hide-prompt-instructions .prompt-instructions { display: none !important; }
+
+/* ===================================================================
    11  STYLE SETTINGS — one Bureau panel (Color · Atmosphere · CRT · Cards · Daily)
    =================================================================== */
 
@@ -2240,6 +2257,45 @@ settings:
         value: bu-right-both
   - id: bu-pin-icon-only
     title: Pinned tabs — icon only
+    type: class-toggle
+    default: false
+
+  - id: bu-hide-heading
+    title: Hide / Focus
+    type: heading
+    level: 2
+    collapsed: false
+  - id: bu-focus
+    title: Focus Mode
+    description: Hides the tab bar, window buttons & status bar. Bind a hotkey to "Style Settings → Toggle Focus Mode".
+    type: class-toggle
+    default: false
+  - id: bu-hide-status-bar
+    title: Hide status bar
+    type: class-toggle
+    default: false
+  - id: bu-hide-breadcrumbs
+    title: Hide breadcrumbs
+    type: class-toggle
+    default: false
+  - id: bu-hide-tab-close
+    title: Hide tab close button
+    type: class-toggle
+    default: false
+  - id: bu-hide-sidebar-toggle-left
+    title: Hide left sidebar toggle
+    type: class-toggle
+    default: false
+  - id: bu-hide-sidebar-toggle-right
+    title: Hide right sidebar toggle
+    type: class-toggle
+    default: false
+  - id: bu-hide-folder-arrow
+    title: Hide folder collapse arrow
+    type: class-toggle
+    default: false
+  - id: bu-hide-prompt-instructions
+    title: Hide command-palette instructions
     type: class-toggle
     default: false
 
