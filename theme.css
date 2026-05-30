@@ -2046,8 +2046,8 @@ body.bu-hide-prompt-instructions .prompt-instructions { display: none !important
    bu-anim (default on) + per-effect toggles + a speed slider (ms).
    =================================================================== */
 @keyframes bu-poweron {
-  0%   { opacity: 0; transform: scaleY(0.985); filter: brightness(1.6); }
-  55%  { opacity: 1; filter: brightness(1.12); }
+  0%   { opacity: 0; transform: scaleY(0.99); filter: brightness(0.18); }
+  55%  { opacity: 1; filter: brightness(1.14); }
   100% { transform: scaleY(1); filter: brightness(1); }
 }
 @keyframes bu-fade-scale {
@@ -2076,7 +2076,7 @@ body.bu-anim .mod-root .workspace-tab-header:not(.is-active):hover { transform: 
 body.bu-anim :is(.nav-file-title, .nav-folder-title, .tree-item-self.is-clickable, .nn-navitem, .nn-file):hover { transform: translateX(2px); }
 body.bu-anim .clickable-icon:hover { transform: scale(1.1); }
 /* CRT power-on when a view mounts (open note / pane) */
-body.bu-anim.bu-poweron :is(.markdown-reading-view, .markdown-source-view.mod-cm6) {
+body.bu-anim.bu-poweron :is(.markdown-reading-view, .markdown-source-view.mod-cm6, .markdown-reading-view .markdown-preview-sizer) {
   animation: bu-poweron var(--bu-t-slow) var(--bu-anim-ease);
 }
 /* whole-app CRT turn-on at launch */
@@ -2117,12 +2117,12 @@ body.bu-anim.bu-glow-pulse::after {
 /* terminal block caret (shape always; blink only when animations on) */
 body.bu-block-caret .cm-editor .cm-cursor,
 body.bu-block-caret .cm-editor .cm-cursor-primary {
-  border-left-width: 0.72em !important;
-  border-left-style: solid !important;
-  border-color: var(--bu-accent) !important;
-  opacity: 0.85;
+  border: none !important;
+  width: 0.62em !important;
+  background-color: var(--bu-accent) !important;
+  opacity: 0.62;
 }
-@keyframes bu-caret-blink { 0%, 50% { opacity: 0.6; } 50.01%, 100% { opacity: 0; } }
+@keyframes bu-caret-blink { 0%, 50% { opacity: 0.62; } 50.01%, 100% { opacity: 0; } }
 body.bu-anim.bu-block-caret .cm-editor .cm-cursor-primary {
   animation: bu-caret-blink 1.1s steps(1, jump-none) infinite;
 }
@@ -2175,23 +2175,19 @@ body.bu-anim.bu-boot-scan .workspace::before {
   box-shadow: 0 0 16px 3px color-mix(in srgb, var(--bu-accent) 55%, transparent);
   animation: bu-boot-sweep calc(var(--bu-anim-speed, 600) * 1.8ms) var(--bu-anim-ease) both;
 }
-/* channel-change — content fades in FROM BLACK + a scan line wipes down, on
-   each reading-mode note switch (the sizer remounts per note) */
-@keyframes bu-crossfade {
-  0%   { opacity: 0; filter: brightness(0.18); }
-  100% { opacity: 1; filter: brightness(1); }
+/* channel-change scan sweep — a bright line wipes down whenever a view mounts
+   (mode switch / pane open) or a reading-mode note re-renders. Pairs with the
+   power-on fade-from-black above. */
+@keyframes bu-view-sweep {
+  0%   { transform: translateY(-4vh); opacity: 0; }
+  10%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translateY(96vh); opacity: 0; }
 }
-@keyframes bu-sizer-sweep {
-  0%   { transform: translateY(0); opacity: 0; }
-  12%  { opacity: 1; }
-  88%  { opacity: 1; }
-  100% { transform: translateY(82vh); opacity: 0; }
-}
-body.bu-anim.bu-crossfade .markdown-reading-view .markdown-preview-sizer {
+body.bu-anim.bu-crossfade :is(.markdown-reading-view, .markdown-source-view.mod-cm6, .markdown-reading-view .markdown-preview-sizer) {
   position: relative;
-  animation: bu-crossfade calc(var(--bu-anim-speed, 600) * 1ms) var(--bu-anim-ease);
 }
-body.bu-anim.bu-crossfade .markdown-reading-view .markdown-preview-sizer::before {
+body.bu-anim.bu-crossfade :is(.markdown-reading-view, .markdown-source-view.mod-cm6, .markdown-reading-view .markdown-preview-sizer)::before {
   content: "";
   position: absolute;
   left: 0; right: 0; top: 0;
@@ -2200,7 +2196,7 @@ body.bu-anim.bu-crossfade .markdown-reading-view .markdown-preview-sizer::before
   pointer-events: none;
   background: color-mix(in srgb, var(--bu-accent) 85%, white);
   box-shadow: 0 0 16px 3px color-mix(in srgb, var(--bu-accent) 55%, transparent);
-  animation: bu-sizer-sweep calc(var(--bu-anim-speed, 600) * 1.4ms) var(--bu-anim-ease) both;
+  animation: bu-view-sweep calc(var(--bu-anim-speed, 600) * 1.4ms) var(--bu-anim-ease) both;
 }
 /* loading throbber — CRT accent ring (best-effort across spinner classes) */
 @keyframes bu-throb { 0% { transform: rotate(0); opacity: 0.5; } 50% { opacity: 1; } 100% { transform: rotate(360deg); opacity: 0.5; } }
