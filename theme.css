@@ -117,7 +117,10 @@
   --bu-card-radius: calc(var(--bu-card-radius-n, 12) * 1px);
   --bu-card-shadow: 0.55;
   --bu-line: #564c3e;
-  --graph-line: rgba(208, 206, 198, 0.18);
+  --graph-line: color-mix(in srgb, var(--bu-accent) 38%, transparent);    /* accent graph links */
+  --list-marker-color: var(--bu-accent);                                  /* accent bullets / list markers */
+  --indentation-guide-color: color-mix(in srgb, var(--bu-accent) 22%, transparent);
+  --indentation-guide-color-active: color-mix(in srgb, var(--bu-accent) 60%, transparent);
   --graph-node: #d4d2ca;
   --graph-node-focused: var(--bu-accent);
   --graph-node-tag: #8f8a80;
@@ -1381,15 +1384,13 @@ body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
   padding-right: calc(var(--bu-card-gap) + 5px);
 }
 .workspace-tab-container { background-color: transparent !important; }
-/* lift both sidebars ~20px off the bottom edge (match across) */
+/* lift the editor + both sidebars ~20px off the bottom edge (match across).
+   padding on the split shrinks the pane from the bottom (and shortens the leaf,
+   so it's not a square full-column block) without shifting the top. */
+.workspace-split.mod-root,
 .workspace-split.mod-left-split,
 .workspace-split.mod-right-split {
   padding-bottom: 20px;
-}
-/* editor (root): lift via the card's own bottom margin so its drop-shadow
-   isn't clipped square by the split's padding box (that made the hard line) */
-.workspace-split.mod-root .workspace-leaf-content {
-  margin-bottom: calc(var(--bu-card-gap) + 25px) !important;
 }
 /* each pane content = a dossier card (overrides the sidebar-transparent rule) */
 .workspace-split .workspace-leaf-content {
@@ -1399,6 +1400,13 @@ body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
   margin: 0 0 calc(var(--bu-card-gap) + 5px) 0 !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, var(--bu-card-shadow, 0.55)) !important;
   overflow: hidden;
+}
+/* editor: dissolve the bottom edge into a gradient (no hard full-black edge);
+   drop the box-shadow there so nothing competes with the fade */
+body.bu-cards .workspace-split.mod-root .workspace-leaf-content {
+  box-shadow: none !important;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 64px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 64px), transparent);
 }
 /* remove Obsidian's tab-curve pseudo-elements — they drew the dark "square" corners */
 .workspace-tab-header::before,
@@ -1427,14 +1435,16 @@ body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
 .mod-right-split .workspace-leaf-content {
   background-color: rgba(12, 11, 10, 0.60) !important;
 }
-/* ===== active tab lifts above the card; active window border matches it ===== */
+/* ===== active tab lifts above the card ===== */
 .workspace-tab-header.is-active {
   position: relative;
   z-index: 6;
 }
+/* active pane: faint accent-tinted edge (was stark white --bu-label-bg,
+   which read as a hard line around the editor) */
 .workspace-leaf.mod-active .workspace-leaf-content,
 .workspace-tabs.mod-active .workspace-leaf-content {
-  border-color: var(--bu-label-bg) !important;
+  border-color: color-mix(in srgb, var(--bu-accent) 30%, var(--bu-line)) !important;
 }
 /* sidebar active tab = just the red icon, no box */
 .mod-left-split .workspace-tab-header.is-active,
