@@ -2045,7 +2045,17 @@ body.bu-focus-line .markdown-source-view.mod-cm6 .cm-line {
 }
 body.bu-focus-line .markdown-source-view.mod-cm6 .cm-line.cm-active {
   opacity: 1;
-  box-shadow: inset 2px 0 0 var(--bu-accent);
+  position: relative;
+}
+body.bu-focus-line .markdown-source-view.mod-cm6 .cm-line.cm-active::before {
+  content: "";
+  position: absolute;
+  left: -0.7em;
+  top: 2px;
+  bottom: 2px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--bu-accent);
 }
 
 @keyframes bu-flicker {
