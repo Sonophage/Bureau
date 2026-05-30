@@ -1,28 +1,38 @@
 # Bureau
 
-A dark, noir-bureau theme for [Obsidian](https://obsidian.md) — a worn case-file
-on a concrete desk, wired to a humming CRT terminal.
+A dark theme for [Obsidian](https://obsidian.md). A worn case-file on a concrete
+desk, wired to a CRT terminal that hums whether or not you're listening.
 
-I've always been fond of the *bureau-redacted* look — the noiresque elements, the
-brutalism of it: heavy type, stamped labels, blacked-out lines, concrete and
-steel. I wanted a UI that felt like a brutalist-noir interface that was actually
-*cohesive* — not a pile of effects, but a single room you could work inside.
-Bureau is that attempt.
+I've always been fond of the *bureau-redacted* look. The noiresque of it, the
+brutalism: heavy type that doesn't apologize, stamped labels, lines blacked out
+by someone who decided you didn't need them, concrete and steel that were never
+trying to be warm. Most themes are a pile of effects in a trench coat —
+beautiful in the screenshot, incoherent the moment you live in them. I didn't
+want effects. I wanted a room. One you could sit inside at 2 AM and feel like
+the work mattered and the building was on your side, even if the building was
+indifferent. Bureau is that attempt. It performs *home* the way a rental
+performs it: clean, lit, holding its breath, hoping you don't look too closely
+at the ceiling fan.
 
-Its mood is stitched from three places:
+Its mood was stolen, in equal parts, from three places:
 
-- **Control** — the austere institutional dread of the Federal Bureau of Control (the default **red** accent).
-- **The Magnus Archives** — dusty archives and quiet wrongness (the **green** accent, *Magnus*).
-- **Deus Ex** — black-and-gold cyber-renaissance (the **gold** accent, *Deus*).
+- **Control** — the institutional dread of the Federal Bureau of Control, the red of a door you shouldn't open (the default **red** accent).
+- **The Magnus Archives** — dust, quiet wrongness, a tape still running (the **green** accent, *Magnus*).
+- **Deus Ex** — black-and-gold cyber-renaissance, conspiracy with good lighting (the **gold** accent, *Deus*).
 
 ![screenshot](screenshot.png)
 
-Dark-only. Every texture is procedural SVG (no embedded images), the whole UI
-reads from a single accent colour, and there's an optional CRT layer —
-scanlines, phosphor glow, a flickering scan line, a power-on when you open a
-note.
+Dark only — there is no daylight setting and there was never going to be. Every
+texture is procedural SVG, drawn by the stylesheet, not photographed and dragged
+in. The whole UI reads from a single accent colour, the way a room reads from a
+single bad bulb. And there's a CRT layer you can switch on — scanlines, phosphor
+glow, a white line that scans down the page and glitches like a loose wire, a
+power-on that fades up from black every time you open a note. None of it is
+load-bearing. All of it is there if you want the machine to feel haunted.
 
 ## Install
+
+The straight way, no ceremony:
 
 **Community themes:** Settings → Appearance → Manage → search **Bureau**.
 
@@ -32,90 +42,103 @@ note.
 3. Settings → Appearance → Themes → **Bureau**.
 
 > **Install the [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin.**
-> Everything below lives there, under one **Bureau** panel.
+> Everything below lives there, in one **Bureau** panel. Without it the theme
+> still runs, but it runs the way the house came — someone else's defaults, the
+> thermostat set to a temperature that isn't yours.
 
 ## Controls
 
-All controls are in **Settings → Style Settings → Bureau**. The panel preserves
-your choices — switching presets never overwrites them.
+All of it is in **Settings → Style Settings → Bureau**. The panel remembers what
+you told it; switching presets never paves over your choices. It keeps your
+fingerprints.
 
 ### Mode
-A quick preset that layers over everything else:
 
-| Mode | Result |
+The blunt instrument. One dial that decides how haunted the room gets, layered
+over everything else:
+
+| Mode | What you get |
 | --- | --- |
-| **Low** | Base styling only — no textures, glow, CRT, or motion |
-| **Medium** | Textures + ambient glow; no CRT or animation |
-| **High** | Everything on |
-| **Custom** | Use the individual toggles below (your saved settings) |
+| **Low** | The bones. Styling only — no texture, no glow, no CRT, no motion. The lights are on and nothing is breathing. |
+| **Medium** | Texture and the ambient glow. The room is lived-in. No CRT, no animation. |
+| **High** | Everything awake. The machine knows you're here. |
+| **Custom** | Your own arrangement — every toggle below, exactly as you left it. |
 
 ### Color & accent
-- **Accent preset** — *Control* (red) · *Magnus* (green) · *Deus* (gold) · *Custom*. The one colour the whole UI, glow, and highlights read from.
-- **Custom accent** — your own colour, used when the preset is *Custom*.
+- **Accent preset** — *Control* (red) · *Magnus* (green) · *Deus* (gold) · *Custom*. The single colour the whole UI, the glow, and every highlight read from. Change it and the building changes allegiance.
+- **Custom accent** — your own colour, used when the preset is *Custom*. Bring your own bad bulb.
 
 ### Atmosphere
-- **Glow intensity / reach** — the accent glow rising from the bottom of the window.
-- **Film grain** (+ intensity) — fine grain over the whole window.
-- **Sidebar texture** (+ strength) — concrete grain on the panels behind the cards.
-- **Vignette** (+ amount) — darkened window edges.
+- **Glow intensity / reach** — the accent light bleeding up from the bottom of the window, like something is on fire one floor down.
+- **Film grain** (+ intensity) — fine grain over everything. Proof the image was developed, not generated.
+- **Sidebar texture** (+ strength) — concrete grain on the panels behind the cards. The walls the cards are pinned to.
+- **Vignette** (+ amount) — the edges of the window darkened, the way attention darkens at the edges.
 
 ### CRT
-- **CRT scanlines** (+ spacing) — faint horizontal lines over the editor.
-- **CRT text glow** (+ brightness) — phosphor bloom on body text.
-- **Typewriter tooltips** — tooltips type in character by character.
-- **Fullscreen CRT mode** — in fullscreen, a curved tube vignette, amped scanlines/glow, and chrome that recedes until hover.
-- **Focus line** (+ dim amount) — dims every editor line but the one you're on, with an accent edge marker.
+The tube. Optional, and quietly the whole point.
+- **CRT scanlines** (+ spacing) — faint horizontal lines laid over the editor, the ghost of a screen that was never really there.
+- **CRT text glow** (+ brightness) — phosphor bloom on the body text. The letters sweat a little.
+- **Typewriter tooltips** — tooltips type themselves in, character by character, like they're being dictated to.
+- **Fullscreen CRT mode** — go fullscreen and the screen curves: a tube vignette, scanlines and glow turned up, and all the chrome receding into the dark until you reach for it.
+- **Focus line** (+ dim amount) — every line dims except the one you're on, which gets an accent mark in the margin. The rest of the page waits in the next room.
 
 ### Cards & layout
-- **Cards layout** — float every pane as a bordered card on a dark desk.
-- **Card gap / rounding / shadow darkness**.
+- **Cards layout** — every pane floats as a bordered card on a dark desk. Paper on concrete.
+- **Card gap / rounding / shadow darkness** — how far apart, how soft the corners, how deep the shadow they cast.
 
 ### Tabs
-- **Tab shape** — *Folder* (connected file-folder tabs) or *Pill* (fully rounded).
-- **Main / Left sidebar / Right sidebar tab content** — Icons · Labels · Icons + Labels.
-- **Pinned tabs → icon only**.
+- **Tab shape** — *Folder* (connected, like a real file drawer) or *Pill* (fully rounded, for people who've made peace with it).
+- **Main / Left sidebar / Right sidebar tab content** — Icons · Labels · Icons + Labels. Decide per dock how much each tab is willing to admit about itself.
+- **Pinned tabs → icon only** — the ones you've decided to keep say less.
 
 ### Hide / Focus
-- **Focus Mode** — hides the tab bar, window buttons, and status bar at once. Bind a hotkey to *Style Settings → Toggle Focus Mode*.
-- À-la-carte: hide the **status bar**, **breadcrumbs**, **tab close button**, **left/right sidebar toggles**, **folder collapse arrow**, **command-palette instructions**.
+For when the room has too much furniture.
+- **Focus Mode** — kills the tab bar, the window buttons, and the status bar in one move. Bind a hotkey to *Style Settings → Toggle Focus Mode* and you can clear the desk without looking down.
+- À-la-carte, hide any of: the **status bar**, **breadcrumbs**, **tab close button**, **left/right sidebar toggles**, **folder collapse arrow**, **command-palette instructions**. Each one a thing you decided you didn't need to see again.
 
 ### Animation
-Restrained and CRT-flavoured — eased, never bouncy. A master **Animations**
-toggle gates everything, with a **speed** slider (400–1000 ms; hover/state runs
-snappier).
+Restrained, CRT-flavoured, eased — never bouncy. Nothing here springs at you; it
+arrives, the way weather arrives. A master **Animations** toggle gates all of it,
+with a **speed** slider (400–1000 ms; hover and state changes run snappier than
+entrances).
 
-- **CRT power-on** — content fades in from black when a note/pane opens.
-- **Channel-change crossfade** — fade-from-black + scan-line wipe on note switch.
-- **Boot scan-sweep** — a bright line wipes down once at launch.
-- **Scanning line** — a faint white line scans slowly down the editor and glitches like a loose wire (sliders for **brightness**, **glitch interval**, and **glitch depth**).
-- **Breathe the ambient glow**, **ease the phosphor glow**, **fade menus & modals**.
-- **Terminal block caret**, **hover bloom** (accent glow on hover), **active-line scan**, **CRT flicker**, **CRT loading throbber**, **eased checkbox tick**.
-- **MOBILE — disable animations**.
+- **CRT power-on** — content fades up from black when a note or pane opens. The tube warming.
+- **Channel-change crossfade** — fade-from-black plus a scan-line wipe when you switch notes. Changing the channel.
+- **Boot scan-sweep** — one bright line wipes down the screen at launch, then it's gone.
+- **Scanning line** — a faint white line drifts slowly down the editor and, every so often, glitches in and out like a connection that isn't seated right. Sliders for **brightness**, **glitch interval**, and **glitch depth** — how visible, how often, how bad.
+- **Breathe the ambient glow**, **ease the phosphor glow**, **fade menus & modals** — the slow involuntary motions of a machine that's idling, not dead.
+- **Terminal block caret**, **hover bloom** (accent glow under the cursor), **active-line scan**, **CRT flicker**, **CRT loading throbber**, **eased checkbox tick** — the small tics. The wobble in the fan.
+- **MOBILE — disable animations** — for the device that can't afford the theatre.
 
 ### Daily notes
-Per-weekday colour schemes (Sun–Sat), each with its own **accent**, **text**,
-and **background**. Add the `cssclass: daily` (or a weekday class) to a note to
-key its palette. Disable the old "Daily Note Themes" snippet — Bureau owns this.
+A colour scheme per weekday (Sun–Sat), each with its own **accent**, **text**,
+and **background** — so Tuesday doesn't get to look like Friday. Add
+`cssclass: daily` (or a specific weekday class) to a note to key its palette. If
+you ran the old "Daily Note Themes" snippet, switch it off — Bureau owns this
+room now.
 
 ## Credits
 
-Bureau borrows ideas, gratefully, from:
+Bureau picked these pockets, gratefully:
 
-- **[blobob](https://github.com/kazi-aidah/blobob)** — the hiding/focus options, the animation principles, and the tab styling approach.
-- **[Daily Note Themes](https://github.com/CyanVoxel/Obsidian-Daily-Themes)** (CyanVoxel) — the per-weekday colour-scheme idea.
-- **[Elysian](https://github.com/matothetomato/elysian)** — styling inspiration.
-- **[Minimalist Paradise](https://github.com/bellebasso/Minimalists-Paradise)** — styling inspiration.
+- **[blobob](https://github.com/kazi-aidah/blobob)** — the hide/focus options, the animation principles, the way the tabs are handled.
+- **[Daily Note Themes](https://github.com/CyanVoxel/Obsidian-Daily-Themes)** (CyanVoxel) — the per-weekday colour-scheme idea, lifted wholesale and grateful for it.
+- **[Elysian](https://github.com/matothetomato/elysian)** — styling it taught me by example.
+- **[Minimalist Paradise](https://github.com/bellebasso/Minimalists-Paradise)** — same debt, different teacher.
 
-Fonts (loaded via Google Fonts, with system fallbacks): **Urbanist** and
-**Courier Prime**, both OFL.
+Fonts, loaded via Google Fonts with system fallbacks when the wire goes dead:
+**Urbanist** (the labels, the stamps) and **Courier Prime** (the body, the
+mono). Both OFL.
 
 ## Development
 
-The theme is a single `theme.css`. Edit it and reload Obsidian (hard-reload, or
-toggle the theme off/on — Obsidian caches `theme.css`). Retheme from the
-`.theme-dark` token block at the top; the Style Settings config lives in the
-`@settings` block at the foot.
+It's one `theme.css`. Edit it and reload Obsidian — hard-reload, or toggle the
+theme off and back on, because Obsidian caches the stylesheet and will lie to you
+about whether your change took. Retheme from the `.theme-dark` token block at the
+top, where the whole palette lives in one place. The Style Settings config is the
+`@settings` block at the foot — it looks like a comment and it is not; leave it
+alone unless you mean it.
 
 ## License
 
-MIT
+MIT. Take it apart. Build your own room.
