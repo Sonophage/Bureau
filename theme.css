@@ -2143,11 +2143,46 @@ body.bu-anim.bu-check-anim input[type="checkbox"]:checked {
 
 body.is-mobile.bu-anim-mobile-off * { transition: none !important; animation: none !important; }
 
+/* EFFECTS MODE — override layer (Custom = no override, your toggles apply).
+   Low + Medium kill motion + CRT; Low also kills textures/glow. High = nothing
+   suppressed. The individual toggles are never modified, so Custom preserves them. */
+body:is(.bu-mode-low, .bu-mode-medium) *,
+body:is(.bu-mode-low, .bu-mode-medium) *::before,
+body:is(.bu-mode-low, .bu-mode-medium) *::after,
+body:is(.bu-mode-low, .bu-mode-medium)::before,
+body:is(.bu-mode-low, .bu-mode-medium)::after { animation: none !important; transition: none !important; }
+body:is(.bu-mode-low, .bu-mode-medium) :is(.cm-editor, .markdown-source-view.mod-cm6, .markdown-reading-view)::before,
+body:is(.bu-mode-low, .bu-mode-medium) :is(.cm-editor, .markdown-source-view.mod-cm6, .markdown-reading-view)::after { display: none !important; }
+body:is(.bu-mode-low, .bu-mode-medium) :is(.cm-line, .markdown-rendered p, .markdown-rendered li, .markdown-rendered pre code) { text-shadow: none !important; }
+body.bu-mode-low::before,
+body.bu-mode-low::after { display: none !important; }
+body.bu-mode-low .app-container { background-image: none !important; }
+
 /* @settings
 
 name: Bureau
 id: bureau
 settings:
+  - id: bu-mode-heading
+    title: Mode
+    type: heading
+    level: 2
+    collapsed: false
+  - id: bu-mode
+    title: Effects mode
+    description: "Quick preset. Low = base styling only · Medium = + textures & glow · High = everything on · Custom = use the toggles below. Your toggles are always preserved — Custom restores them."
+    type: class-select
+    default: bu-mode-custom
+    allowEmpty: false
+    options:
+      - label: Low
+        value: bu-mode-low
+      - label: Medium
+        value: bu-mode-medium
+      - label: High
+        value: bu-mode-high
+      - label: Custom
+        value: bu-mode-custom
   - id: bu-color-heading
     title: Color & accent
     type: heading
