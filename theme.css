@@ -1997,18 +1997,25 @@ body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .po
   animation: bu-fade-scale var(--bu-t-slow) var(--bu-anim-ease);
 }
 
-@keyframes bu-scan-drift {
-  from { background-position-y: 0; }
-  to   { background-position-y: calc(var(--bu-scanline-period, 3) * 1px); }
-}
 @keyframes bu-glow-breathe {
   0%, 100% { opacity: 0.6; }
   50%      { opacity: 1; }
 }
-
-body.bu-anim.bu-scan-anim.bu-scanlines .markdown-source-view.mod-cm6 .cm-editor::after,
-body.bu-anim.bu-scan-anim.bu-scanlines .markdown-reading-view::after {
-  animation: bu-scan-drift calc(var(--bu-anim-speed, 600) * 5ms) linear infinite;
+/* a single faint white line that scans down the editor and flickers */
+@keyframes bu-scanline-roll { from { top: -3px; } to { top: 100%; } }
+@keyframes bu-scanline-flick { 0% { opacity: 0.45; } 35% { opacity: 0.28; } 55% { opacity: 0.5; } 80% { opacity: 0.32; } 100% { opacity: 0.42; } }
+body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-view) { position: relative; }
+body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-view)::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: -3px;
+  height: 2px;
+  z-index: 6;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.22);
+  animation: bu-scanline-roll calc(var(--bu-anim-speed, 600) * 11ms) linear infinite,
+             bu-scanline-flick 0.14s steps(3, jump-none) infinite;
 }
 
 body.bu-anim.bu-glow-pulse::after {
@@ -2430,7 +2437,8 @@ settings:
     type: class-toggle
     default: true
   - id: bu-scan-anim
-    title: Drift the CRT scanlines
+    title: Scanning line
+    description: A faint white line scans down the editor and flickers (the static scanlines stay still).
     type: class-toggle
     default: true
   - id: bu-glow-pulse
