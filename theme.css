@@ -2002,7 +2002,7 @@ body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .po
   50%      { opacity: 1; }
 }
 /* a single faint white line that scans down the editor and flickers */
-@keyframes bu-scanline-roll { from { top: -3px; } to { top: 100%; } }
+@keyframes bu-scanline-roll { from { top: -2%; } to { top: 102%; } }
 @keyframes bu-scanline-flick {
   0%, 60% { opacity: 1; }
   61% { opacity: var(--bu-scan-dip, 0); } 62.5% { opacity: 1; }
@@ -2011,14 +2011,15 @@ body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .po
   70% { opacity: var(--bu-scan-dip, 0); } 71.5% { opacity: 1; }
   73%, 100% { opacity: 1; }
 }
-body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-view) { position: relative; }
-body.bu-anim.bu-scan-anim :is(.markdown-source-view.mod-cm6, .markdown-reading-view)::after {
+body.bu-anim.bu-scan-anim .workspace-leaf-content[data-type="markdown"] .view-content { position: relative; }
+body.bu-anim.bu-scan-anim .workspace-leaf-content[data-type="markdown"] .view-content::after {
   content: "";
   position: absolute;
-  left: 0; right: 0; top: -3px;
+  left: 0; right: 0; top: -2%;
   height: 1px;
   z-index: 6;
   pointer-events: none;
+  will-change: top, opacity;
   background: rgba(255, 255, 255, var(--bu-scan-bright, 0.2));
   box-shadow: 0 0 6px 1px rgba(255, 255, 255, calc(var(--bu-scan-bright, 0.2) * 0.4));
   animation: bu-scanline-roll calc(var(--bu-anim-speed, 600) * 36ms) linear infinite,
@@ -2151,8 +2152,8 @@ body:is(.bu-mode-low, .bu-mode-medium) *::before,
 body:is(.bu-mode-low, .bu-mode-medium) *::after,
 body:is(.bu-mode-low, .bu-mode-medium)::before,
 body:is(.bu-mode-low, .bu-mode-medium)::after { animation: none !important; transition: none !important; }
-body:is(.bu-mode-low, .bu-mode-medium) :is(.cm-editor, .markdown-source-view.mod-cm6, .markdown-reading-view)::before,
-body:is(.bu-mode-low, .bu-mode-medium) :is(.cm-editor, .markdown-source-view.mod-cm6, .markdown-reading-view)::after { display: none !important; }
+body:is(.bu-mode-low, .bu-mode-medium) :is(.cm-editor, .markdown-source-view.mod-cm6, .markdown-reading-view, .view-content)::before,
+body:is(.bu-mode-low, .bu-mode-medium) :is(.cm-editor, .markdown-source-view.mod-cm6, .markdown-reading-view, .view-content)::after { display: none !important; }
 body:is(.bu-mode-low, .bu-mode-medium) :is(.cm-line, .markdown-rendered p, .markdown-rendered li, .markdown-rendered pre code) { text-shadow: none !important; }
 body.bu-mode-low::before,
 body.bu-mode-low::after { display: none !important; }
