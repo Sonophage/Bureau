@@ -2155,6 +2155,45 @@ body.bu-anim.bu-flicker .markdown-source-view.mod-cm6 .cm-editor,
 body.bu-anim.bu-flicker .markdown-reading-view {
   animation: bu-flicker 4.2s linear infinite;
 }
+
+/* boot scan-sweep — one bright line wipes down once at launch */
+@keyframes bu-boot-sweep {
+  0%   { transform: translateY(-12vh); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(112vh); opacity: 0; }
+}
+body.bu-anim.bu-boot-scan .workspace::before {
+  content: "";
+  position: fixed;
+  left: 0; right: 0; top: 0;
+  height: 3px;
+  z-index: 99999;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--bu-accent) 85%, white);
+  box-shadow: 0 0 16px 3px color-mix(in srgb, var(--bu-accent) 55%, transparent);
+  animation: bu-boot-sweep calc(var(--bu-anim-speed, 600) * 1.8ms) var(--bu-anim-ease) both;
+}
+/* channel-change crossfade — new content fades in on note switch (reading mode) */
+@keyframes bu-crossfade { from { opacity: 0; } to { opacity: 1; } }
+body.bu-anim.bu-crossfade .markdown-reading-view .markdown-preview-sizer {
+  animation: bu-crossfade calc(var(--bu-anim-speed, 600) * 1ms) var(--bu-anim-ease);
+}
+/* loading throbber — CRT accent ring (best-effort across spinner classes) */
+@keyframes bu-throb { 0% { transform: rotate(0); opacity: 0.5; } 50% { opacity: 1; } 100% { transform: rotate(360deg); opacity: 0.5; } }
+body.bu-anim.bu-throbber :is(.spinner, .loading-spinner) {
+  border-color: color-mix(in srgb, var(--bu-accent) 28%, transparent) !important;
+  border-top-color: var(--bu-accent) !important;
+  animation: bu-throb calc(var(--bu-anim-speed, 600) * 1.4ms) linear infinite !important;
+}
+/* eased checkbox tick — accent ring flash + scale-in (no bounce) */
+@keyframes bu-check-pop {
+  0%   { transform: scale(0.55); opacity: 0.4; box-shadow: 0 0 0 6px color-mix(in srgb, var(--bu-accent) 40%, transparent); }
+  100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 transparent; }
+}
+body.bu-anim.bu-check-anim input[type="checkbox"]:checked {
+  animation: bu-check-pop calc(var(--bu-anim-speed, 600) * 0.6ms) var(--bu-anim-ease);
+}
 /* kill switch — disable on mobile when chosen */
 body.is-mobile.bu-anim-mobile-off * { transition: none !important; animation: none !important; }
 
@@ -2473,6 +2512,22 @@ settings:
     title: CRT flicker (subtle)
     type: class-toggle
     default: false
+  - id: bu-boot-scan
+    title: Boot scan-sweep (at launch)
+    type: class-toggle
+    default: true
+  - id: bu-crossfade
+    title: Channel-change crossfade (note switch)
+    type: class-toggle
+    default: true
+  - id: bu-throbber
+    title: CRT loading throbber
+    type: class-toggle
+    default: true
+  - id: bu-check-anim
+    title: Eased checkbox tick
+    type: class-toggle
+    default: true
   - id: bu-anim-mobile-off
     title: MOBILE — disable animations
     type: class-toggle
