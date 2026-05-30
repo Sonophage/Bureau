@@ -116,7 +116,9 @@
   --bu-card-gap:    calc(var(--bu-card-gap-n, 12) * 1px);
   --bu-card-radius: calc(var(--bu-card-radius-n, 12) * 1px);
   --bu-card-shadow: 0.55;
-  --bu-anim-ease: cubic-bezier(0.22, 1, 0.36, 1);   /* elegant ease-out, no overshoot */
+  --bu-anim-ease: cubic-bezier(0.16, 1, 0.3, 1);    /* easeOutExpo — fast start, smooth settle, no bounce */
+  --bu-t-fast: calc(var(--bu-anim-speed, 600) * 0.3ms);  /* responsive hover/state */
+  --bu-t-slow: calc(var(--bu-anim-speed, 600) * 1ms);    /* entrances */
   --bu-line: #564c3e;
   --graph-line: color-mix(in srgb, var(--bu-accent) 38%, transparent);    /* accent graph links */
   --list-marker-color: var(--bu-accent);                                  /* accent bullets / list markers */
@@ -2052,28 +2054,46 @@ body.bu-hide-prompt-instructions .prompt-instructions { display: none !important
   from { opacity: 0; transform: scale(0.985); }
   to   { opacity: 1; transform: scale(1); }
 }
-/* smooth state transitions (colour/opacity only — no movement) */
+@keyframes bu-appstart {           /* whole-app CRT warm-up at launch */
+  0%   { opacity: 0; transform: scaleY(0.97); filter: brightness(1.8) blur(1px); }
+  45%  { opacity: 1; filter: brightness(1.22) blur(0); }
+  100% { transform: scaleY(1); filter: brightness(1); }
+}
+/* responsive eased state transitions (~0.3x the slider) */
 body.bu-anim :is(.workspace-tab-header, .clickable-icon, button, .nav-file-title,
   .nav-folder-title, .tree-item-self, a.internal-link, a.external-link, .nn-navitem,
-  .nn-file, .suggestion-item, .status-bar-item, .checkbox-container, .menu-item) {
+  .nn-file, .suggestion-item, .status-bar-item, .checkbox-container, .menu-item, .view-action) {
   transition:
-    background-color calc(var(--bu-anim-speed, 220) * 1ms) var(--bu-anim-ease),
-    color            calc(var(--bu-anim-speed, 220) * 1ms) var(--bu-anim-ease),
-    border-color     calc(var(--bu-anim-speed, 220) * 1ms) var(--bu-anim-ease),
-    opacity          calc(var(--bu-anim-speed, 220) * 1ms) var(--bu-anim-ease),
-    box-shadow       calc(var(--bu-anim-speed, 220) * 1ms) var(--bu-anim-ease);
+    background-color var(--bu-t-fast) var(--bu-anim-ease),
+    color            var(--bu-t-fast) var(--bu-anim-ease),
+    border-color     var(--bu-t-fast) var(--bu-anim-ease),
+    opacity          var(--bu-t-fast) var(--bu-anim-ease),
+    transform        var(--bu-t-fast) var(--bu-anim-ease),
+    box-shadow       var(--bu-t-fast) var(--bu-anim-ease);
 }
-/* CRT power-on when a view mounts */
+/* micro-hovers — subtle, eased (no bounce) */
+body.bu-anim .mod-root .workspace-tab-header:not(.is-active):hover { transform: translateY(-1px); }
+body.bu-anim :is(.nav-file-title, .nav-folder-title, .tree-item-self.is-clickable, .nn-navitem, .nn-file):hover { transform: translateX(2px); }
+body.bu-anim .clickable-icon:hover { transform: scale(1.1); }
+/* CRT power-on when a view mounts (open note / pane) */
 body.bu-anim.bu-poweron :is(.markdown-reading-view, .markdown-source-view.mod-cm6) {
-  animation: bu-poweron calc(var(--bu-anim-speed, 220) * 1.6ms) var(--bu-anim-ease);
+  animation: bu-poweron var(--bu-t-slow) var(--bu-anim-ease);
+}
+/* whole-app CRT turn-on at launch */
+body.bu-anim.bu-poweron .workspace {
+  animation: bu-appstart calc(var(--bu-anim-speed, 600) * 1.3ms) var(--bu-anim-ease);
+}
+/* new tab / empty state fades in */
+body.bu-anim.bu-poweron .empty-state {
+  animation: bu-fade-scale var(--bu-t-slow) var(--bu-anim-ease);
 }
 /* ease the phosphor glow on the active line */
 body.bu-anim.bu-glow-ease .cm-line {
-  transition: text-shadow calc(var(--bu-anim-speed, 220) * 1ms) var(--bu-anim-ease);
+  transition: text-shadow var(--bu-t-slow) var(--bu-anim-ease);
 }
 /* fade + slight scale-in on menus / modals / palette */
 body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .popover.hover-popover) {
-  animation: bu-fade-scale calc(var(--bu-anim-speed, 220) * 1ms) var(--bu-anim-ease);
+  animation: bu-fade-scale var(--bu-t-slow) var(--bu-anim-ease);
 }
 /* kill switch — disable on mobile when chosen */
 body.is-mobile.bu-anim-mobile-off * { transition: none !important; animation: none !important; }
@@ -2351,11 +2371,12 @@ settings:
     default: true
   - id: bu-anim-speed
     title: Animation speed (ms)
+    description: Entrance speed. Hover/state transitions run at ~0.3× this for responsiveness.
     type: variable-number-slider
-    default: 220
-    min: 80
-    max: 600
-    step: 10
+    default: 600
+    min: 400
+    max: 1000
+    step: 20
   - id: bu-poweron
     title: CRT power-on (on note/pane open)
     type: class-toggle
