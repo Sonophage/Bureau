@@ -106,6 +106,15 @@ The tube. Optional, and quietly the whole point.
 ### Cards & layout
 - **Cards layout** — every pane floats as a bordered card on a dark desk. Paper on concrete.
 - **Card gap / rounding / shadow darkness** — how far apart, how soft the corners, how deep the shadow they cast.
+- **Reading line width / line height / paragraph spacing** — the density dials.
+
+### Floating & glass
+Optional soft looks layered over the brutalist base — all off by default, so the standard theme is untouched.
+- **Heavier card float** — a deeper shadow + more space, so panes lift higher off the desk.
+- **Frosted glass panes** — translucent, blurred editor and sidebar panes; the stage (or your wallpaper) shows through.
+- **Pill chrome** — round the breadcrumbs, window buttons, and tabs into floating pills.
+- **Editor-only cards (flush sidebars)** — only the editor floats as a card; the sidebars sit flush.
+- **Custom background image** (+ URL + dim) — a wallpaper behind the workspace, visible through the frosted glass. Paste the URL as `url('…')`; the dim keeps text legible.
 
 ### Tabs
 - **Tab shape** — *Folder* (connected, like a real file drawer) or *Pill* (fully rounded, for people who've made peace with it).
@@ -147,6 +156,7 @@ Bureau picked these pockets, gratefully:
 - **[Elysian](https://github.com/matothetomato/elysian)** — styling it taught me by example.
 - **[Minimalist Paradise](https://github.com/bellebasso/Minimalists-Paradise)** — same debt, different teacher.
 - **[Limelight](https://github.com/smikula/obsidian-limelight)** (smikula) — the spotlight-the-active-pane idea, rebuilt here in pure CSS.
+- **[Ultra-Lobster](https://github.com/7368697661/Ultra-Lobster)** (7368697661) — the floating-card glass UI: frosted panes, a custom wallpaper behind them, and pill chrome.
 
 Fonts, loaded via Google Fonts with system fallbacks when the wire goes dead:
 **Urbanist** (the labels, the stamps) and **Courier Prime** (the body, the

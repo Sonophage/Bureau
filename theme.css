@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@500;600;700;900&display=swap');
 
-/* Bureau — noir Obsidian theme, dark + daylight ("Disco Elysium meets Control" + CRT) · v2.2.0
+/* Bureau — noir Obsidian theme, dark + daylight ("Disco Elysium meets Control" + CRT) · v2.3.0
    Sonophage · github.com/Sonophage/Bureau
    Retheme from the .theme-dark token block; Style Settings config in the @settings block at the foot. */
 
@@ -1419,10 +1419,10 @@ body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item { margin-left:
 .mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-title,
 .mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-icon,
 .mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-close-button {
-  color: var(--bu-accent);
+  color: var(--bu-text);
 }
 .mod-root .workspace-tab-header:not(.is-active):hover .workspace-tab-header-inner-title {
-  color: var(--bu-accent-hi);
+  color: var(--bu-text-hi);
 }
 .mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-title,
 .mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
@@ -1462,6 +1462,7 @@ body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item { margin-left:
   position: relative;
   z-index: 4;
   margin-bottom: -2px;
+  padding-top: 24px;   /* headroom so the taller active tab + hover growth never clip */
 }
 
 .workspace-tab-header-container-inner { padding: 8px 0 0 0; }
@@ -1553,6 +1554,87 @@ body.bu-cards .workspace-split.mod-root .workspace-leaf-content[data-type="markd
   z-index: 5;
 }
 
+/* ───────────────────────────  FLOATING & GLASS — opt-in soft looks layered over the brutalist base  ─────────────────────────── */
+
+/* Heavier card float — more space around each card + a deeper, clip-safe shadow,
+   so panes visibly lift off the desk. */
+body.bu-cards.bu-float .workspace-split .workspace-leaf-content {
+  margin: 6px 6px calc(var(--bu-card-gap) + 16px) 6px;
+  box-shadow: 0 22px 44px -20px var(--bu-shadow), 0 8px 16px -10px var(--bu-shadow);
+}
+
+/* Custom background image — sits on the stage behind everything. Visible in the
+   card gaps and through Frosted glass panes (opaque panes cover it otherwise).
+   The .theme-dark/.theme-light prefixes raise specificity above the panel-grain
+   rules so it wins in both modes. The scrim keeps text legible. */
+body.bu-wallpaper.theme-dark .app-container,
+body.bu-wallpaper.theme-light .app-container {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--bu-bg) calc(var(--bu-wallpaper-dim, 30) * 1%), transparent),
+                    color-mix(in srgb, var(--bu-bg) calc(var(--bu-wallpaper-dim, 30) * 1%), transparent)),
+    var(--bu-wallpaper-url, none);
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+/* Frosted glass — the EDITOR floats as a frosted card; the SIDEBARS become flush
+   frosted panels (not cards), matching the floating-card reference. Needs a
+   wallpaper (or the dark stage) behind it to blur — frost over nothing reads as
+   nothing. Inner editor surfaces go transparent so the frost is what shows. */
+body.bu-glass-cards .workspace-split.mod-root .workspace-leaf-content {
+  background-color: color-mix(in srgb, var(--bu-bg) 55%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(1.12);
+  backdrop-filter: blur(20px) saturate(1.12);
+}
+body.bu-glass-cards :is(.mod-left-split, .mod-right-split) .workspace-leaf-content {
+  background-color: color-mix(in srgb, var(--bu-bg) 42%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(1.12);
+  backdrop-filter: blur(20px) saturate(1.12);
+  border: none;
+  box-shadow: none;
+}
+body.bu-glass-cards :is(.view-content, .markdown-source-view, .markdown-source-view.mod-cm6,
+  .cm-editor, .markdown-source-view.mod-cm6 .cm-scroller,
+  .markdown-reading-view, .markdown-preview-view) {
+  background-color: transparent;
+}
+body.bu-glass-cards .workspace-split.mod-root .workspace-leaf-content[data-type="markdown"]::after { display: none; }
+
+/* Pill chrome — round the breadcrumbs + window buttons into floating pills. */
+body.bu-pill-chrome .view-header-title-container {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  background-color: var(--bu-surface);
+  border-radius: 999px;
+  padding: 2px 14px;
+  box-shadow: 0 2px 10px -4px var(--bu-shadow);
+}
+body.bu-pill-chrome .titlebar-button-container {
+  background-color: var(--bu-surface);
+  border-radius: 999px;
+  padding: 2px 6px;
+  box-shadow: 0 2px 10px -4px var(--bu-shadow);
+}
+/* Float the tabs too — outer shadow + a little gap so they detach from the bar. */
+body.bu-pill-chrome .mod-root .workspace-tab-header {
+  margin: 0 3px;
+  box-shadow: 0 3px 12px -5px var(--bu-shadow);
+}
+
+/* Editor-only cards — strip all card chrome from the sidebars (flush, plain) so
+   only the editor floats as a card (the Ultra-Lobster layout). */
+body.bu-editor-only-cards :is(.mod-left-split, .mod-right-split) .workspace-leaf-content {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  overflow: visible;
+}
+
 .workspace-tab-header::before,
 .workspace-tab-header::after { display: none; }
 .workspace-tab-header {
@@ -1565,21 +1647,14 @@ body.bu-cards .workspace-split.mod-root .workspace-leaf-content[data-type="markd
 }
 
 .mod-root .workspace-tab-header:not(.is-active) {
-  background-color: color-mix(in srgb, var(--bu-label-bg) 62%, var(--bu-brass) 38%);
-  border: 2px solid color-mix(in srgb, var(--bu-label-bg), #000 26%);
+  background-color: var(--bu-label-fg);   /* near-black in dark, paper-white in light */
+  border: 2px solid transparent;
   border-bottom: none;
 }
 .mod-root .workspace-tab-header.is-active {
   background-color: var(--bu-accent);
   border: 2px solid var(--bu-accent);
   border-bottom: none;
-}
-
-/* Daylight inactive tab: --bu-label-bg is the dark stamp in light, so the dark-mode manila
-   formula came out muddy brown. Build the manila from light paper + brass instead. */
-body.theme-light .mod-root .workspace-tab-header:not(.is-active) {
-  background-color: color-mix(in srgb, var(--bu-raised) 66%, var(--bu-brass) 34%);
-  border-color: color-mix(in srgb, var(--bu-brass) 50%, var(--bu-border));
 }
 
 body.bu-tabs-pill .workspace-tab-header {
@@ -2239,8 +2314,28 @@ body.bu-anim :is(.workspace-tab-header, .clickable-icon, button, .nav-file-title
     box-shadow       var(--bu-t-fast) var(--bu-anim-ease);
 }
 
-body.bu-anim .mod-root .workspace-tab-header:not(.is-active):hover { transform: translateY(-1px); }
-body.bu-anim :is(.nav-file-title, .nav-folder-title, .tree-item-self.is-clickable, .nn-navitem, .nn-file):hover { transform: translateX(2px); }
+/* Rolodex tabs — active & hovered tabs grow bigger than the rest (anchored to the
+   bar so they rise into the headroom above); resting tabs keep their size. */
+.mod-root .workspace-tab-header { transform-origin: center bottom; position: relative; }
+body.bu-anim .mod-root .workspace-tab-header:hover { transform: scale(1.07); z-index: 6; }
+/* Active tab rests 5px taller than the rest (grows upward into the headroom). */
+body.bu-anim .mod-root .workspace-tab-header.is-active {
+  margin-top: -5px;
+  padding-top: 5px;
+  z-index: 5;
+}
+body.bu-anim .mod-root .workspace-tab-header.is-active:hover { transform: scale(1.04); }
+/* Rolodex file list (incl. Notebook Navigator) — hovered rows grow; the selected
+   row grows bigger still and casts a shadow (kept after hover so it stays big). */
+:is(.nn-navitem, .nn-file, .nav-file-title, .nav-folder-title, .tree-item-self) { transform-origin: left center; }
+body.bu-anim :is(.nav-file-title, .nav-folder-title, .tree-item-self.is-clickable, .nn-navitem, .nn-file):hover { transform: scale(1.05); position: relative; z-index: 3; }
+body.bu-anim :is(.nn-navitem, .nn-file).nn-selected,
+body.bu-anim .tree-item-self.is-active {
+  transform: scale(1.08);
+  position: relative;
+  z-index: 4;
+  filter: drop-shadow(0 4px 8px var(--bu-shadow));
+}
 body.bu-anim .clickable-icon:hover { transform: scale(1.1); }
 
 body.bu-anim.bu-poweron :is(.markdown-source-view.mod-cm6, .markdown-preview-view) {
@@ -2667,6 +2762,52 @@ settings:
     default: 16
     min: 0
     max: 36
+    step: 1
+
+  - id: bu-float-heading
+    title: Floating & glass
+    description: Optional soft/floating looks layered over the brutalist base. All off by default — the standard theme is untouched.
+    type: heading
+    level: 2
+    collapsed: true
+  - id: bu-float
+    title: Heavier card float
+    description: Deeper, larger drop shadow so panes float higher off the desk (needs Cards layout on).
+    type: class-toggle
+    default: false
+  - id: bu-glass-cards
+    title: Frosted glass panes
+    description: Translucent, blurred editor and sidebar panes — the stage or your wallpaper shows through. Best paired with a custom background.
+    type: class-toggle
+    default: false
+  - id: bu-pill-chrome
+    title: Pill chrome
+    description: Round the breadcrumbs and window buttons into floating pills (Bureau already pills the tabs).
+    type: class-toggle
+    default: false
+  - id: bu-editor-only-cards
+    title: Editor-only cards (flush sidebars)
+    description: Only the editor floats as a card — strip the card border, rounding and shadow from the sidebars so they sit flush.
+    type: class-toggle
+    default: false
+  - id: bu-wallpaper
+    title: Custom background image
+    description: Show a wallpaper behind the workspace, best with Frosted glass. Paste the image URL into the field below.
+    type: class-toggle
+    default: false
+  - id: bu-wallpaper-url
+    title: Background image URL
+    description: The image, wrapped in url(...) — for example url('https://example.com/bg.jpg').
+    type: variable-text
+    default: none
+    quotes: false
+  - id: bu-wallpaper-dim
+    title: Background dim
+    description: Scrim over the wallpaper for legibility (higher = darker/more paper, lower = more image).
+    type: variable-number-slider
+    default: 30
+    min: 0
+    max: 92
     step: 1
 
   - id: bu-tabs-heading
