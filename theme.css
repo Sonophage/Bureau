@@ -7,6 +7,7 @@
 /* The third selector below powers "Paper editor" mode: re-declaring the whole token block on the
    editor pane makes its descendants recompute against the editor's own --bu-* (paper, set by the
    .theme-light selector addition further down) while body stays .theme-dark — so chrome stays dark. */
+/* ───────────────────────────  TOKENS & PALETTE — base --bu-* colours (dark + light) + Obsidian core var map  ─────────────────────────── */
 .theme-dark,
 .theme-light,
 body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-content,
@@ -181,6 +182,7 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
   --scrollable-background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='1400' viewBox='0 0 900 1400'%3E%3Cline x1='26' y1='100' x2='26' y2='140' stroke='%23000000' stroke-width='3' opacity='0.5'/%3E%3Ctext x='26' y='250' transform='rotate(-90 26 250)' text-anchor='middle' fill='%23000000' opacity='0.5' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EBUREAU%3C/text%3E%3Cline x1='26' y1='570' x2='26' y2='610' stroke='%23000000' stroke-width='3' opacity='0.8'/%3E%3Cg transform='rotate(-90 26 720)'%3E%3Crect x='-41' y='705' width='100' height='22' rx='2' fill='%23000000'/%3E%3Ctext x='9' y='720' text-anchor='middle' textLength='84' lengthAdjust='spacingAndGlyphs' fill='%23efe9db' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EOBSIDIAN%3C/text%3E%3Ctext x='71' y='720' text-anchor='start' textLength='22' lengthAdjust='spacingAndGlyphs' fill='%23000000' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EMD%3C/text%3E%3C/g%3E%3Cline x1='26' y1='1030' x2='26' y2='1070' stroke='%23000000' stroke-width='3' opacity='0.5'/%3E%3Ctext x='26' y='1180' transform='rotate(-90 26 1180)' text-anchor='middle' fill='%23000000' opacity='0.5' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EDOSSIER%3C/text%3E%3Cline x1='884' y1='0' x2='884' y2='1400' stroke='%23000000' stroke-width='2.5' opacity='0.22'/%3E%3Cline x1='854' y1='30' x2='884' y2='30' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='56' x2='884' y2='56' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='82' x2='884' y2='82' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='108' x2='884' y2='108' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='134' x2='884' y2='134' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='160' x2='884' y2='160' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='186' x2='884' y2='186' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='212' x2='884' y2='212' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='238' x2='884' y2='238' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='264' x2='884' y2='264' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='290' x2='884' y2='290' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='316' x2='884' y2='316' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='342' x2='884' y2='342' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='368' x2='884' y2='368' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='394' x2='884' y2='394' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='420' x2='884' y2='420' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='446' x2='884' y2='446' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='472' x2='884' y2='472' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='498' x2='884' y2='498' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='524' x2='884' y2='524' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='550' x2='884' y2='550' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='576' x2='884' y2='576' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='602' x2='884' y2='602' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='628' x2='884' y2='628' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='654' x2='884' y2='654' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='680' x2='884' y2='680' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='706' x2='884' y2='706' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='732' x2='884' y2='732' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='758' x2='884' y2='758' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='784' x2='884' y2='784' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='810' x2='884' y2='810' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='836' x2='884' y2='836' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='862' x2='884' y2='862' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='888' x2='884' y2='888' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='914' x2='884' y2='914' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='940' x2='884' y2='940' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='966' x2='884' y2='966' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='992' x2='884' y2='992' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1018' x2='884' y2='1018' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1044' x2='884' y2='1044' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1070' x2='884' y2='1070' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1096' x2='884' y2='1096' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1122' x2='884' y2='1122' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1148' x2='884' y2='1148' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1174' x2='884' y2='1174' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1200' x2='884' y2='1200' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1226' x2='884' y2='1226' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1252' x2='884' y2='1252' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1278' x2='884' y2='1278' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1304' x2='884' y2='1304' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1330' x2='884' y2='1330' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1356' x2='884' y2='1356' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1382' x2='884' y2='1382' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3C/svg%3E");
 }
 
+/* ───────────────────────────  TYPOGRAPHY — inline-title, heading chips, bold / italic emphasis  ─────────────────────────── */
 .inline-title {
   display: inline-block;
   width: fit-content;
@@ -297,6 +299,7 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
   background-color: transparent;
 }
 
+/* ───────────────────────────  LINKS & INLINE — redaction chips, external www tag, strikethrough  ─────────────────────────── */
 .markdown-rendered a.internal-link,
 .markdown-rendered a.external-link,
 .cm-s-obsidian .cm-hmd-internal-link,
@@ -423,6 +426,7 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
   box-shadow: none;
 }
 
+/* ───────────────────────────  CODE — fenced blocks, language chips, inline code  ─────────────────────────── */
 .markdown-rendered pre {
   position: relative;
   background-color: var(--bu-code-bg);
@@ -575,6 +579,7 @@ body::before {
   opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+/* ───────────────────────────  EDITOR, ATMOSPHERE & CONTENT — stage, grain, glow, callouts, metadata, tables  ─────────────────────────── */
 .app-container {
   background-color: var(--bu-bg-alt);
   background-image:
@@ -813,6 +818,7 @@ body::before { opacity: var(--bu-grain-opacity, 0.05); }
 
 /* Bases — native database views, dressed as a case-file dossier. Scoped to
    .bases-* so regular markdown tables (above) are untouched. */
+/* ───────────────────────────  PLUGINS — Bases (database views), Notebook Navigator  ─────────────────────────── */
 .bases-view {
   font-family: var(--bu-font-body);
   --bases-row-even: color-mix(in srgb, var(--bu-accent) 8%, transparent);
@@ -1397,6 +1403,7 @@ body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item { margin-left:
   background-color: transparent;
 }
 
+/* ───────────────────────────  CHROME — tabs, ribbon, sidebars, status bar, prompt, modals, tooltips  ─────────────────────────── */
 .workspace-tab-header-container {
   background-color: transparent;
   border-bottom: none;
@@ -1961,6 +1968,7 @@ body.is-fullscreen.bu-fullscreen-crt .workspace-split.mod-right-split:hover {
   --background-modifier-border: color-mix(in srgb, var(--highlight) 60%, transparent);
   --background-modifier-hover: color-mix(in srgb, var(--highlight) 60%, transparent);
 }
+/* ───────────────────────────  DAILY NOTES — one accent per weekday (text + bg derived)  ─────────────────────────── */
 .sunday,.Sunday       { --primary: var(--bu-sun-pri, #9e6b86); }
 .monday,.Monday       { --primary: var(--bu-mon-pri, #5b7a9e); }
 .tuesday,.Tuesday     { --primary: var(--bu-tue-pri, #5e8d86); }
@@ -2203,6 +2211,7 @@ body.bu-hide-folder-arrow .nav-folder-title .tree-item-icon.collapse-icon { disp
 body.bu-hide-prompt-instructions .prompt-instructions { display: none; }
 
 /* ANIMATION SUITE — keyframes + bu-anim effects · then EFFECTS-MODE / MOBILE / @settings ═══════ */
+/* ───────────────────────────  ANIMATION & CRT-FX — keyframes, effects, focus line, mode/mobile overrides  ─────────────────────────── */
 @keyframes bu-poweron {
   0%   { opacity: 0; transform: scaleY(0.99); filter: brightness(0.18); }
   55%  { opacity: 1; filter: brightness(1.14); }
