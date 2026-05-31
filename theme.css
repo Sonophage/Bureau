@@ -7,6 +7,7 @@
 /* The third selector below powers "Paper editor" mode: re-declaring the whole token block on the
    editor pane makes its descendants recompute against the editor's own --bu-* (paper, set by the
    .theme-light selector addition further down) while body stays .theme-dark — so chrome stays dark. */
+/* ───────────────────────────  TOKENS & PALETTE — base --bu-* colours (dark + light) + Obsidian core var map  ─────────────────────────── */
 .theme-dark,
 .theme-light,
 body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-content,
@@ -151,8 +152,8 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
   --bu-border-hi: #b3a787;
   --bu-text: #1e1a14;        /* typewriter ink */
   --bu-text-hi: #0d0a06;     /* darkest ink — headings/bold */
-  --bu-muted: #6f6655;
-  --bu-faint: #9b9079;
+  --bu-muted: #5c5444;       /* darkened to clear WCAG AA (4.5:1) on paper */
+  --bu-faint: #8a8069;
   --bu-brass: #8a6a24;       /* darker brass reads on paper */
   --bu-teal: #2f6058;
   --bu-label-bg: #1c1813;    /* INVERTED: dark stamp on paper */
@@ -181,6 +182,7 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
   --scrollable-background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='1400' viewBox='0 0 900 1400'%3E%3Cline x1='26' y1='100' x2='26' y2='140' stroke='%23000000' stroke-width='3' opacity='0.5'/%3E%3Ctext x='26' y='250' transform='rotate(-90 26 250)' text-anchor='middle' fill='%23000000' opacity='0.5' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EBUREAU%3C/text%3E%3Cline x1='26' y1='570' x2='26' y2='610' stroke='%23000000' stroke-width='3' opacity='0.8'/%3E%3Cg transform='rotate(-90 26 720)'%3E%3Crect x='-41' y='705' width='100' height='22' rx='2' fill='%23000000'/%3E%3Ctext x='9' y='720' text-anchor='middle' textLength='84' lengthAdjust='spacingAndGlyphs' fill='%23efe9db' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EOBSIDIAN%3C/text%3E%3Ctext x='71' y='720' text-anchor='start' textLength='22' lengthAdjust='spacingAndGlyphs' fill='%23000000' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EMD%3C/text%3E%3C/g%3E%3Cline x1='26' y1='1030' x2='26' y2='1070' stroke='%23000000' stroke-width='3' opacity='0.5'/%3E%3Ctext x='26' y='1180' transform='rotate(-90 26 1180)' text-anchor='middle' fill='%23000000' opacity='0.5' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EDOSSIER%3C/text%3E%3Cline x1='884' y1='0' x2='884' y2='1400' stroke='%23000000' stroke-width='2.5' opacity='0.22'/%3E%3Cline x1='854' y1='30' x2='884' y2='30' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='56' x2='884' y2='56' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='82' x2='884' y2='82' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='108' x2='884' y2='108' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='134' x2='884' y2='134' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='160' x2='884' y2='160' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='186' x2='884' y2='186' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='212' x2='884' y2='212' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='238' x2='884' y2='238' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='264' x2='884' y2='264' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='290' x2='884' y2='290' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='316' x2='884' y2='316' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='342' x2='884' y2='342' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='368' x2='884' y2='368' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='394' x2='884' y2='394' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='420' x2='884' y2='420' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='446' x2='884' y2='446' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='472' x2='884' y2='472' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='498' x2='884' y2='498' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='524' x2='884' y2='524' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='550' x2='884' y2='550' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='576' x2='884' y2='576' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='602' x2='884' y2='602' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='628' x2='884' y2='628' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='654' x2='884' y2='654' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='680' x2='884' y2='680' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='706' x2='884' y2='706' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='732' x2='884' y2='732' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='758' x2='884' y2='758' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='784' x2='884' y2='784' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='810' x2='884' y2='810' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='836' x2='884' y2='836' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='862' x2='884' y2='862' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='888' x2='884' y2='888' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='914' x2='884' y2='914' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='940' x2='884' y2='940' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='966' x2='884' y2='966' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='992' x2='884' y2='992' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1018' x2='884' y2='1018' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1044' x2='884' y2='1044' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1070' x2='884' y2='1070' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1096' x2='884' y2='1096' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1122' x2='884' y2='1122' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1148' x2='884' y2='1148' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1174' x2='884' y2='1174' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1200' x2='884' y2='1200' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1226' x2='884' y2='1226' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1252' x2='884' y2='1252' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1278' x2='884' y2='1278' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1304' x2='884' y2='1304' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1330' x2='884' y2='1330' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1356' x2='884' y2='1356' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1382' x2='884' y2='1382' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3C/svg%3E");
 }
 
+/* ───────────────────────────  TYPOGRAPHY — inline-title, heading chips, bold / italic emphasis  ─────────────────────────── */
 .inline-title {
   display: inline-block;
   width: fit-content;
@@ -297,6 +299,7 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
   background-color: transparent;
 }
 
+/* ───────────────────────────  LINKS & INLINE — redaction chips, external www tag, strikethrough  ─────────────────────────── */
 .markdown-rendered a.internal-link,
 .markdown-rendered a.external-link,
 .cm-s-obsidian .cm-hmd-internal-link,
@@ -423,6 +426,7 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
   box-shadow: none;
 }
 
+/* ───────────────────────────  CODE — fenced blocks, language chips, inline code  ─────────────────────────── */
 .markdown-rendered pre {
   position: relative;
   background-color: var(--bu-code-bg);
@@ -575,6 +579,7 @@ body::before {
   opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+/* ───────────────────────────  EDITOR, ATMOSPHERE & CONTENT — stage, grain, glow, callouts, metadata, tables  ─────────────────────────── */
 .app-container {
   background-color: var(--bu-bg-alt);
   background-image:
@@ -813,6 +818,7 @@ body::before { opacity: var(--bu-grain-opacity, 0.05); }
 
 /* Bases — native database views, dressed as a case-file dossier. Scoped to
    .bases-* so regular markdown tables (above) are untouched. */
+/* ───────────────────────────  PLUGINS — Bases (database views), Notebook Navigator  ─────────────────────────── */
 .bases-view {
   font-family: var(--bu-font-body);
   --bases-row-even: color-mix(in srgb, var(--bu-accent) 8%, transparent);
@@ -1397,6 +1403,7 @@ body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item { margin-left:
   background-color: transparent;
 }
 
+/* ───────────────────────────  CHROME — tabs, ribbon, sidebars, status bar, prompt, modals, tooltips  ─────────────────────────── */
 .workspace-tab-header-container {
   background-color: transparent;
   border-bottom: none;
@@ -1961,13 +1968,19 @@ body.is-fullscreen.bu-fullscreen-crt .workspace-split.mod-right-split:hover {
   --background-modifier-border: color-mix(in srgb, var(--highlight) 60%, transparent);
   --background-modifier-hover: color-mix(in srgb, var(--highlight) 60%, transparent);
 }
-.sunday,.Sunday       { --highlight: var(--bu-sun-hl,#c6a3b5); --primary: var(--bu-sun-pri,#9e6b86); --dark: var(--bu-sun-bg,#161114); }
-.monday,.Monday       { --highlight: var(--bu-mon-hl,#a6b6c8); --primary: var(--bu-mon-pri,#5b7a9e); --dark: var(--bu-mon-bg,#0f131a); }
-.tuesday,.Tuesday     { --highlight: var(--bu-tue-hl,#a4c2bc); --primary: var(--bu-tue-pri,#5e8d86); --dark: var(--bu-tue-bg,#0e1413); }
-.wednesday,.Wednesday { --highlight: var(--bu-wed-hl,#b6a9c9); --primary: var(--bu-wed-pri,#836fa0); --dark: var(--bu-wed-bg,#131019); }
-.thursday,.Thursday   { --highlight: var(--bu-thu-hl,#b2b8c4); --primary: var(--bu-thu-pri,#7c8597); --dark: var(--bu-thu-bg,#101216); }
-.friday,.Friday       { --highlight: var(--bu-fri-hl,#9ec8c8); --primary: var(--bu-fri-pri,#4f9a9a); --dark: var(--bu-fri-bg,#0c1515); }
-.saturday,.Saturday   { --highlight: var(--bu-sat-hl,#c0a0b6); --primary: var(--bu-sat-pri,#8c5a7e); --dark: var(--bu-sat-bg,#151013); }
+/* ───────────────────────────  DAILY NOTES — one accent per weekday (text + bg derived)  ─────────────────────────── */
+.sunday,.Sunday       { --primary: var(--bu-sun-pri, #9e6b86); }
+.monday,.Monday       { --primary: var(--bu-mon-pri, #5b7a9e); }
+.tuesday,.Tuesday     { --primary: var(--bu-tue-pri, #5e8d86); }
+.wednesday,.Wednesday { --primary: var(--bu-wed-pri, #836fa0); }
+.thursday,.Thursday   { --primary: var(--bu-thu-pri, #7c8597); }
+.friday,.Friday       { --primary: var(--bu-fri-pri, #4f9a9a); }
+.saturday,.Saturday   { --primary: var(--bu-sat-pri, #8c5a7e); }
+:is(.sunday,.monday,.tuesday,.wednesday,.thursday,.friday,.saturday,
+    .Sunday,.Monday,.Tuesday,.Wednesday,.Thursday,.Friday,.Saturday) {
+  --highlight: color-mix(in srgb, var(--primary), var(--bu-text-hi) 38%);
+  --dark: color-mix(in srgb, var(--primary) 12%, var(--bu-bg));
+}
 .daily :is(h1, .HyperMD-header.HyperMD-header-1) { color: var(--primary); text-align: center; font-size: 60px; padding: 0; }
 .daily :is(h2, .HyperMD-header.HyperMD-header-2) { color: var(--highlight); text-align: center; font-size: 30px; font-style: italic; padding: 0; }
 .daily :is(h3, .HyperMD-header.HyperMD-header-3) { color: var(--primary); text-align: center; font-size: 32px; padding-top: 0; }
@@ -2198,6 +2211,7 @@ body.bu-hide-folder-arrow .nav-folder-title .tree-item-icon.collapse-icon { disp
 body.bu-hide-prompt-instructions .prompt-instructions { display: none; }
 
 /* ANIMATION SUITE — keyframes + bu-anim effects · then EFFECTS-MODE / MOBILE / @settings ═══════ */
+/* ───────────────────────────  ANIMATION & CRT-FX — keyframes, effects, focus line, mode/mobile overrides  ─────────────────────────── */
 @keyframes bu-poweron {
   0%   { opacity: 0; transform: scaleY(0.99); filter: brightness(0.18); }
   55%  { opacity: 1; filter: brightness(1.14); }
@@ -2340,24 +2354,6 @@ body.bu-anim.bu-flicker .markdown-reading-view {
   animation: bu-flicker 4.2s linear infinite;
 }
 
-@keyframes bu-boot-sweep {
-  0%   { transform: translateY(-12vh); opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { transform: translateY(112vh); opacity: 0; }
-}
-body.bu-anim.bu-boot-scan .workspace::before {
-  content: "";
-  position: fixed;
-  left: 0; right: 0; top: 0;
-  height: 3px;
-  z-index: 99999;
-  pointer-events: none;
-  background: color-mix(in srgb, var(--bu-accent) 85%, white);
-  box-shadow: 0 0 16px 3px color-mix(in srgb, var(--bu-accent) 55%, transparent);
-  animation: bu-boot-sweep calc(var(--bu-anim-speed, 600) * 1.8ms) var(--bu-anim-ease) both;
-}
-
 @keyframes bu-view-sweep {
   0%   { transform: translateY(-4vh); opacity: 0; }
   10%  { opacity: 1; }
@@ -2377,13 +2373,6 @@ body.bu-anim.bu-crossfade :is(.markdown-source-view.mod-cm6, .markdown-preview-v
   background: color-mix(in srgb, var(--bu-accent) 85%, white);
   box-shadow: 0 0 16px 3px color-mix(in srgb, var(--bu-accent) 55%, transparent);
   animation: bu-view-sweep calc(var(--bu-anim-speed, 600) * 1.4ms) var(--bu-anim-ease) both;
-}
-
-@keyframes bu-throb { 0% { transform: rotate(0); opacity: 0.5; } 50% { opacity: 1; } 100% { transform: rotate(360deg); opacity: 0.5; } }
-body.bu-anim.bu-throbber :is(.spinner, .loading-spinner) {
-  border-color: color-mix(in srgb, var(--bu-accent) 28%, transparent);
-  border-top-color: var(--bu-accent);
-  animation: bu-throb calc(var(--bu-anim-speed, 600) * 1.4ms) linear infinite;
 }
 
 @keyframes bu-check-pop {
@@ -2846,16 +2835,8 @@ settings:
     title: CRT flicker (subtle)
     type: class-toggle
     default: false
-  - id: bu-boot-scan
-    title: Boot scan-sweep (at launch)
-    type: class-toggle
-    default: true
   - id: bu-crossfade
     title: Channel-change crossfade (note switch)
-    type: class-toggle
-    default: true
-  - id: bu-throbber
-    title: CRT loading throbber
     type: class-toggle
     default: true
   - id: bu-check-anim
@@ -2870,170 +2851,51 @@ settings:
 
   - id: bu-daily-note
     title: Daily notes
-    description: Colors for daily notes, keyed to the weekday. Disable the "Daily Note Themes" snippet — Bureau owns this now.
+    description: One accent per weekday — text and background derive from it automatically (works in light and dark). Add the weekday class (e.g. cssclass: monday) to a note. Disable the old "Daily Note Themes" snippet — Bureau owns this now.
     type: heading
     level: 2
     collapsed: true
-  - id: bu-sun-head
-    title: Sunday
-    type: heading
-    level: 3
-    collapsed: true
   - id: bu-sun-pri
-    title: Sunday — accent
+    title: Sunday accent
     type: variable-color
     format: hex
     opacity: false
     default: '#9e6b86'
-  - id: bu-sun-hl
-    title: Sunday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#c6a3b5'
-  - id: bu-sun-bg
-    title: Sunday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#161114'
-  - id: bu-mon-head
-    title: Monday
-    type: heading
-    level: 3
-    collapsed: true
   - id: bu-mon-pri
-    title: Monday — accent
+    title: Monday accent
     type: variable-color
     format: hex
     opacity: false
     default: '#5b7a9e'
-  - id: bu-mon-hl
-    title: Monday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#a6b6c8'
-  - id: bu-mon-bg
-    title: Monday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#0f131a'
-  - id: bu-tue-head
-    title: Tuesday
-    type: heading
-    level: 3
-    collapsed: true
   - id: bu-tue-pri
-    title: Tuesday — accent
+    title: Tuesday accent
     type: variable-color
     format: hex
     opacity: false
     default: '#5e8d86'
-  - id: bu-tue-hl
-    title: Tuesday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#a4c2bc'
-  - id: bu-tue-bg
-    title: Tuesday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#0e1413'
-  - id: bu-wed-head
-    title: Wednesday
-    type: heading
-    level: 3
-    collapsed: true
   - id: bu-wed-pri
-    title: Wednesday — accent
+    title: Wednesday accent
     type: variable-color
     format: hex
     opacity: false
     default: '#836fa0'
-  - id: bu-wed-hl
-    title: Wednesday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#b6a9c9'
-  - id: bu-wed-bg
-    title: Wednesday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#131019'
-  - id: bu-thu-head
-    title: Thursday
-    type: heading
-    level: 3
-    collapsed: true
   - id: bu-thu-pri
-    title: Thursday — accent
+    title: Thursday accent
     type: variable-color
     format: hex
     opacity: false
     default: '#7c8597'
-  - id: bu-thu-hl
-    title: Thursday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#b2b8c4'
-  - id: bu-thu-bg
-    title: Thursday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#101216'
-  - id: bu-fri-head
-    title: Friday
-    type: heading
-    level: 3
-    collapsed: true
   - id: bu-fri-pri
-    title: Friday — accent
+    title: Friday accent
     type: variable-color
     format: hex
     opacity: false
     default: '#4f9a9a'
-  - id: bu-fri-hl
-    title: Friday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#9ec8c8'
-  - id: bu-fri-bg
-    title: Friday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#0c1515'
-  - id: bu-sat-head
-    title: Saturday
-    type: heading
-    level: 3
-    collapsed: true
   - id: bu-sat-pri
-    title: Saturday — accent
+    title: Saturday accent
     type: variable-color
     format: hex
     opacity: false
     default: '#8c5a7e'
-  - id: bu-sat-hl
-    title: Saturday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#c0a0b6'
-  - id: bu-sat-bg
-    title: Saturday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#151013'
 
 */
