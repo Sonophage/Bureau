@@ -151,8 +151,8 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
   --bu-border-hi: #b3a787;
   --bu-text: #1e1a14;        /* typewriter ink */
   --bu-text-hi: #0d0a06;     /* darkest ink — headings/bold */
-  --bu-muted: #6f6655;
-  --bu-faint: #9b9079;
+  --bu-muted: #5c5444;       /* darkened to clear WCAG AA (4.5:1) on paper */
+  --bu-faint: #8a8069;
   --bu-brass: #8a6a24;       /* darker brass reads on paper */
   --bu-teal: #2f6058;
   --bu-label-bg: #1c1813;    /* INVERTED: dark stamp on paper */
