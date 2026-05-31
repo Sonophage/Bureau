@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@500;600;700;900&display=swap');
 
-/* Bureau — noir Obsidian theme, dark + daylight ("Disco Elysium meets Control" + CRT) · v2.1.0
+/* Bureau — noir Obsidian theme, dark + daylight ("Disco Elysium meets Control" + CRT) · v2.2.0
    Sonophage · github.com/Sonophage/Bureau
    Retheme from the .theme-dark token block; Style Settings config in the @settings block at the foot. */
 
@@ -2339,6 +2339,14 @@ body.bu-focus-line .markdown-source-view.mod-cm6 .cm-line.cm-active::before {
   background: var(--bu-accent);
 }
 
+/* limelight — spotlight the active pane; dim every other note/sidebar leaf.
+   Hover a dimmed pane to peek without taking focus. */
+body.bu-limelight .workspace-leaf:not(.mod-active) {
+  opacity: 0.5;
+  transition: opacity var(--bu-t-slow, 500ms) var(--bu-anim-ease);
+}
+body.bu-limelight .workspace-leaf:not(.mod-active):hover { opacity: 1; }
+
 @keyframes bu-flicker {
   0%, 100% { filter: brightness(1); }
   6%  { filter: brightness(0.992); }
@@ -2843,6 +2851,11 @@ settings:
     title: Eased checkbox tick
     type: class-toggle
     default: true
+  - id: bu-limelight
+    title: Limelight (spotlight active pane)
+    description: Dim every pane but the one you're working in — notes and sidebars. Hover a dimmed pane to peek.
+    type: class-toggle
+    default: false
   - id: bu-respect-motion
     title: Respect "reduce motion"
     description: Honor the OS reduced-motion setting — disables animation when the system asks. (Phones/tablets are auto-lightened regardless — heavy effects are dropped on mobile by default.)
@@ -2851,7 +2864,7 @@ settings:
 
   - id: bu-daily-note
     title: Daily notes
-    description: One accent per weekday — text and background derive from it automatically (works in light and dark). Add the weekday class (e.g. cssclass: monday) to a note. Disable the old "Daily Note Themes" snippet — Bureau owns this now.
+    description: One accent per weekday — text and background derive from it automatically (works in light and dark). Add a weekday class (monday, tuesday, …) to a note. Disable the old Daily Note Themes snippet — Bureau owns this now.
     type: heading
     level: 2
     collapsed: true

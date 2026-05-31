@@ -128,6 +128,7 @@ entrances).
 - **Scanning line** — a faint white line drifts slowly down the editor and, every so often, glitches in and out like a connection that isn't seated right. Sliders for **brightness**, **glitch interval**, and **glitch depth** — how visible, how often, how bad.
 - **Breathe the ambient glow**, **ease the phosphor glow**, **fade menus & modals** — the slow involuntary motions of a machine that's idling, not dead.
 - **Terminal block caret**, **hover bloom** (accent glow under the cursor), **active-line scan**, **CRT flicker**, **eased checkbox tick** — the small tics. The wobble in the fan.
+- **Limelight** — spotlight the pane you're in; every other note and sidebar dims until you look at it. Hover a dimmed pane to peek without taking focus.
 - On **mobile**, the theatre dims itself: grain, scanlines, glow, motion, and the heavy shadows drop automatically on phones and tablets — no toggle, no Style Settings required — and tap targets grow. The device that can't afford the show doesn't have to sit through it.
 
 ### Daily notes
@@ -145,6 +146,7 @@ Bureau picked these pockets, gratefully:
 - **[Daily Note Themes](https://github.com/CyanVoxel/Obsidian-Daily-Themes)** (CyanVoxel) — the per-weekday colour-scheme idea, lifted wholesale and grateful for it.
 - **[Elysian](https://github.com/matothetomato/elysian)** — styling it taught me by example.
 - **[Minimalist Paradise](https://github.com/bellebasso/Minimalists-Paradise)** — same debt, different teacher.
+- **[Limelight](https://github.com/smikula/obsidian-limelight)** (smikula) — the spotlight-the-active-pane idea, rebuilt here in pure CSS.
 
 Fonts, loaded via Google Fonts with system fallbacks when the wire goes dead:
 **Urbanist** (the labels, the stamps) and **Courier Prime** (the body, the
