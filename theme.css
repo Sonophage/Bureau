@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@500;600;700;900&display=swap');
 
-/* Bureau — dark Obsidian theme ("Disco Elysium meets Control" + CRT) · v1.59.4
+/* Bureau — dark Obsidian theme ("Disco Elysium meets Control" + CRT) · v1.63.5
    Sonophage · github.com/Sonophage/Bureau
    Retheme from the .theme-dark token block; Style Settings config in the @settings block at the foot. */
 
@@ -101,6 +101,8 @@
   --bu-card-gap:    calc(var(--bu-card-gap-n, 12) * 1px);
   --bu-card-radius: calc(var(--bu-card-radius-n, 12) * 1px);
   --bu-card-shadow: 0.55;
+  --bu-shadow: color-mix(in srgb, #000 calc(var(--bu-shadow-strength, 50) * 1%), transparent);
+  --bu-shadow-soft: color-mix(in srgb, #000 calc(var(--bu-shadow-strength, 50) * 0.66%), transparent);
   --bu-anim-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --bu-t-fast: calc(var(--bu-anim-speed, 600) * 0.3ms);
   --bu-t-slow: calc(var(--bu-anim-speed, 600) * 1ms);
@@ -129,7 +131,7 @@
    literals; every var(--bu-*)-derived token above follows automatically.
    Accent presets, fonts, sizes, card/anim calcs are shared (mode-agnostic). */
 .theme-light {
-  --bu-bg: #efe9db;          /* aged paper */
+  --bu-bg: #e7e0cd;          /* aged paper (a touch deeper than #efe9db) */
   --bu-bg-alt: #e4dcc9;      /* deeper paper — the desk/stage */
   --bu-surface: #e7e0cf;     /* inset paper */
   --bu-raised: #f4efe4;      /* raised paper */
@@ -147,6 +149,8 @@
   --bu-veil: #000000;        /* hover veils darken on light */
   --bu-code-bg: #e6dfce;     /* paper-grey code block */
   --bu-line: #b8ad93;        /* pencil rule */
+  --bu-shadow: color-mix(in srgb, #2e2618 calc(var(--bu-shadow-strength, 50) * 0.4%), transparent);   /* warm; paper takes less */
+  --bu-shadow-soft: color-mix(in srgb, #2e2618 calc(var(--bu-shadow-strength, 50) * 0.24%), transparent);
 
   /* dark-specific core-var literals → light */
   --background-modifier-hover: #e8e1d0;
@@ -158,8 +162,11 @@
   --graph-node-unresolved: #a39a86;
   --graph-text: #423e36;
 
-  /* drop the dark-tuned marginalia ledger in light (revisit with a paper version) */
-  --scrollable-background: none;
+  /* Paper tooth, not soot: dark ink specks at low alpha so the grain reads as
+     desk texture on daylight instead of greying the whole stage. */
+  --bu-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='cp'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.10 0 0 0 0 0.08 0 0 0 0 0.05 0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23cp)'/%3E%3C/svg%3E");
+  /* The dark marginalia ledger is dropped in daylight; the paper tooth carries texture. */
+  --scrollable-background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='1400' viewBox='0 0 900 1400'%3E%3Cline x1='26' y1='100' x2='26' y2='140' stroke='%23000000' stroke-width='3' opacity='0.5'/%3E%3Ctext x='26' y='250' transform='rotate(-90 26 250)' text-anchor='middle' fill='%23000000' opacity='0.5' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EBUREAU%3C/text%3E%3Cline x1='26' y1='570' x2='26' y2='610' stroke='%23000000' stroke-width='3' opacity='0.8'/%3E%3Cg transform='rotate(-90 26 720)'%3E%3Crect x='-41' y='705' width='100' height='22' rx='2' fill='%23000000'/%3E%3Ctext x='9' y='720' text-anchor='middle' textLength='84' lengthAdjust='spacingAndGlyphs' fill='%23efe9db' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EOBSIDIAN%3C/text%3E%3Ctext x='71' y='720' text-anchor='start' textLength='22' lengthAdjust='spacingAndGlyphs' fill='%23000000' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EMD%3C/text%3E%3C/g%3E%3Cline x1='26' y1='1030' x2='26' y2='1070' stroke='%23000000' stroke-width='3' opacity='0.5'/%3E%3Ctext x='26' y='1180' transform='rotate(-90 26 1180)' text-anchor='middle' fill='%23000000' opacity='0.5' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EDOSSIER%3C/text%3E%3Cline x1='884' y1='0' x2='884' y2='1400' stroke='%23000000' stroke-width='2.5' opacity='0.22'/%3E%3Cline x1='854' y1='30' x2='884' y2='30' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='56' x2='884' y2='56' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='82' x2='884' y2='82' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='108' x2='884' y2='108' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='134' x2='884' y2='134' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='160' x2='884' y2='160' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='186' x2='884' y2='186' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='212' x2='884' y2='212' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='238' x2='884' y2='238' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='264' x2='884' y2='264' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='290' x2='884' y2='290' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='316' x2='884' y2='316' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='342' x2='884' y2='342' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='368' x2='884' y2='368' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='394' x2='884' y2='394' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='420' x2='884' y2='420' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='446' x2='884' y2='446' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='472' x2='884' y2='472' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='498' x2='884' y2='498' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='524' x2='884' y2='524' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='550' x2='884' y2='550' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='576' x2='884' y2='576' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='602' x2='884' y2='602' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='628' x2='884' y2='628' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='654' x2='884' y2='654' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='680' x2='884' y2='680' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='706' x2='884' y2='706' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='732' x2='884' y2='732' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='758' x2='884' y2='758' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='784' x2='884' y2='784' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='810' x2='884' y2='810' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='836' x2='884' y2='836' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='862' x2='884' y2='862' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='888' x2='884' y2='888' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='914' x2='884' y2='914' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='940' x2='884' y2='940' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='966' x2='884' y2='966' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='992' x2='884' y2='992' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1018' x2='884' y2='1018' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1044' x2='884' y2='1044' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1070' x2='884' y2='1070' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1096' x2='884' y2='1096' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1122' x2='884' y2='1122' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1148' x2='884' y2='1148' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1174' x2='884' y2='1174' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1200' x2='884' y2='1200' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1226' x2='884' y2='1226' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1252' x2='884' y2='1252' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1278' x2='884' y2='1278' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1304' x2='884' y2='1304' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1330' x2='884' y2='1330' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1356' x2='884' y2='1356' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1382' x2='884' y2='1382' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3C/svg%3E");
 }
 
 .inline-title {
@@ -261,7 +268,7 @@
 
 .markdown-rendered strong,
 .cm-s-obsidian .cm-strong {
-  color: #f5f2ec;
+  color: var(--bu-text-hi);
   font-weight: 700;
   background-color: color-mix(in srgb, var(--bu-accent) 22%, transparent);
   padding: 0 0.18em;
@@ -513,20 +520,39 @@ body.theme-light .markdown-rendered pre code { text-shadow: none; }
   line-height: 1;
 }
 
-body.theme-dark::after {
+/* GLOW layer (body::after) — this is the element the glow-breathe animation pulses, so it now holds
+   ONLY the glow, never the vignette. Dark = rises from the bottom; light = focused beam from the top. */
+body.theme-dark::after,
+body.theme-light::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  background:
-    radial-gradient(120% calc(var(--bu-glow-reach, 95) * 1%) at 50% 120%, var(--bu-glow) 0%, transparent 55%),
-    radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0, var(--bu-vignette-amount, 0.65)) 100%);
+  background: radial-gradient(120% calc(var(--bu-glow-reach, 95) * 1%) at 50% 120%, var(--bu-glow) 0%, transparent 55%);
+}
+body.theme-light::after {
+  background: radial-gradient(60% calc(var(--bu-glow-reach, 95) * 1%) at 50% -20%, var(--bu-glow) 0%, transparent 55%);
 }
 
-body:not(.bu-vignette) { --bu-vignette-amount: 0; }
+/* VIGNETTE layer (.app-container::after) — separate + STATIC so the breathing glow can't pulse it.
+   Slider-only: --bu-vignette-amount drives it directly (0 = off). Dark = full ellipse; light = top inverted-V (∧). */
+.app-container::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9997;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, var(--bu-vignette-amount, 0.5)) 100%);
+}
+body.theme-light .app-container::after {
+  background:
+    linear-gradient(to bottom right, rgba(0, 0, 0, var(--bu-vignette-amount, 0.5)) 0%, transparent 42%),
+    linear-gradient(to bottom left, rgba(0, 0, 0, var(--bu-vignette-amount, 0.5)) 0%, transparent 42%);
+}
 
-body.bu-grain::before {
+/* Film grain — slider-only now (no toggle): --bu-grain-opacity drives it, 0 = off. */
+body::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -554,7 +580,17 @@ body.theme-light.bu-panel-grain .app-container { background-image: var(--bu-grai
   background-attachment: local;
 }
 
-body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05); }
+/* Daylight page texture — the black marginalia ledger (layer 1, at the page edges) over an
+   always-on paper-tooth grain (layer 2), so the daylight page is never a flat white sheet. */
+body.theme-light .markdown-source-view.mod-cm6 .cm-scroller,
+body.theme-light .markdown-reading-view .markdown-preview-view {
+  background-image: var(--scrollable-background), var(--bu-grain);
+  background-size: 100% auto, auto;
+  background-repeat: repeat-y, repeat;
+  background-attachment: local, local;
+}
+
+body::before { opacity: var(--bu-grain-opacity, 0.05); }
 
 .metadata-properties-heading .metadata-properties-title,
 .setting-item-heading .setting-item-name,
@@ -568,27 +604,27 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05); }
   font-size: 0.86em;
 }
 
-.theme-dark .metadata-container {
+:is(.theme-dark, .theme-light) .metadata-container {
   border: 1px solid var(--bu-line);
   border-radius: 8px;
   background: var(--bu-bg-alt);
   padding: 8px 12px 10px;
   margin-bottom: 16px;
   font-family: var(--bu-font-body);
-  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40);
+  box-shadow: 0 5px 14px var(--bu-shadow-soft);
 }
-.theme-dark .metadata-properties-heading {
+:is(.theme-dark, .theme-light) .metadata-properties-heading {
   border-bottom: 1px solid var(--bu-border);
   padding-bottom: 5px;
   margin-bottom: 6px;
 }
-.theme-dark .metadata-property {
+:is(.theme-dark, .theme-light) .metadata-property {
   border-bottom: 1px solid var(--bu-border);
   padding: 4px 0;
 }
-.theme-dark .metadata-property:last-child { border-bottom: none; }
+:is(.theme-dark, .theme-light) .metadata-property:last-child { border-bottom: none; }
 
-.theme-dark .metadata-property-key-input {
+:is(.theme-dark, .theme-light) .metadata-property-key-input {
   background: var(--bu-label-bg);
   color: var(--bu-label-fg);
   font-family: var(--bu-font-label);
@@ -603,55 +639,55 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05); }
   max-width: 14em;
   white-space: nowrap;
 }
-.theme-dark .metadata-property-icon { color: var(--bu-muted); }
+:is(.theme-dark, .theme-light) .metadata-property-icon { color: var(--bu-muted); }
 
-.theme-dark .metadata-property-value { color: var(--bu-text); }
-.theme-dark .metadata-input-longtext,
-.theme-dark .metadata-input-text,
-.theme-dark .metadata-property-value input,
-.theme-dark .metadata-property-value .metadata-input {
+:is(.theme-dark, .theme-light) .metadata-property-value { color: var(--bu-text); }
+:is(.theme-dark, .theme-light) .metadata-input-longtext,
+:is(.theme-dark, .theme-light) .metadata-input-text,
+:is(.theme-dark, .theme-light) .metadata-property-value input,
+:is(.theme-dark, .theme-light) .metadata-property-value .metadata-input {
   color: var(--bu-text);
 }
-.theme-dark .metadata-input-longtext:focus,
-.theme-dark .metadata-input-text:focus,
-.theme-dark .metadata-property-value input:focus {
+:is(.theme-dark, .theme-light) .metadata-input-longtext:focus,
+:is(.theme-dark, .theme-light) .metadata-input-text:focus,
+:is(.theme-dark, .theme-light) .metadata-property-value input:focus {
   border-color: var(--bu-accent);
   box-shadow: none;
 }
 
-.theme-dark .metadata-property .multi-select-pill {
+:is(.theme-dark, .theme-light) .metadata-property .multi-select-pill {
   background: transparent;
   border: 1px solid var(--bu-border-hi);
   color: var(--bu-text);
   border-radius: 2px;
   letter-spacing: 0.03em;
 }
-.theme-dark .metadata-property .multi-select-pill:hover {
+:is(.theme-dark, .theme-light) .metadata-property .multi-select-pill:hover {
   border-color: var(--bu-accent);
   color: var(--bu-accent);
 }
 
-.theme-dark .metadata-property-key { padding-right: 12px; }
-.theme-dark .metadata-input-longtext,
-.theme-dark .metadata-input-text,
-.theme-dark .metadata-property-value input,
-.theme-dark .metadata-property-value .metadata-input,
-.theme-dark .metadata-property-value .metadata-link-inner {
+:is(.theme-dark, .theme-light) .metadata-property-key { padding-right: 12px; }
+:is(.theme-dark, .theme-light) .metadata-input-longtext,
+:is(.theme-dark, .theme-light) .metadata-input-text,
+:is(.theme-dark, .theme-light) .metadata-property-value input,
+:is(.theme-dark, .theme-light) .metadata-property-value .metadata-input,
+:is(.theme-dark, .theme-light) .metadata-property-value .metadata-link-inner {
   background: transparent;
   border: 1px solid transparent;
   border-radius: 2px;
   padding: 2px 4px;
   box-shadow: none;
 }
-.theme-dark .metadata-input-longtext:focus,
-.theme-dark .metadata-input-text:focus,
-.theme-dark .metadata-property-value input:focus,
-.theme-dark .metadata-property-value .metadata-input:focus {
+:is(.theme-dark, .theme-light) .metadata-input-longtext:focus,
+:is(.theme-dark, .theme-light) .metadata-input-text:focus,
+:is(.theme-dark, .theme-light) .metadata-property-value input:focus,
+:is(.theme-dark, .theme-light) .metadata-property-value .metadata-input:focus {
   background: var(--bu-bg);
   border-color: var(--bu-border-hi);
 }
 
-.theme-dark .metadata-property-icon { margin-right: 9px; }
+:is(.theme-dark, .theme-light) .metadata-property-icon { margin-right: 9px; }
 
 .callout {
   background-color: var(--bu-label-bg);
@@ -659,7 +695,7 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05); }
   border: none;
   border-left: 4px solid rgb(var(--callout-color));
   border-radius: 0 3px 3px 0;
-  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 7px 20px var(--bu-shadow);
   position: relative;
   overflow: visible;
   margin: 26px 0 22px;
@@ -800,7 +836,7 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05); }
   background-color: var(--bu-surface);
   border: 1px solid var(--bu-line);
   border-radius: var(--bu-card-radius);
-  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 5px 14px var(--bu-shadow-soft);
   --custom-bases-overlay-background-color: color-mix(in srgb, var(--bu-bg) 82%, transparent);
   --custom-bases-overlay-text-color: var(--bu-text);
 }
@@ -820,68 +856,68 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05); }
   letter-spacing: 0.02em;
 }
 
-.theme-dark .metadata-property:not(:focus-within) .metadata-property-value {
+:is(.theme-dark, .theme-light) .metadata-property:not(:focus-within) .metadata-property-value {
   font-family: var(--bu-font-body);
   color: var(--bu-text);
   letter-spacing: 0.01em;
 }
 
-.theme-dark .metadata-property:not(:focus-within) .metadata-input-longtext,
-.theme-dark .metadata-property:not(:focus-within) .metadata-input-text,
-.theme-dark .metadata-property:not(:focus-within) .metadata-property-value input,
-.theme-dark .metadata-property:not(:focus-within) .metadata-property-value .metadata-input {
+:is(.theme-dark, .theme-light) .metadata-property:not(:focus-within) .metadata-input-longtext,
+:is(.theme-dark, .theme-light) .metadata-property:not(:focus-within) .metadata-input-text,
+:is(.theme-dark, .theme-light) .metadata-property:not(:focus-within) .metadata-property-value input,
+:is(.theme-dark, .theme-light) .metadata-property:not(:focus-within) .metadata-property-value .metadata-input {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
 }
 
-.theme-dark .metadata-property {
+:is(.theme-dark, .theme-light) .metadata-property {
   border-left: 2px solid transparent;
   padding-left: 4px;
   transition: border-color 80ms linear, background-color 80ms linear;
 }
-.theme-dark .metadata-property:hover {
+:is(.theme-dark, .theme-light) .metadata-property:hover {
   border-left-color: var(--bu-brass);
   background-color: rgba(202, 154, 78, 0.04);
 }
 
-.theme-dark .metadata-property-value a.internal-link,
-.theme-dark .metadata-property-value a.external-link {
+:is(.theme-dark, .theme-light) .metadata-property-value a.internal-link,
+:is(.theme-dark, .theme-light) .metadata-property-value a.external-link {
   color: var(--bu-accent);
   text-decoration: none;
   border-bottom: 1px dotted color-mix(in srgb, var(--bu-accent) 45%, transparent);
   padding-bottom: 1px;
   letter-spacing: 0.02em;
 }
-.theme-dark .metadata-property-value a.internal-link:hover,
-.theme-dark .metadata-property-value a.external-link:hover {
+:is(.theme-dark, .theme-light) .metadata-property-value a.internal-link:hover,
+:is(.theme-dark, .theme-light) .metadata-property-value a.external-link:hover {
   color: var(--bu-accent-hi);
   border-bottom-style: dashed;
   border-bottom-color: var(--bu-accent-hi);
 }
 
-.theme-dark .metadata-property-value a.internal-link.is-unresolved {
+:is(.theme-dark, .theme-light) .metadata-property-value a.internal-link.is-unresolved {
   color: var(--bu-faint);
   border-bottom-color: var(--bu-faint);
   font-style: italic;
 }
 
-.theme-dark .metadata-property[data-property-key-type="date"] .metadata-property-value,
-.theme-dark .metadata-property[data-property-key-type="datetime"] .metadata-property-value,
-.theme-dark .metadata-property[data-property-type="date"] .metadata-property-value,
-.theme-dark .metadata-property[data-property-type="datetime"] .metadata-property-value {
+:is(.theme-dark, .theme-light) .metadata-property[data-property-key-type="date"] .metadata-property-value,
+:is(.theme-dark, .theme-light) .metadata-property[data-property-key-type="datetime"] .metadata-property-value,
+:is(.theme-dark, .theme-light) .metadata-property[data-property-type="date"] .metadata-property-value,
+:is(.theme-dark, .theme-light) .metadata-property[data-property-type="datetime"] .metadata-property-value {
   color: var(--bu-brass);
 }
 
-.theme-dark .metadata-property[data-property-key-type="number"] .metadata-property-value,
-.theme-dark .metadata-property[data-property-type="number"] .metadata-property-value {
+:is(.theme-dark, .theme-light) .metadata-property[data-property-key-type="number"] .metadata-property-value,
+:is(.theme-dark, .theme-light) .metadata-property[data-property-type="number"] .metadata-property-value {
   color: var(--bu-brass);
   font-variant-numeric: tabular-nums;
 }
 
-.theme-dark .metadata-property-value .tag,
-.theme-dark .metadata-property[data-property-key-type="tags"] .multi-select-pill,
-.theme-dark .metadata-property[data-property-type="tags"] .multi-select-pill {
+:is(.theme-dark, .theme-light) .metadata-property-value .tag,
+:is(.theme-dark, .theme-light) .metadata-property[data-property-key-type="tags"] .multi-select-pill,
+:is(.theme-dark, .theme-light) .metadata-property[data-property-type="tags"] .multi-select-pill {
   background: transparent;
   color: var(--bu-accent);
   border: 1px solid color-mix(in srgb, var(--bu-accent) 55%, transparent);
@@ -892,34 +928,34 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05); }
   text-transform: lowercase;
   padding: 0 5px;
 }
-.theme-dark .metadata-property-value .tag:hover,
-.theme-dark .metadata-property[data-property-key-type="tags"] .multi-select-pill:hover,
-.theme-dark .metadata-property[data-property-type="tags"] .multi-select-pill:hover {
+:is(.theme-dark, .theme-light) .metadata-property-value .tag:hover,
+:is(.theme-dark, .theme-light) .metadata-property[data-property-key-type="tags"] .multi-select-pill:hover,
+:is(.theme-dark, .theme-light) .metadata-property[data-property-type="tags"] .multi-select-pill:hover {
   color: var(--bu-accent-hi);
   border-color: var(--bu-accent-hi);
   background: color-mix(in srgb, var(--bu-accent) 8%, transparent);
 }
 
-.theme-dark .metadata-property-value input[type="checkbox"] {
+:is(.theme-dark, .theme-light) .metadata-property-value input[type="checkbox"] {
   accent-color: var(--bu-accent);
 }
 
-.theme-dark .metadata-property:not(:focus-within) .metadata-input-longtext:empty::before,
-.theme-dark .metadata-property:not(:focus-within) .metadata-input-text:empty::before {
+:is(.theme-dark, .theme-light) .metadata-property:not(:focus-within) .metadata-input-longtext:empty::before,
+:is(.theme-dark, .theme-light) .metadata-property:not(:focus-within) .metadata-input-text:empty::before {
   color: var(--bu-faint);
   font-style: italic;
   letter-spacing: 0.02em;
 }
 
-.theme-dark .metadata-property[data-property-key="aliases"] .multi-select-pill {
+:is(.theme-dark, .theme-light) .metadata-property[data-property-key="aliases"] .multi-select-pill {
   font-style: italic;
 }
-.theme-dark .banner-view .banner-props-slot {
+:is(.theme-dark, .theme-light) .banner-view .banner-props-slot {
   max-width: var(--file-line-width, 800px);
   margin: 0 auto;
   padding: 18px 24px 56px;
 }
-.theme-dark .banner-view .banner-props-list {
+:is(.theme-dark, .theme-light) .banner-view .banner-props-list {
   display: grid;
   grid-template-columns: max-content 1fr;
   gap: 1px;
@@ -931,9 +967,9 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05); }
   box-shadow: 0 3px 9px rgba(0, 0, 0, 0.40);
 }
 
-.theme-dark .banner-view .banner-props-key {
+:is(.theme-dark, .theme-light) .banner-view .banner-props-key {
   background: var(--bu-label-bg);
-  color: #000;
+  color: var(--bu-label-fg);
   font-family: var(--bu-font-label);
   font-weight: 900;
   font-size: 0.78em;
@@ -946,7 +982,7 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05); }
   min-width: 9em;
 }
 
-.theme-dark .banner-view .banner-props-value {
+:is(.theme-dark, .theme-light) .banner-view .banner-props-value {
   background: var(--bu-bg-alt);
   color: var(--bu-text);
   padding: 8px 14px;
@@ -959,23 +995,23 @@ body.bu-grain::before { opacity: var(--bu-grain-opacity, 0.05); }
   gap: 0 6px;
 }
 
-.theme-dark .banner-view .banner-props-value a.internal-link,
-.theme-dark .banner-view .banner-props-value a.external-link {
+:is(.theme-dark, .theme-light) .banner-view .banner-props-value a.internal-link,
+:is(.theme-dark, .theme-light) .banner-view .banner-props-value a.external-link {
   color: var(--bu-accent);
   text-decoration: none;
   border-bottom: 1px dotted color-mix(in srgb, var(--bu-accent) 45%, transparent);
   padding-bottom: 1px;
   letter-spacing: 0.02em;
 }
-.theme-dark .banner-view .banner-props-value a.internal-link:hover,
-.theme-dark .banner-view .banner-props-value a.external-link:hover {
+:is(.theme-dark, .theme-light) .banner-view .banner-props-value a.internal-link:hover,
+:is(.theme-dark, .theme-light) .banner-view .banner-props-value a.external-link:hover {
   color: var(--bu-accent-hi);
   border-bottom-style: dashed;
   border-bottom-color: var(--bu-accent-hi);
 }
 
-.theme-dark .banner-view .banner-props-list:hover .banner-props-key { transition: background-color 80ms linear; }
-.theme-dark .banner-view .banner-props-list:hover .banner-props-value { transition: background-color 80ms linear; }
+:is(.theme-dark, .theme-light) .banner-view .banner-props-list:hover .banner-props-key { transition: background-color 80ms linear; }
+:is(.theme-dark, .theme-light) .banner-view .banner-props-list:hover .banner-props-value { transition: background-color 80ms linear; }
 
 .view-header-title {
   font-family: var(--bu-font-body);
@@ -989,7 +1025,9 @@ button:not(.mod-cta):not(.clickable-icon),
 input[type="text"], input[type="search"], input[type="number"],
 input[type="email"], input[type="password"], textarea,
 .dropdown, select, .search-input-container input {
-  background: transparent;
+  /* background-COLOR (not the `background` shorthand) so we don't wipe the dropdown's
+     arrow background-image that Obsidian sets — that wipe is what left raw chevrons in Settings. */
+  background-color: transparent;
   border: 1px solid var(--bu-border);
   border-radius: 2px;
   color: var(--bu-text);
@@ -1022,7 +1060,7 @@ button.mod-cta:hover { background: var(--bu-accent-hi); }
 .modal,
 .prompt,
 .popover.hover-popover {
-  background-color: rgba(12, 11, 10, 0.72);
+  background-color: color-mix(in srgb, var(--bu-bg) 72%, transparent);
   -webkit-backdrop-filter: var(--bu-acrylic);
   backdrop-filter: var(--bu-acrylic);
   border: 1px solid var(--bu-border);
@@ -1058,7 +1096,7 @@ button.mod-cta:hover { background: var(--bu-accent-hi); }
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 300px;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.88), rgba(0,0,0,0));
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--bu-bg) 88%, transparent), transparent);
   pointer-events: none;
 }
 .prompt-input-container { padding: 6px 6px 10px; }
@@ -1166,25 +1204,69 @@ body:not(.is-mobile) .prompt .suggestion-hotkey {
   color: var(--bu-muted);
 }
 
+/* Daylight command palette — the transparent floating design assumes light-text-on-dark.
+   On paper that left ink text floating on a dimmed page with no container (note bled through),
+   so give the input and results solid paper cards; ink text then reads cleanly. */
+body.theme-light:not(.is-mobile) .prompt > .prompt-input-container {
+  background-color: var(--bu-raised);
+  border: 1px solid var(--bu-border);
+}
+body.theme-light:not(.is-mobile) .prompt > .prompt-results {
+  background-color: var(--bu-bg-alt);
+  border: 1px solid var(--bu-border);
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+body.theme-light:not(.is-mobile) .prompt > .prompt-results > .suggestion-item.is-selected {
+  background-color: color-mix(in srgb, var(--bu-accent) 14%, transparent);
+  box-shadow: inset 2px 0 0 var(--bu-accent);
+}
+
+/* New Tab (empty state) — a Bureau filing menu: stamped title + one dossier card of action rows. */
 .empty-state-title {
   font-family: var(--bu-font-label);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--bu-muted);
 }
+/* New Tab: the native .empty-state-title is EMPTY here (that's why styling it as a chip left a
+   blank bar). Inject an in-world label so the stamp has text. */
+.workspace-leaf-content[data-type="empty"] .empty-state-title {
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: var(--bu-label-fg);
+  background: var(--bu-label-bg);
+  padding: 0.12em 0.5em;
+  border-radius: 2px;
+  width: fit-content;
+  margin: 0 auto 1.4em;
+}
+.workspace-leaf-content[data-type="empty"] .empty-state-title::before { content: "NO ACTIVE FILE"; }
+.empty-state-action-list {
+  border: 1px solid var(--bu-line);
+  border-radius: var(--bu-card-radius);
+  overflow: hidden;
+  background: var(--bu-surface);
+  box-shadow: 0 5px 14px var(--bu-shadow-soft);
+  gap: 0;
+}
 .empty-state-action {
   font-family: var(--bu-font-body);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border: 1px solid var(--bu-border);
-  border-radius: 2px;
-  background: var(--bu-surface);
   color: var(--bu-text);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--bu-border);
+  border-radius: 0;
+  margin: 0;
 }
+.empty-state-action:last-child { border-bottom: none; }
 .empty-state-action:hover {
-  border-color: var(--bu-accent);
-  color: var(--bu-accent);
-  background: var(--bu-raised);
+  background: var(--bu-label-bg);
+  color: var(--bu-label-fg);
+  border-color: var(--bu-border);
 }
 
 button:not(.clickable-icon):not(.mod-cta),
@@ -1401,6 +1483,14 @@ body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
 }
 .workspace-tab-container { background-color: transparent; }
 
+/* The rounded editor card is .workspace-leaf-content; its parents (.workspace-leaf / .workspace-tabs)
+   carry Obsidian's default --background-primary — square and unrounded — which peeked past the card's
+   rounded corners and squared off below it. Make them transparent so only the card is paper. */
+.workspace-split.mod-root .workspace-tabs,
+.workspace-split.mod-root .workspace-leaf {
+  background-color: transparent;
+}
+
 .workspace-split.mod-root,
 .workspace-split.mod-left-split,
 .workspace-split.mod-right-split {
@@ -1417,7 +1507,9 @@ body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
 }
 
 body.bu-cards .workspace-split.mod-root .workspace-leaf-content {
-  box-shadow: none;
+  /* Clip-safe lift: downward, horizontally contained (spread ≈ -blur) so the shadow never reaches
+     the overflow-clipped workspace edge that used to slice a normal shadow into a hard line. */
+  box-shadow: 0 28px 30px -24px var(--bu-shadow);
   position: relative;
 }
 body.bu-cards .workspace-split.mod-root .workspace-leaf-content[data-type="markdown"]::after {
@@ -1455,6 +1547,13 @@ body.bu-cards .workspace-split.mod-root .workspace-leaf-content[data-type="markd
   border-bottom: none;
 }
 
+/* Daylight inactive tab: --bu-label-bg is the dark stamp in light, so the dark-mode manila
+   formula came out muddy brown. Build the manila from light paper + brass instead. */
+body.theme-light .mod-root .workspace-tab-header:not(.is-active) {
+  background-color: color-mix(in srgb, var(--bu-raised) 66%, var(--bu-brass) 34%);
+  border-color: color-mix(in srgb, var(--bu-brass) 50%, var(--bu-border));
+}
+
 body.bu-tabs-pill .workspace-tab-header {
   border-radius: 999px;
   border-bottom-width: 2px;
@@ -1484,7 +1583,12 @@ body.bu-pin-icon-only .workspace-tab-header.mod-pinned .workspace-tab-header-inn
 
 .mod-left-split .workspace-leaf-content,
 .mod-right-split .workspace-leaf-content {
-  background-color: rgba(12, 11, 10, 0.60);
+  background-color: color-mix(in srgb, var(--bu-bg) 60%, transparent);
+  /* Clip-safe lift only: downward + horizontally contained (spread ≈ -blur), so it can't reach the
+     ancestor clip edge that used to slice a full shadow into a hard vertical line. */
+  box-shadow: 0 20px 22px -18px var(--bu-shadow-soft);
+  /* Breathing room between the tab/toolbar strip above and the panel. */
+  margin-top: 10px;
 }
 
 .workspace-tab-header.is-active {
@@ -1574,10 +1678,10 @@ body:not(.bu-cards) .mod-right-split .workspace-tabs {
 
 .workspace-leaf-content[data-type="graph"] .view-content,
 .workspace-leaf-content[data-type="localgraph"] .view-content {
-  background-color: #060605;
+  background-color: var(--bu-bg-alt);
 }
 .graph-controls {
-  background-color: rgba(12, 11, 10, 0.88);
+  background-color: color-mix(in srgb, var(--bu-bg) 88%, transparent);
   border: 1px solid var(--bu-line);
   border-radius: 4px;
   -webkit-backdrop-filter: var(--bu-acrylic);
@@ -1638,7 +1742,7 @@ button.nn-icon-button:not(.clickable-icon),
 
 .nn-navitem.nn-selected:not(.nn-file) { box-shadow: none; }
 
-.nn-navitem:hover { background-color: rgba(240, 235, 220, 0.08); }
+.nn-navitem:hover { background-color: color-mix(in srgb, var(--bu-veil) 8%, transparent); }
 
 /* Keep the selected file visible when the navigator pane is unfocused (editor
    focused). NN swaps --nn-selected-*-bg-color to an "inactive" value on blur via
@@ -2260,7 +2364,7 @@ body.bu-mode-low .app-container { background-image: none; }
 body.is-mobile.bu-mobile-lighten *,
 body.is-mobile.bu-mobile-lighten *::before,
 body.is-mobile.bu-mobile-lighten *::after { animation: none; }
-body.is-mobile.bu-mobile-lighten.bu-grain::before { display: none; }
+body.is-mobile.bu-mobile-lighten::before { display: none; }
 body.is-mobile.bu-mobile-lighten .markdown-source-view.mod-cm6 .cm-editor::after,
 body.is-mobile.bu-mobile-lighten .markdown-preview-view::after,
 body.is-mobile.bu-mobile-lighten .workspace-leaf-content[data-type="markdown"] .view-content::after { display: none; }
@@ -2337,17 +2441,22 @@ settings:
     min: 30
     max: 160
     step: 5
-  - id: bu-grain
-    title: Film grain
-    type: class-toggle
-    default: true
   - id: bu-grain-opacity
-    title: Grain intensity
+    title: Film grain
+    description: Fine noise over the whole window (0 = off).
     type: variable-number-slider
     default: 0.05
     min: 0
     max: 0.2
     step: 0.01
+  - id: bu-shadow-strength
+    title: Shadow strength
+    description: Depth of shadows on callouts, properties, cards, the editor and side panels (0 = off).
+    type: variable-number-slider
+    default: 50
+    min: 0
+    max: 100
+    step: 5
   - id: bu-panel-grain
     title: Sidebar texture
     description: Concrete grain on the side panels.
@@ -2360,15 +2469,11 @@ settings:
     min: 0
     max: 0.7
     step: 0.02
-  - id: bu-vignette
-    title: Vignette
-    description: Darkened window edges.
-    type: class-toggle
-    default: true
   - id: bu-vignette-amount
-    title: Vignette amount
+    title: Vignette
+    description: Darkened window edges — full ellipse in dark, top inverted-V (∧) in light (0 = off).
     type: variable-number-slider
-    default: 0.65
+    default: 0.5
     min: 0
     max: 0.9
     step: 0.05
