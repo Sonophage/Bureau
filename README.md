@@ -1,6 +1,6 @@
 # Bureau
 
-A dark theme for [Obsidian](https://obsidian.md). A worn case-file on a concrete
+A noir theme for [Obsidian](https://obsidian.md). A worn case-file on a concrete
 desk, wired to a CRT terminal that hums whether or not you're listening.
 
 I've always been fond of the *bureau-redacted* look. The noiresque of it, the
@@ -22,13 +22,23 @@ Its mood was stolen, in equal parts, from three places:
 
 ![screenshot](screenshot.png)
 
-Dark only — there is no daylight setting and there was never going to be. Every
-texture is procedural SVG, drawn by the stylesheet, not photographed and dragged
-in. The whole UI reads from a single accent colour, the way a room reads from a
-single bad bulb. And there's a CRT layer you can switch on — scanlines, phosphor
-glow, a white line that scans down the page and glitches like a loose wire, a
-power-on that fades up from black every time you open a note. None of it is
-load-bearing. All of it is there if you want the machine to feel haunted.
+It used to be dark only — and that was the whole creed. It isn't anymore, and the
+change turned out to *be* the point. Most themes pick a side: all-dark or
+all-light, and they defend it like an identity. Bureau runs both — a near-black
+**noir**, and a daylight **case-file in paper** — but the real room is the ground
+between them. You can run the editor in the *opposite* palette to its chrome: a
+lit page on a dark desk, or a dark page in a lit room. That isn't indecision.
+It's **chiaroscuro** — the picture lives in the seam where light meets dark, not
+in either alone. A compromise, and a deliberate one: light *and* dark, noir *and*
+its negative, held in the same frame.
+
+Every texture is procedural SVG, drawn by the stylesheet, not photographed and
+dragged in. The whole UI reads from a single accent colour, the way a room reads
+from a single bad bulb. And there's a CRT layer — scanlines, phosphor glow, a
+white line that scans down the page and glitches like a loose wire, a power-on
+that fades up from black every time you open a note. None of it is load-bearing.
+All of it is there if you want the machine to feel haunted. And on a phone it
+quiets itself down without being asked.
 
 ## Install
 
@@ -64,6 +74,18 @@ over everything else:
 | **High** | Everything awake. The machine knows you're here. |
 | **Custom** | Your own arrangement — every toggle below, exactly as you left it. |
 
+And the **Inverted editor** toggle — the chiaroscuro switch. Turn it on and the
+editor pane takes the *opposite* palette to the rest of the UI: in dark mode, a
+paper page on a dark desk; in light mode, a dark page in a lit room. The caret,
+the texture, the ink all flip with it. Flip Obsidian's own light/dark appearance
+to swap which side is which — that dial is Obsidian's, not the theme's, so the
+theme can't throw it for you.
+
+> **Light or dark** is Obsidian's own switch (Settings → Appearance). Bureau
+> dresses both: a full **daylight** variant — aged paper, a black marginalia
+> ledger, dark ink — sits behind the light mode, the same way the noir sits
+> behind the dark.
+
 ### Color & accent
 - **Accent preset** — *Control* (red) · *Magnus* (green) · *Deus* (gold) · *Custom*. The single colour the whole UI, the glow, and every highlight read from. Change it and the building changes allegiance.
 - **Custom accent** — your own colour, used when the preset is *Custom*. Bring your own bad bulb.
@@ -76,9 +98,8 @@ over everything else:
 
 ### CRT
 The tube. Optional, and quietly the whole point.
-- **CRT scanlines** (+ spacing) — faint horizontal lines laid over the editor, the ghost of a screen that was never really there.
-- **CRT text glow** (+ brightness) — phosphor bloom on the body text. The letters sweat a little.
-- **Typewriter tooltips** — tooltips type themselves in, character by character, like they're being dictated to.
+- **CRT scanlines** (strength + spacing, 0 = off) — faint horizontal lines laid over the editor, the ghost of a screen that was never really there.
+- **CRT text glow** (brightness, 0 = off) — phosphor bloom on the body text. The letters sweat a little.
 - **Fullscreen CRT mode** — go fullscreen and the screen curves: a tube vignette, scanlines and glow turned up, and all the chrome receding into the dark until you reach for it.
 - **Focus line** (+ dim amount) — every line dims except the one you're on, which gets an accent mark in the margin. The rest of the page waits in the next room.
 
@@ -108,7 +129,7 @@ entrances).
 - **Scanning line** — a faint white line drifts slowly down the editor and, every so often, glitches in and out like a connection that isn't seated right. Sliders for **brightness**, **glitch interval**, and **glitch depth** — how visible, how often, how bad.
 - **Breathe the ambient glow**, **ease the phosphor glow**, **fade menus & modals** — the slow involuntary motions of a machine that's idling, not dead.
 - **Terminal block caret**, **hover bloom** (accent glow under the cursor), **active-line scan**, **CRT flicker**, **CRT loading throbber**, **eased checkbox tick** — the small tics. The wobble in the fan.
-- **MOBILE — disable animations** — for the device that can't afford the theatre.
+- On **mobile**, the theatre dims itself: grain, scanlines, glow, motion, and the heavy shadows drop automatically on phones and tablets — no toggle, no Style Settings required — and tap targets grow. The device that can't afford the show doesn't have to sit through it.
 
 ### Daily notes
 A colour scheme per weekday (Sun–Sat), each with its own **accent**, **text**,
