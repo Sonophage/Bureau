@@ -125,18 +125,17 @@ entrances).
 
 - **CRT power-on** — content fades up from black when a note or pane opens. The tube warming.
 - **Channel-change crossfade** — fade-from-black plus a scan-line wipe when you switch notes. Changing the channel.
-- **Boot scan-sweep** — one bright line wipes down the screen at launch, then it's gone.
 - **Scanning line** — a faint white line drifts slowly down the editor and, every so often, glitches in and out like a connection that isn't seated right. Sliders for **brightness**, **glitch interval**, and **glitch depth** — how visible, how often, how bad.
 - **Breathe the ambient glow**, **ease the phosphor glow**, **fade menus & modals** — the slow involuntary motions of a machine that's idling, not dead.
-- **Terminal block caret**, **hover bloom** (accent glow under the cursor), **active-line scan**, **CRT flicker**, **CRT loading throbber**, **eased checkbox tick** — the small tics. The wobble in the fan.
+- **Terminal block caret**, **hover bloom** (accent glow under the cursor), **active-line scan**, **CRT flicker**, **eased checkbox tick** — the small tics. The wobble in the fan.
 - On **mobile**, the theatre dims itself: grain, scanlines, glow, motion, and the heavy shadows drop automatically on phones and tablets — no toggle, no Style Settings required — and tap targets grow. The device that can't afford the show doesn't have to sit through it.
 
 ### Daily notes
-A colour scheme per weekday (Sun–Sat), each with its own **accent**, **text**,
-and **background** — so Tuesday doesn't get to look like Friday. Add
-`cssclass: daily` (or a specific weekday class) to a note to key its palette. If
-you ran the old "Daily Note Themes" snippet, switch it off — Bureau owns this
-room now.
+One **accent per weekday** (Sun–Sat) — so Tuesday doesn't get to look like
+Friday — and its text and background **derive from that accent automatically**,
+in light *and* dark. Add the weekday class (e.g. `cssclass: monday`) to a note to
+key its palette. If you ran the old "Daily Note Themes" snippet, switch it off —
+Bureau owns this room now.
 
 ## Credits
 
