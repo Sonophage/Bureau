@@ -2345,24 +2345,6 @@ body.bu-anim.bu-flicker .markdown-reading-view {
   animation: bu-flicker 4.2s linear infinite;
 }
 
-@keyframes bu-boot-sweep {
-  0%   { transform: translateY(-12vh); opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { transform: translateY(112vh); opacity: 0; }
-}
-body.bu-anim.bu-boot-scan .workspace::before {
-  content: "";
-  position: fixed;
-  left: 0; right: 0; top: 0;
-  height: 3px;
-  z-index: 99999;
-  pointer-events: none;
-  background: color-mix(in srgb, var(--bu-accent) 85%, white);
-  box-shadow: 0 0 16px 3px color-mix(in srgb, var(--bu-accent) 55%, transparent);
-  animation: bu-boot-sweep calc(var(--bu-anim-speed, 600) * 1.8ms) var(--bu-anim-ease) both;
-}
-
 @keyframes bu-view-sweep {
   0%   { transform: translateY(-4vh); opacity: 0; }
   10%  { opacity: 1; }
@@ -2382,13 +2364,6 @@ body.bu-anim.bu-crossfade :is(.markdown-source-view.mod-cm6, .markdown-preview-v
   background: color-mix(in srgb, var(--bu-accent) 85%, white);
   box-shadow: 0 0 16px 3px color-mix(in srgb, var(--bu-accent) 55%, transparent);
   animation: bu-view-sweep calc(var(--bu-anim-speed, 600) * 1.4ms) var(--bu-anim-ease) both;
-}
-
-@keyframes bu-throb { 0% { transform: rotate(0); opacity: 0.5; } 50% { opacity: 1; } 100% { transform: rotate(360deg); opacity: 0.5; } }
-body.bu-anim.bu-throbber :is(.spinner, .loading-spinner) {
-  border-color: color-mix(in srgb, var(--bu-accent) 28%, transparent);
-  border-top-color: var(--bu-accent);
-  animation: bu-throb calc(var(--bu-anim-speed, 600) * 1.4ms) linear infinite;
 }
 
 @keyframes bu-check-pop {
@@ -2851,16 +2826,8 @@ settings:
     title: CRT flicker (subtle)
     type: class-toggle
     default: false
-  - id: bu-boot-scan
-    title: Boot scan-sweep (at launch)
-    type: class-toggle
-    default: true
   - id: bu-crossfade
     title: Channel-change crossfade (note switch)
-    type: class-toggle
-    default: true
-  - id: bu-throbber
-    title: CRT loading throbber
     type: class-toggle
     default: true
   - id: bu-check-anim
