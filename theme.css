@@ -1961,13 +1961,18 @@ body.is-fullscreen.bu-fullscreen-crt .workspace-split.mod-right-split:hover {
   --background-modifier-border: color-mix(in srgb, var(--highlight) 60%, transparent);
   --background-modifier-hover: color-mix(in srgb, var(--highlight) 60%, transparent);
 }
-.sunday,.Sunday       { --highlight: var(--bu-sun-hl,#c6a3b5); --primary: var(--bu-sun-pri,#9e6b86); --dark: var(--bu-sun-bg,#161114); }
-.monday,.Monday       { --highlight: var(--bu-mon-hl,#a6b6c8); --primary: var(--bu-mon-pri,#5b7a9e); --dark: var(--bu-mon-bg,#0f131a); }
-.tuesday,.Tuesday     { --highlight: var(--bu-tue-hl,#a4c2bc); --primary: var(--bu-tue-pri,#5e8d86); --dark: var(--bu-tue-bg,#0e1413); }
-.wednesday,.Wednesday { --highlight: var(--bu-wed-hl,#b6a9c9); --primary: var(--bu-wed-pri,#836fa0); --dark: var(--bu-wed-bg,#131019); }
-.thursday,.Thursday   { --highlight: var(--bu-thu-hl,#b2b8c4); --primary: var(--bu-thu-pri,#7c8597); --dark: var(--bu-thu-bg,#101216); }
-.friday,.Friday       { --highlight: var(--bu-fri-hl,#9ec8c8); --primary: var(--bu-fri-pri,#4f9a9a); --dark: var(--bu-fri-bg,#0c1515); }
-.saturday,.Saturday   { --highlight: var(--bu-sat-hl,#c0a0b6); --primary: var(--bu-sat-pri,#8c5a7e); --dark: var(--bu-sat-bg,#151013); }
+.sunday,.Sunday       { --primary: var(--bu-sun-pri, #9e6b86); }
+.monday,.Monday       { --primary: var(--bu-mon-pri, #5b7a9e); }
+.tuesday,.Tuesday     { --primary: var(--bu-tue-pri, #5e8d86); }
+.wednesday,.Wednesday { --primary: var(--bu-wed-pri, #836fa0); }
+.thursday,.Thursday   { --primary: var(--bu-thu-pri, #7c8597); }
+.friday,.Friday       { --primary: var(--bu-fri-pri, #4f9a9a); }
+.saturday,.Saturday   { --primary: var(--bu-sat-pri, #8c5a7e); }
+:is(.sunday,.monday,.tuesday,.wednesday,.thursday,.friday,.saturday,
+    .Sunday,.Monday,.Tuesday,.Wednesday,.Thursday,.Friday,.Saturday) {
+  --highlight: color-mix(in srgb, var(--primary), var(--bu-text-hi) 38%);
+  --dark: color-mix(in srgb, var(--primary) 12%, var(--bu-bg));
+}
 .daily :is(h1, .HyperMD-header.HyperMD-header-1) { color: var(--primary); text-align: center; font-size: 60px; padding: 0; }
 .daily :is(h2, .HyperMD-header.HyperMD-header-2) { color: var(--highlight); text-align: center; font-size: 30px; font-style: italic; padding: 0; }
 .daily :is(h3, .HyperMD-header.HyperMD-header-3) { color: var(--primary); text-align: center; font-size: 32px; padding-top: 0; }
@@ -2870,170 +2875,51 @@ settings:
 
   - id: bu-daily-note
     title: Daily notes
-    description: Colors for daily notes, keyed to the weekday. Disable the "Daily Note Themes" snippet — Bureau owns this now.
+    description: One accent per weekday — text and background derive from it automatically (works in light and dark). Add the weekday class (e.g. cssclass: monday) to a note. Disable the old "Daily Note Themes" snippet — Bureau owns this now.
     type: heading
     level: 2
     collapsed: true
-  - id: bu-sun-head
-    title: Sunday
-    type: heading
-    level: 3
-    collapsed: true
   - id: bu-sun-pri
-    title: Sunday — accent
+    title: Sunday accent
     type: variable-color
     format: hex
     opacity: false
     default: '#9e6b86'
-  - id: bu-sun-hl
-    title: Sunday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#c6a3b5'
-  - id: bu-sun-bg
-    title: Sunday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#161114'
-  - id: bu-mon-head
-    title: Monday
-    type: heading
-    level: 3
-    collapsed: true
   - id: bu-mon-pri
-    title: Monday — accent
+    title: Monday accent
     type: variable-color
     format: hex
     opacity: false
     default: '#5b7a9e'
-  - id: bu-mon-hl
-    title: Monday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#a6b6c8'
-  - id: bu-mon-bg
-    title: Monday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#0f131a'
-  - id: bu-tue-head
-    title: Tuesday
-    type: heading
-    level: 3
-    collapsed: true
   - id: bu-tue-pri
-    title: Tuesday — accent
+    title: Tuesday accent
     type: variable-color
     format: hex
     opacity: false
     default: '#5e8d86'
-  - id: bu-tue-hl
-    title: Tuesday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#a4c2bc'
-  - id: bu-tue-bg
-    title: Tuesday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#0e1413'
-  - id: bu-wed-head
-    title: Wednesday
-    type: heading
-    level: 3
-    collapsed: true
   - id: bu-wed-pri
-    title: Wednesday — accent
+    title: Wednesday accent
     type: variable-color
     format: hex
     opacity: false
     default: '#836fa0'
-  - id: bu-wed-hl
-    title: Wednesday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#b6a9c9'
-  - id: bu-wed-bg
-    title: Wednesday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#131019'
-  - id: bu-thu-head
-    title: Thursday
-    type: heading
-    level: 3
-    collapsed: true
   - id: bu-thu-pri
-    title: Thursday — accent
+    title: Thursday accent
     type: variable-color
     format: hex
     opacity: false
     default: '#7c8597'
-  - id: bu-thu-hl
-    title: Thursday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#b2b8c4'
-  - id: bu-thu-bg
-    title: Thursday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#101216'
-  - id: bu-fri-head
-    title: Friday
-    type: heading
-    level: 3
-    collapsed: true
   - id: bu-fri-pri
-    title: Friday — accent
+    title: Friday accent
     type: variable-color
     format: hex
     opacity: false
     default: '#4f9a9a'
-  - id: bu-fri-hl
-    title: Friday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#9ec8c8'
-  - id: bu-fri-bg
-    title: Friday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#0c1515'
-  - id: bu-sat-head
-    title: Saturday
-    type: heading
-    level: 3
-    collapsed: true
   - id: bu-sat-pri
-    title: Saturday — accent
+    title: Saturday accent
     type: variable-color
     format: hex
     opacity: false
     default: '#8c5a7e'
-  - id: bu-sat-hl
-    title: Saturday — text
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#c0a0b6'
-  - id: bu-sat-bg
-    title: Saturday — background
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#151013'
 
 */
