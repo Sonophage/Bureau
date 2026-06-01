@@ -89,12 +89,15 @@ theme can't throw it for you.
 ### Color & accent
 - **Accent preset** — *Control* (red) · *Magnus* (green) · *Deus* (gold) · *Custom*. The single colour the whole UI, the glow, and every highlight read from. Change it and the building changes allegiance.
 - **Custom accent** — your own colour, used when the preset is *Custom*. Bring your own bad bulb.
+- **Text colour — dark / light** — set the body-text ink for each mode independently.
+- **Black level / White level** — how black the darkest surface goes in dark mode, how white the paper gets in light. Set the floor and the ceiling.
 
 ### Atmosphere
 - **Glow intensity / reach** — the accent light bleeding up from the bottom of the window, like something is on fire one floor down.
 - **Film grain** (+ intensity) — fine grain over everything. Proof the image was developed, not generated.
 - **Sidebar texture** (+ strength) — concrete grain on the panels behind the cards. The walls the cards are pinned to.
 - **Vignette** (+ amount) — the edges of the window darkened, the way attention darkens at the edges.
+- **Accent halo** (+ strength, 0 = off) — a soft accent ring that breathes outward from the centre behind the UI. A slow pulse, like a signal you can't quite hear. Stills to a faint ring under reduced-motion.
 
 ### CRT
 The tube. Optional, and quietly the whole point.
@@ -105,19 +108,21 @@ The tube. Optional, and quietly the whole point.
 
 ### Cards & layout
 - **Cards layout** — every pane floats as a bordered card on a dark desk. Paper on concrete.
-- **Card gap / rounding / shadow darkness** — how far apart, how soft the corners, how deep the shadow they cast.
+- **Card gap / rounding / shadow darkness** — how far apart, how soft the corners, how deep the shadow they cast. The cards now carry a faint glass bevel — a lit top-left lip and a shaded bottom-right edge — so they read as slabs, not stickers.
+- **Horizontal settings nav** — reflow the settings window's left tab list into a scrolling strip across the top. Desktop only.
 - **Reading line width / line height / paragraph spacing** — the density dials.
 
 ### Floating & glass
 Optional soft looks layered over the brutalist base — all off by default, so the standard theme is untouched.
 - **Heavier card float** — a deeper shadow + more space, so panes lift higher off the desk.
 - **Frosted glass panes** — translucent, blurred editor and sidebar panes; the stage (or your wallpaper) shows through.
-- **Pill chrome** — round the breadcrumbs, window buttons, and tabs into floating pills.
+- **Pill terminal (floating editor)** — the full Ultra-Lobster move: the view-header breaks into flat pills on the desk, the title bar goes transparent, and the **editor floats as its own rounded card** below the chrome (status bar splits into pills too). Best with Cards layout on.
+- **Pill terminal — hover to reveal** — the header pills *collapse* until you hover or focus the row, reclaiming that vertical space for the note. The desk clears until you reach for it.
 - **Editor-only cards (flush sidebars)** — only the editor floats as a card; the sidebars sit flush.
-- **Custom background image** (+ URL + dim) — a wallpaper behind the workspace, visible through the frosted glass. Paste the URL as `url('…')`; the dim keeps text legible.
+- **Custom background image** (+ URL + dim) — a wallpaper behind the workspace, visible through the frosted glass. **Just paste the address** (`https://…` or a vault path) — no `url(…)` wrapping; the dim keeps text legible.
 
 ### Tabs
-- **Tab shape** — *Folder* (connected, like a real file drawer) or *Pill* (fully rounded, for people who've made peace with it).
+- **Tab shape** — *Folder* (connected, like a real file drawer) or *Pill* (fully rounded, for people who've made peace with it). The **active tab fills solid accent and rises taller** than the rest; **inactive tabs invert** — black-on-white / white-on-black — and they're **editor-aware**, flipping with *Inverted editor* so they always track the editor's palette, not the window's.
 - **Main / Left sidebar / Right sidebar tab content** — Icons · Labels · Icons + Labels. Decide per dock how much each tab is willing to admit about itself.
 - **Pinned tabs → icon only** — the ones you've decided to keep say less.
 
@@ -136,7 +141,8 @@ entrances).
 - **Channel-change crossfade** — fade-from-black plus a scan-line wipe when you switch notes. Changing the channel.
 - **Scanning line** — a faint white line drifts slowly down the editor and, every so often, glitches in and out like a connection that isn't seated right. Sliders for **brightness**, **glitch interval**, and **glitch depth** — how visible, how often, how bad.
 - **Breathe the ambient glow**, **ease the phosphor glow**, **fade menus & modals** — the slow involuntary motions of a machine that's idling, not dead.
-- **Terminal block caret**, **hover bloom** (accent glow under the cursor), **active-line scan**, **CRT flicker**, **eased checkbox tick** — the small tics. The wobble in the fan.
+- **Rolodex** — tabs and file-list rows lift toward you on hover with a heavy, springy overshoot and a real drop-shadow, so flicking through them feels tactile; the selected row holds its lift.
+- **Terminal block caret**, **active-line scan**, **CRT flicker**, **eased checkbox tick** — the small tics. The wobble in the fan.
 - **Limelight** — spotlight the pane you're in; every other note and sidebar dims until you look at it. Hover a dimmed pane to peek without taking focus.
 - On **mobile**, the theatre dims itself: grain, scanlines, glow, motion, and the heavy shadows drop automatically on phones and tablets — no toggle, no Style Settings required — and tap targets grow. The device that can't afford the show doesn't have to sit through it.
 
@@ -146,6 +152,19 @@ Friday — and its text and background **derive from that accent automatically**
 in light *and* dark. Add the weekday class (e.g. `cssclass: monday`) to a note to
 key its palette. If you ran the old "Daily Note Themes" snippet, switch it off —
 Bureau owns this room now.
+
+## Changelog
+
+### 2.5.0 — Pill terminal & the reading surface
+- **Pill terminal** (renamed from Pill chrome) is now the full Ultra-Lobster floating layout: the header rides the desk as flat pills, the title bar and active-leaf header go transparent (no black slab), and the **editor floats as its own rounded card** — corners clipped cleanly via `clip-path` so CodeMirror's ledger can't square them off.
+- **Hover-to-reveal** now *reclaims* the header's space instead of just hiding it.
+- **Tabs** rebuilt: active = solid accent + taller; inactive = inverted (black-on-white / white-on-black) and **editor-aware** (flips with *Inverted editor*). No more hover recolour.
+- **Status bar** is editor-aware and inverts with the editor; each section is its own pill.
+- **Colour controls added**: per-mode **text colour** and **black / white levels**.
+- **Wallpaper** takes a **bare URL** now (no `url(…)` wrapping) via `image-set`.
+- **Reading surface**: callout **bold** renders as a redaction stamp, callouts lift on a deeper shadow, **highlights** use the accent, **external links + bare URLs** become accent chips (the `www` tag retired), and **tables** punch the accent harder.
+- **Settings & command palette** regained their backdrop **blur + accent glow**.
+- **Removed**: the "Hover bloom" accent-glow-on-hover (replaced by the tactile Rolodex lift). Many cryptic settings gained descriptions.
 
 ## Credits
 
