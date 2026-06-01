@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@500;600;700;900&display=swap');
 
-/* Bureau — noir Obsidian theme, dark + daylight ("Disco Elysium meets Control" + CRT) · v2.5.1
+/* Bureau — noir Obsidian theme, dark + daylight ("Disco Elysium meets Control" + CRT) · v2.5.2
    Sonophage · github.com/Sonophage/Bureau
    Retheme from the .theme-dark token block; Style Settings config in the @settings block at the foot. */
 
@@ -972,6 +972,13 @@ body::before { opacity: var(--bu-grain-opacity, 0.05); }
   border-left-color: var(--bu-brass);
   background-color: rgba(202, 154, 78, 0.04);
 }
+/* Hover (or edit) a property: flip its key stamp from the static inverted chip to mode-native
+   contrast — white-on-black in dark, ink-on-paper in light — so the label stays legible. */
+:is(.theme-dark, .theme-light) .metadata-property:hover .metadata-property-key-input,
+:is(.theme-dark, .theme-light) .metadata-property-key-input:focus {
+  background: var(--bu-bg);
+  color: var(--bu-text);
+}
 
 :is(.theme-dark, .theme-light) .metadata-property-value a.internal-link,
 :is(.theme-dark, .theme-light) .metadata-property-value a.external-link {
@@ -1817,8 +1824,11 @@ body.bu-pill-chrome .workspace-split .view-content {
   border: 1px solid var(--bu-line);
   border-radius: var(--bu-card-radius, 12px);
   box-shadow: 0 22px 44px -26px rgba(0, 0, 0, 0.78);
-  margin: 6px var(--bu-card-gap, 12px) calc(var(--bu-card-gap, 12px) + 10px);
-  overflow: auto;
+  /* lift the card off the bottom so it clears the centred status bar */
+  margin-bottom: 10px;
+  /* `hidden`, not `auto`: the editor's own .cm-scroller is the scroll container. `auto` here made
+     the card a second nested scroller, which fights the height:100% editor and causes scroll jank. */
+  overflow: hidden;
   /* CodeMirror's scroller uses `contain`, so border-radius+overflow won't clip its rectangular
      ledger background into the rounded corners — clip-path clips every descendant regardless. */
   clip-path: inset(0 round var(--bu-card-radius, 12px));
@@ -1849,12 +1859,18 @@ body.bu-pill-chrome .titlebar { background-color: transparent; }
 .status-bar .status-bar-item .status-bar-item-segment {
   color: var(--bu-editor-bg);
 }
-/* Pill chrome — split into floating pills on a transparent bar (still the inverted fill). */
+/* Pill chrome — split into floating pills on a transparent bar (still the inverted fill).
+   justify-content:center + zeroed item margins cluster the pills in the middle instead of riding
+   the right edge (where they bleed over the sidebar). The margin reset is the load-bearing bit:
+   Obsidian gives a status-bar item `margin-left:auto`, and a flex auto-margin beats justify-content.
+   NOTE: this centres to the WINDOW — reads as editor-centred when sidebars are closed/symmetric;
+   true editor-tracking would need JS (sidebar widths aren't exposed to CSS). */
 body.bu-pill-chrome .status-bar {
   background-color: transparent;
   border-top: none;
   gap: 6px;
   padding: 4px 10px;
+  justify-content: center;
 }
 body.bu-pill-chrome .status-bar-item {
   background-color: var(--bu-editor-text);
@@ -1862,6 +1878,7 @@ body.bu-pill-chrome .status-bar-item {
   border-radius: 999px;
   padding: 2px 11px;
   box-shadow: 0 2px 8px -5px var(--bu-shadow);
+  margin: 0;
 }
 
 /* HORIZONTAL SETTINGS — reflow the settings modal's vertical tab sidebar into a top scrolling
