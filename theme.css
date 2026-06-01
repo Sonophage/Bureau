@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@500;600;700;900&display=swap');
 
-/* Bureau — noir Obsidian theme, dark + daylight ("Disco Elysium meets Control" + CRT) · v2.5.0
+/* Bureau — noir Obsidian theme, dark + daylight ("Disco Elysium meets Control" + CRT) · v2.5.1
    Sonophage · github.com/Sonophage/Bureau
    Retheme from the .theme-dark token block; Style Settings config in the @settings block at the foot. */
 
@@ -2954,6 +2954,7 @@ settings:
     markdown: true
   - id: bu-mode-heading
     title: Mode
+    description: Quick effect presets and the inverted-editor toggle — start here.
     type: heading
     level: 2
     collapsed: false
@@ -2979,6 +2980,7 @@ settings:
     default: false
   - id: bu-color-heading
     title: Color & accent
+    description: Accent preset and custom colour, per-mode text, and black / white levels.
     type: heading
     level: 2
     collapsed: true
@@ -3033,6 +3035,7 @@ settings:
     default: '#e7e0cd'
   - id: bu-atmos-heading
     title: Atmosphere
+    description: Glow, film grain, vignette, shadow, and the accent halo — the ambient layer.
     type: heading
     level: 2
     collapsed: true
@@ -3104,6 +3107,7 @@ settings:
     step: 1
   - id: bu-crt-heading
     title: CRT
+    description: Scanlines, phosphor text-glow, fullscreen tube mode, and the focus line.
     type: heading
     level: 2
     collapsed: true
@@ -3151,6 +3155,7 @@ settings:
     step: 0.05
   - id: bu-cards-heading
     title: Cards & layout
+    description: Float panes as cards, plus reading width, line-height and spacing dials.
     type: heading
     level: 2
     collapsed: true
@@ -3271,6 +3276,7 @@ settings:
 
   - id: bu-tabs-heading
     title: Tabs
+    description: Tab shape, what each dock's tabs show, and pinned-tab behaviour.
     type: heading
     level: 2
     collapsed: true
@@ -3332,6 +3338,7 @@ settings:
 
   - id: bu-hide-heading
     title: Hide / Focus
+    description: Focus Mode plus à-la-carte switches for hiding bits of chrome.
     type: heading
     level: 2
     collapsed: true
@@ -3371,6 +3378,7 @@ settings:
 
   - id: bu-anim-heading
     title: Animation
+    description: CRT power-on, scanning line, the Rolodex lift and other eased motions (the master toggle gates all).
     type: heading
     level: 2
     collapsed: true

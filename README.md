@@ -155,6 +155,9 @@ Bureau owns this room now.
 
 ## Changelog
 
+### 2.5.1
+- Every Style Settings **heading now carries a one-line description**, so the panel reads uniformly section to section.
+
 ### 2.5.0 — Pill terminal & the reading surface
 - **Pill terminal** (renamed from Pill chrome) is now the full Ultra-Lobster floating layout: the header rides the desk as flat pills, the title bar and active-leaf header go transparent (no black slab), and the **editor floats as its own rounded card** — corners clipped cleanly via `clip-path` so CodeMirror's ledger can't square them off.
 - **Hover-to-reveal** now *reclaims* the header's space instead of just hiding it.
