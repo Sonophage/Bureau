@@ -92,6 +92,7 @@ theme can't throw it for you.
 ### Color & accent
 - **Accent preset** — *Control* (red) · *Magnus* (green) · *Deus* (gold) · *Custom*. The single colour the whole UI, the glow, and every highlight read from. Change it and the building changes allegiance.
 - **Custom accent** — your own colour, used when the preset is *Custom*. Bring your own bad bulb.
+- **Native accent** — Bureau no longer forces Obsidian's built-in accent, so the startup / "loading" colour and native UI follow **Settings → Appearance → Accent color**. Set that to match your Bureau accent for a seamless launch (the startup screen is painted before Style Settings loads, so it can only follow the native colour).
 - **Text colour — dark / light** — set the body-text ink for each mode independently.
 - **Black level / White level** — how black the darkest surface goes in dark mode, how white the paper gets in light. Set the floor and the ceiling.
 
@@ -126,6 +127,13 @@ The floating editor card in *Pill terminal* mode (needs Pill terminal on).
 - **Custom editor card border colour** (+ **Editor card border colour**) — recolour the outline instead of the theme default. *Remove* wins if both are on.
 - **Editor card rounding** — corner radius of the floating card (0–28 px); drives the clip-path too, so corners clip cleanly.
 
+### Scrollbars
+- **Hide scrollbars** — gone, but the content still scrolls (wheel, trackpad, keys).
+- **Scrollbar width** — thickness in pixels (2–20).
+- **Custom scrollbar colour** (+ **Scrollbar colour**) — recolour the resting thumb; the active/dragged thumb keeps the accent.
+- **Fade scrollbars** (+ **Fade-out delay**) — the thumb stays invisible until the pointer is over the scroll area, then lingers and fades out after the delay. *Covers wheel, trackpad and dragging the grip; a true touch idle-timer needs a plugin, and some builds snap rather than tween the fade.*
+- **Accent the thumb while scrolling** — the thumb flushes to the accent while gripped or hovered, easing back to its resting colour.
+
 ### Floating & glass
 Optional soft looks layered over the brutalist base — all off by default, so the standard theme is untouched.
 - **Heavier card float** — a deeper shadow + more space, so panes lift higher off the desk.
@@ -136,7 +144,7 @@ Optional soft looks layered over the brutalist base — all off by default, so t
 - **Custom background image** (+ URL + dim) — a wallpaper behind the workspace, visible through the frosted glass. **Just paste the address** (`https://…` or a vault path) — no `url(…)` wrapping; the dim keeps text legible.
 
 ### Tabs
-- **Tab shape** — *Folder* (connected, like a real file drawer) or *Pill* (fully rounded, for people who've made peace with it). The **active tab fills solid accent and rises taller** than the rest; **inactive tabs invert** — black-on-white / white-on-black — and they're **editor-aware**, flipping with *Inverted editor* so they always track the editor's palette, not the window's.
+- **Tab shape** — *Folder* (connected, like a real file drawer) or *Pill* (fully rounded, for people who've made peace with it). The **active tab fills solid accent and rises taller** than the rest; **inactive tabs invert** — black-on-white / white-on-black — and they're **editor-aware**, flipping with *Inverted editor* so they always track the editor's palette, not the window's. Labels sit **dead-centre** and stay put when the close button appears.
 - **Main / Left sidebar / Right sidebar tab content** — Icons · Labels · Icons + Labels. Decide per dock how much each tab is willing to admit about itself.
 - **Pinned tabs → icon only** — the ones you've decided to keep say less.
 
@@ -155,6 +163,7 @@ entrances).
 - **Channel-change crossfade** — fade-from-black plus a scan-line wipe when you switch notes. Changing the channel.
 - **Scanning line** — a faint white line drifts slowly down the editor and, every so often, glitches in and out like a connection that isn't seated right. Sliders for **brightness**, **glitch interval**, and **glitch depth** — how visible, how often, how bad.
 - **Breathe the ambient glow**, **ease the phosphor glow**, **fade menus & modals** — the slow involuntary motions of a machine that's idling, not dead.
+- **Typewriter tooltips** — tooltips reveal left-to-right, struck out one character at a time like a line on a platen.
 - **Rolodex** — tabs and file-list rows lift toward you on hover with a heavy, springy overshoot and a real drop-shadow, so flicking through them feels tactile; the selected row holds its lift.
 - **Terminal block caret**, **active-line scan**, **CRT flicker**, **eased checkbox tick** — the small tics. The wobble in the fan.
 - **Limelight** — spotlight the pane you're in; every other note and sidebar dims until you look at it. Hover a dimmed pane to peek without taking focus.
