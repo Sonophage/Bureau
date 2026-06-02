@@ -178,6 +178,17 @@ Bureau owns this room now.
 
 ## Changelog
 
+### 2.6.0
+- **Accessibility pass** — secondary "faint" text now clears WCAG AA in both palettes (was ~2.8:1); accent-coloured text (links, *italic* emphasis) darkens on paper via a new `--bu-accent-ink` so it clears AA there too, while borders, fills and glow keep the vivid accent; and a `:focus-visible` keyboard ring marks focus for keyboard / assistive-tech users without showing on mouse clicks.
+- **Phosphor terminal** — two new accent presets, **Amber** and **Green (P1)**, plus a **Phosphor terminal** toggle that tints the dark-mode body text to the accent for a monochrome vintage-CRT look.
+- **Boot sequence** — the CRT power-on is a real tube switch-on now (collapse to a scan-slit, vertical bloom, phosphor settle), and a new **Boot sequence** toggle adds a beam-striking-the-glass flash on app launch, front-loaded so it lands as the window appears.
+- **Accent caret** — the caret rides the accent in every mode (dark, paper, inverted) so it stops getting lost against the ink, and the Block caret pulses like a terminal cursor (stops under reduced-motion, the solid block stays).
+- **Checkboxes** — a checked task box is a printed box: white field on dark, black on paper, with an accent mark; fixed the mark vanishing in the editor under Paper / Inverted-editor mode.
+- **Coverage** — **notices / toasts**, **Canvas** (node cards + bevel, accent focus, themed edges and backdrop), **footnotes**, and **MathJax** are now styled instead of falling back to stock grey.
+- **New Style Settings levers** — **Flat card edges** (bevel off, shadow kept), **Card shadow blur** + **spread** sliders, a **custom scrollbar grip colour** (decoupled from the accent), and an **Animation easing** select (Ease-out / Smooth / Linear).
+- **Light-mode fixes** — the accent no longer reverts to red inside the inverted-editor pane (the accent palette moved to a zero-specificity `:where(body)` rule so the Style Settings choice always wins); focused property fields lift onto a visible surface instead of vanishing into the page, and resting property fields carry an accent border.
+- **Under the hood** — removed all `:has()` selectors (selector-invalidation cost), consolidated the metadata-input rules from five overlapping blocks into one, tokenised the card drop-shadow, gave the graph-controls panel the theme's card material, and added a `CONTRIBUTING.md` plus a `test/kitchen-sink.md` regression note.
+
 ### 2.5.3
 - **Resize handles** section added — **remove** the sidebar split divider lines outright or **recolour** them, on a single `--bu-handle-border` lever.
 - **Pill editor card** section added — **remove** or **recolour** the floating editor card's border, plus an **Editor card rounding** slider (drives both `border-radius` and the `clip-path` inset). Scoped to `body.bu-pill-chrome .workspace-split .view-content`.
@@ -220,6 +231,10 @@ Fonts, loaded via Google Fonts with system fallbacks when the wire goes dead:
 mono). Both OFL.
 
 ## Development
+
+Pulling the lid off, filing a bug, or sending a change? [CONTRIBUTING.md](CONTRIBUTING.md)
+has the house rules — one file, no `!important`, no `:has()`, opt-in atmosphere —
+and the `@settings` scars worth not reopening.
 
 It's one `theme.css`. Edit it and reload Obsidian — hard-reload, or toggle the
 theme off and back on, because Obsidian caches the stylesheet and will lie to you

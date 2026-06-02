@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@500;600;700;900&display=swap');
 
-/* Bureau — noir Obsidian theme, dark + daylight ("Disco Elysium meets Control" + CRT) · v2.5.3
+/* Bureau — noir Obsidian theme, dark + daylight ("Disco Elysium meets Control" + CRT) · v2.6.0
    Sonophage · github.com/Sonophage/Bureau
    Retheme from the .theme-dark token block; Style Settings config in the @settings block at the foot. */
 
@@ -8,6 +8,22 @@
    editor pane makes its descendants recompute against the editor's own --bu-* (paper, set by the
    .theme-light selector addition further down) while body stays .theme-dark — so chrome stays dark. */
 /* ───────────────────────────  TOKENS & PALETTE — base --bu-* colours (dark + light) + Obsidian core var map  ─────────────────────────── */
+/* ACCENT PALETTE — mode- AND pane-agnostic. Declared at zero specificity via :where() so (a) the
+   Style Settings accent choice (preset or custom — it scopes to body) always wins, and (b) the
+   inverted-editor pane's full token re-declaration below can't snap --bu-accent back to red inside
+   the pane. The presets are constants; --bu-accent is the live one; derived shades stay in the block. */
+:where(body) {
+  --bu-control: #e23b2c;
+  --bu-magnus:  #2f7d52;
+  --bu-deus:    #d7a531;
+  --bu-amber:   #ffb000;   /* P3 amber phosphor — vintage terminal */
+  --bu-p1:      #43ff7d;   /* P1 green phosphor */
+  --bu-accent-custom: #e23b2c;
+  --bu-accent:    var(--bu-control);
+  /* Accent when used as TEXT. Identical to --bu-accent on dark; darkened on paper (see .theme-light)
+     so accent-coloured text clears WCAG AA — vivid accent on bright paper was only ~3.3:1. */
+  --bu-accent-ink: var(--bu-accent);
+}
 .theme-dark,
 .theme-light,
 body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-content,
@@ -26,7 +42,7 @@ body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-conte
   --bu-text: var(--bu-text-dark, #f1efea);
   --bu-text-hi: #ffffff;
   --bu-muted: #968d7e;
-  --bu-faint: #5f594e;
+  --bu-faint: #8c8473;   /* was #5f594e (2.8:1 — failed WCAG); now ~5.3:1 on the dark bg */
   --bu-brass: #ca9a4e;
   --bu-teal: #4f817a;
   --bu-label-bg: #f3f1eb;
@@ -35,11 +51,10 @@ body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-conte
   --bu-veil: #ffffff;
   --bu-code-bg: #0a0908;
 
-  --bu-control: #e23b2c;
-  --bu-magnus:  #2f7d52;
-  --bu-deus:    #d7a531;
-  --bu-accent-custom: #e23b2c;
-  --bu-accent:    var(--bu-control);
+  /* NB: the accent palette is NOT defined here — it lives in the mode/pane-agnostic :where(body)
+     rule just above this block. Re-declaring --bu-accent in here (which the inverted-editor pane
+     re-runs at high specificity) was resetting the Style-Settings accent back to red inside that
+     pane. Only the derived shades, which read --bu-accent live, stay. */
   --bu-accent-hi: color-mix(in srgb, var(--bu-accent), white 24%);
   --bu-label-tag: color-mix(in srgb, var(--bu-accent), black 25%);
   --bu-glow:      color-mix(in srgb, var(--bu-accent) calc(var(--bu-glow-intensity, 13) * 1%), transparent);
@@ -58,7 +73,7 @@ body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-conte
   --text-normal: var(--bu-text);
   --text-muted: var(--bu-muted);
   --text-faint: var(--bu-faint);
-  --text-accent: var(--bu-accent);
+  --text-accent: var(--bu-accent-ink);
   --text-accent-hover: var(--bu-accent-hi);
   --text-on-accent: var(--bu-on-accent);
   --text-selection: color-mix(in srgb, var(--bu-accent) 22%, transparent);
@@ -78,7 +93,7 @@ body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-conte
   --link-external-color-hover: var(--bu-accent-hi);
   --link-decoration: none;
   --link-decoration-hover: underline;
-  --link-unresolved-color: var(--bu-accent);
+  --link-unresolved-color: var(--bu-accent-ink);
   --link-unresolved-opacity: 0.75;
   --hr-color: var(--bu-border);
   --blockquote-border-color: var(--bu-accent);
@@ -107,8 +122,13 @@ body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-conte
   --scrollbar-thumb-bg: color-mix(in srgb, var(--bu-veil) 10%, transparent);
   --scrollbar-active-thumb-bg: var(--bu-accent);
   --scrollbar-bg: transparent;
-  --checkbox-color: var(--bu-green);
-  --checkbox-color-hover: var(--bu-green);
+  /* Checked box = a printed checkbox: white field on dark, black field on paper. --bu-veil already
+     flips #fff↔#000 per mode (and re-resolves in the inverted-editor pane), so it does this for free.
+     The tick rides the ACCENT in both modes. All three set explicitly so Paper / Inverted-editor
+     can't fall back to --background-primary and wash the mark out (the old failure). */
+  --checkbox-color: var(--bu-veil);
+  --checkbox-color-hover: var(--bu-accent);
+  --checkbox-marker-color: var(--bu-accent);
   --toggle-thumb-color: #ffffff;
   --inline-title-font: var(--bu-font-label);
   --bu-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.58 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E");
@@ -126,8 +146,11 @@ body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-conte
   --bu-scrollbar-width: calc(var(--bu-scrollbar-width-n, 12) * 1px);
   --bu-scrollbar-fade-delay: calc(var(--bu-scrollbar-fade-delay-n, 1500) * 1ms);
   --bu-card-shadow: 0.55;
+  --bu-card-shadow-blur: 12;    /* px — card drop-shadow softness (Style Settings slider) */
+  --bu-card-shadow-spread: 0;   /* px — card drop-shadow spread */
   --bu-shadow: color-mix(in srgb, #000 calc(var(--bu-shadow-strength, 50) * 1%), transparent);
   --bu-shadow-soft: color-mix(in srgb, #000 calc(var(--bu-shadow-strength, 50) * 0.66%), transparent);
+  --bu-shadow-strong: 0.55;   /* opacity for the few solid drop/press shadows (rgba black) — one dial */
   /* Glass-bevel card edge (Ultra-Lobster-style): inset TL highlight + inset BR shadow.
      Dark = faint light bevel from the white veil; light overridden below. */
   --bu-glass-tl: inset 1px 1px 0 0 color-mix(in srgb, var(--bu-text-hi) 26%, transparent);
@@ -171,13 +194,14 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
   --bu-text: var(--bu-text-light, #1e1a14);   /* typewriter ink */
   --bu-text-hi: #0d0a06;     /* darkest ink — headings/bold */
   --bu-muted: #5c5444;       /* darkened to clear WCAG AA (4.5:1) on paper */
-  --bu-faint: #8a8069;
+  --bu-faint: #6a6252;   /* was #8a8069 (3.0:1 — failed WCAG); now ~4.6:1 on paper */
   --bu-brass: #8a6a24;       /* darker brass reads on paper */
   --bu-teal: #2f6058;
   --bu-label-bg: #1c1813;    /* INVERTED: dark stamp on paper */
   --bu-label-fg: #efe9db;    /* paper text on the stamp */
   --bu-on-accent: #ffffff;
   --bu-veil: #000000;        /* hover veils darken on light */
+  --bu-accent-ink: color-mix(in srgb, var(--bu-accent), #000 30%);   /* darken accent text ~5.7:1 on paper */
   --bu-code-bg: #e6dfce;     /* paper-grey code block */
   --bu-line: #b8ad93;        /* pencil rule */
   --bu-shadow: color-mix(in srgb, #2e2618 calc(var(--bu-shadow-strength, 50) * 0.4%), transparent);   /* warm; paper takes less */
@@ -317,7 +341,7 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
 }
 .markdown-rendered em,
 .cm-s-obsidian .cm-em {
-  color: var(--bu-accent);
+  color: var(--bu-accent-ink);   /* darkens on paper so italic emphasis clears WCAG AA */
   font-style: italic;
 }
 /* Bold italic — a readable stamp: paper fill, accent ink, accent hairline ring (the strikethrough
@@ -753,17 +777,35 @@ body::before { opacity: var(--bu-grain-opacity, 0.05); }
 :is(.theme-dark, .theme-light) .metadata-property-icon { color: var(--bu-muted); }
 
 :is(.theme-dark, .theme-light) .metadata-property-value { color: var(--bu-text); }
+
+/* Property value fields — ONE definition (was split across three overlapping blocks + a redundant
+   :focus rule). Base: shared fill/padding/radius with a 1.5px transparent border, so link chips
+   stay borderless. The editable inputs then take an accent border at rest (so the field is visible)
+   and lift onto --bu-raised on focus (--bu-bg would match the page and the field would vanish, worst
+   on paper). Both states share the accent border, so no :not(:focus-within) gymnastics needed. */
+:is(.theme-dark, .theme-light) .metadata-input-longtext,
+:is(.theme-dark, .theme-light) .metadata-input-text,
+:is(.theme-dark, .theme-light) .metadata-property-value input,
+:is(.theme-dark, .theme-light) .metadata-property-value .metadata-input,
+:is(.theme-dark, .theme-light) .metadata-property-value .metadata-link-inner {
+  color: var(--bu-text);
+  background: transparent;
+  border: 1.5px solid transparent;
+  border-radius: 2px;
+  padding: 2px 4px;
+  box-shadow: none;
+}
 :is(.theme-dark, .theme-light) .metadata-input-longtext,
 :is(.theme-dark, .theme-light) .metadata-input-text,
 :is(.theme-dark, .theme-light) .metadata-property-value input,
 :is(.theme-dark, .theme-light) .metadata-property-value .metadata-input {
-  color: var(--bu-text);
+  border-color: var(--bu-accent);
 }
 :is(.theme-dark, .theme-light) .metadata-input-longtext:focus,
 :is(.theme-dark, .theme-light) .metadata-input-text:focus,
-:is(.theme-dark, .theme-light) .metadata-property-value input:focus {
-  border-color: var(--bu-accent);
-  box-shadow: none;
+:is(.theme-dark, .theme-light) .metadata-property-value input:focus,
+:is(.theme-dark, .theme-light) .metadata-property-value .metadata-input:focus {
+  background: var(--bu-raised);
 }
 
 :is(.theme-dark, .theme-light) .metadata-property .multi-select-pill {
@@ -779,24 +821,6 @@ body::before { opacity: var(--bu-grain-opacity, 0.05); }
 }
 
 :is(.theme-dark, .theme-light) .metadata-property-key { padding-right: 12px; }
-:is(.theme-dark, .theme-light) .metadata-input-longtext,
-:is(.theme-dark, .theme-light) .metadata-input-text,
-:is(.theme-dark, .theme-light) .metadata-property-value input,
-:is(.theme-dark, .theme-light) .metadata-property-value .metadata-input,
-:is(.theme-dark, .theme-light) .metadata-property-value .metadata-link-inner {
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 2px;
-  padding: 2px 4px;
-  box-shadow: none;
-}
-:is(.theme-dark, .theme-light) .metadata-input-longtext:focus,
-:is(.theme-dark, .theme-light) .metadata-input-text:focus,
-:is(.theme-dark, .theme-light) .metadata-property-value input:focus,
-:is(.theme-dark, .theme-light) .metadata-property-value .metadata-input:focus {
-  background: var(--bu-bg);
-  border-color: var(--bu-border-hi);
-}
 
 :is(.theme-dark, .theme-light) .metadata-property-icon { margin-right: 9px; }
 
@@ -953,6 +977,14 @@ body::before { opacity: var(--bu-grain-opacity, 0.05); }
 }
 .bases-boolean,
 .bases-view input[type="checkbox"] { accent-color: var(--bu-accent); }
+/* Checked task checkbox — paint the box fill DIRECTLY on the element (some Obsidian builds don't
+   fill the checked box from --checkbox-color, only its border/marker — which is why the accent mark
+   showed but the box stayed the wrong colour). A printed box: white field on dark, black on paper
+   (--bu-veil flips per mode and in the inverted-editor pane); the accent mark rides --checkbox-marker-color. */
+:is(.markdown-rendered, .markdown-source-view.mod-cm6) input[type="checkbox"]:checked {
+  background-color: var(--bu-veil);
+  border-color: var(--bu-veil);
+}
 
 /* Cards view — dossier cards on the dark desk. */
 .bases-cards-item {
@@ -985,15 +1017,8 @@ body::before { opacity: var(--bu-grain-opacity, 0.05); }
   letter-spacing: 0.01em;
 }
 
-:is(.theme-dark, .theme-light) .metadata-property:not(:focus-within) .metadata-input-longtext,
-:is(.theme-dark, .theme-light) .metadata-property:not(:focus-within) .metadata-input-text,
-:is(.theme-dark, .theme-light) .metadata-property:not(:focus-within) .metadata-property-value input,
-:is(.theme-dark, .theme-light) .metadata-property:not(:focus-within) .metadata-property-value .metadata-input {
-  background: transparent;
-  border-color: transparent;
-  box-shadow: none;
-}
-
+/* (The former .metadata-property:not(:focus-within) resting-border block was folded into the single
+   consolidated value-field definition above — both states share the accent border now.) */
 :is(.theme-dark, .theme-light) .metadata-property {
   border-left: 2px solid transparent;
   padding-left: 4px;
@@ -1172,6 +1197,16 @@ input:focus, textarea:focus, select:focus, .dropdown:focus {
   border-color: var(--bu-accent);
   box-shadow: 0 0 0 1px var(--bu-accent);
 }
+/* Keyboard focus ring — :focus-visible only, so it shows for keyboard/AT navigation but not on
+   mouse clicks. The theme's hover/active cues are subtle, so keyboard users got little feedback;
+   a clear accent outline fixes WCAG 2.4.7 without recolouring the mouse experience. */
+:is(.theme-dark, .theme-light) :is(a, button, .clickable-icon, .nav-file-title, .nav-folder-title,
+  .tree-item-self.is-clickable, .suggestion-item, .menu-item, .workspace-tab-header,
+  .checkbox-container, .nav-action-button, .view-action):focus-visible {
+  outline: 2px solid var(--bu-accent);
+  outline-offset: 1px;
+  border-radius: 2px;
+}
 
 button.mod-cta, .mod-cta {
   background: var(--bu-accent);
@@ -1218,17 +1253,14 @@ button.mod-cta:hover { background: var(--bu-accent-hi); }
   backdrop-filter: blur(10px) saturate(1.05);
 }
 /* Nested / stacked modals (e.g. Settings → Browse themes or community plugins) open a SECOND
-   .modal-container over the first. Relying on the top backdrop to blur the modal underneath fails:
-   Obsidian drives .modal-bg opacity itself, and Chromium's backdrop-filter can't blur THROUGH the
-   lower modal's own backdrop-filter layer. So blur the modal(s) beneath the top one DIRECTLY —
-   :has(~ .modal-container) matches any modal-container that has a later sibling modal-container. */
+   .modal-container over the first. We can't reliably blur the buried modal itself — selecting
+   "a modal-container that has a later sibling" would need a parent/has selector, which Obsidian's
+   reviewers flag for its selector-invalidation cost — so we lean on the top container's own
+   backdrop instead: the sibling combinator darkens the upper .modal-bg hard, sinking the rest. */
 .modal-container ~ .modal-container .modal-bg {
-  background-color: rgba(0, 0, 0, 0.74);
+  background-color: rgba(0, 0, 0, 0.82);
   -webkit-backdrop-filter: blur(22px) saturate(1.05);
   backdrop-filter: blur(22px) saturate(1.05);
-}
-.modal-container:has(~ .modal-container) .modal {
-  filter: blur(8px) brightness(0.6);
 }
 /* Accent halo around the settings modal panel (the palette is transparent, so its glow is the
    backdrop radial above). */
@@ -1448,7 +1480,7 @@ button:not(.clickable-icon):active,
 .clickable-icon:active,
 .nav-action-button:active,
 .side-dock-ribbon-action:active {
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.55);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, var(--bu-shadow-strong));
   transform: translateY(1px);
 }
 .mod-cta {
@@ -1728,7 +1760,8 @@ body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
   border: 1px solid var(--bu-line);
   border-radius: var(--bu-card-radius);
   margin: 0 0 calc(var(--bu-card-gap) + 5px) 0;
-  box-shadow: var(--bu-glass-tl), var(--bu-glass-br), 0 4px 12px rgba(0, 0, 0, var(--bu-card-shadow, 0.55));
+  box-shadow: var(--bu-glass-tl), var(--bu-glass-br),
+    0 4px calc(var(--bu-card-shadow-blur, 12) * 1px) calc(var(--bu-card-shadow-spread, 0) * 1px) rgba(0, 0, 0, var(--bu-card-shadow, 0.55));
   overflow: hidden;
 }
 
@@ -1860,8 +1893,10 @@ body.bu-pill-chrome .nav-buttons-container {
   box-shadow: 0 2px 8px -5px var(--bu-shadow);
   border: 1px solid var(--bu-line);
 }
-/* Peek — fade the header out until it's hovered/focused, or the title is being renamed.
-   The header is in normal flow now (pointer-events normal), so :hover fires reliably. */
+/* Peek — fade the header out until it's hovered or focused. (It used to also reveal while the
+   inline title was being renamed, but that needed a parent/has selector spanning every editor
+   leaf, which is exactly the selector-invalidation cost the theme reviewers warn about — dropped.
+   The header is in normal flow now, so :hover fires reliably.) */
 body.bu-pill-chrome.bu-pill-peek .view-header {
   opacity: 0;
   max-height: 6px;          /* reclaim the header's space — collapse to a thin hover sliver */
@@ -1873,8 +1908,7 @@ body.bu-pill-chrome.bu-pill-peek .view-header {
     margin-bottom var(--bu-t-slow, 200ms) ease;
 }
 body.bu-pill-chrome.bu-pill-peek .view-header:hover,
-body.bu-pill-chrome.bu-pill-peek .view-header:focus-within,
-body.bu-pill-chrome.bu-pill-peek .workspace-leaf-content:has(.inline-title:focus-within) .view-header {
+body.bu-pill-chrome.bu-pill-peek .view-header:focus-within {
   opacity: 1;
   max-height: 60px;
   margin-bottom: 12px;
@@ -2208,7 +2242,10 @@ body:not(.bu-cards) .mod-right-split .workspace-tabs {
 .graph-controls {
   background-color: color-mix(in srgb, var(--bu-bg) 88%, transparent);
   border: 1px solid var(--bu-line);
-  border-radius: 4px;
+  border-radius: 6px;
+  /* match the theme's other floating panels: glass bevel + a soft drop so it reads as the same
+     material instead of a flat slab (cohesion pass). */
+  box-shadow: var(--bu-glass-tl), var(--bu-glass-br), 0 6px 16px -6px var(--bu-shadow-soft);
   -webkit-backdrop-filter: var(--bu-acrylic);
   backdrop-filter: var(--bu-acrylic);
 }
@@ -2343,20 +2380,28 @@ body.theme-dark .markdown-rendered p,
 body.theme-dark .markdown-rendered li {
   text-shadow: 0 0 calc(var(--bu-glow-text, 55) * 0.08px) color-mix(in srgb, var(--bu-accent) calc(var(--bu-glow-text, 55) * 1%), transparent);
 }
+/* PHOSPHOR TERMINAL — collapse the page to one glowing hue, the way a vintage tube only ever emitted
+   its own colour. Pair the toggle with the Amber or Green (P1) accent preset (any accent works): the
+   accent already drives the glow, scanline tint, links and UI, and this tints the dark-mode body ink
+   to match — so the type itself burns the same phosphor. Dark-mode look by design; on paper the
+   accent recolours but the ink stays. The text-glow rule above reads --bu-accent, so it lights up free. */
+body.theme-dark.bu-phosphor { --bu-text-dark: var(--bu-accent); }
+body.bu-phosphor { --bu-green: var(--bu-accent); }   /* checkboxes & ticks join the monochrome */
 /* Inverted-editor mode. Force the pane's text to its own (inverted) ink so it can't inherit the
    chrome's color, and give each side the texture that fits its palette. */
 body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-content,
 body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-content {
   color: var(--bu-text);
 }
-/* Caret follows the page's own ink (dark caret on paper, light on noir), not the chrome's. */
-body.bu-split-editor .workspace-split.mod-root .cm-editor {
-  --caret-color: var(--bu-text);
-  caret-color: var(--bu-text);
+/* Caret rides the accent in every mode (dark, paper, inverted). A text-coloured caret blinked and
+   got lost against the ink; the accent line stays findable. The block caret (below) keeps its fill. */
+.cm-editor {
+  --caret-color: var(--bu-accent);
+  caret-color: var(--bu-accent);
 }
-body.bu-split-editor .workspace-split.mod-root .cm-cursor,
-body.bu-split-editor .workspace-split.mod-root .cm-cursor-primary {
-  border-color: var(--bu-text);
+.cm-editor .cm-cursor,
+.cm-editor .cm-cursor-primary {
+  border-color: var(--bu-accent);
 }
 /* Paper page (dark mode): no dark-CRT scanlines/phosphor on a light page — keeps ledger + paper tooth. */
 body.theme-dark.bu-split-editor .markdown-source-view.mod-cm6 .cm-editor::after,
@@ -2392,7 +2437,7 @@ body.theme-light.bu-split-editor .markdown-reading-view::after {
   border-radius: 2px;
   font-size: 0.76em;
   letter-spacing: 0.04em;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, var(--bu-shadow-strong));
 }
 
 body.is-fullscreen.bu-fullscreen-crt .markdown-source-view.mod-cm6 .cm-editor,
@@ -2707,21 +2752,78 @@ body.bu-hide-sidebar-toggle-right .sidebar-toggle-button.mod-right { display: no
 body.bu-hide-folder-arrow .nav-folder-title .tree-item-icon.collapse-icon { display: none; }
 body.bu-hide-prompt-instructions .prompt-instructions { display: none; }
 
+/* ───────────────────────────  COVERAGE — surfaces Obsidian shows that defaulted to stock grey  ─────────────────────────── */
+
+/* NOTICES / TOASTS — the feedback popups defaulted to a grey slab that broke the noir chrome.
+   Dress them as a case-file memo: raised surface, accent left edge, the theme's border + drop. */
+:is(.theme-dark, .theme-light) .notice {
+  background: var(--bu-raised);
+  color: var(--bu-text);
+  border: 1px solid var(--bu-line);
+  border-left: 3px solid var(--bu-accent);
+  border-radius: 6px;
+  box-shadow: var(--bu-glass-tl), var(--bu-glass-br), 0 8px 22px -8px var(--bu-shadow);
+  font-family: var(--bu-font-body);
+  letter-spacing: 0.01em;
+}
+
+/* CANVAS — nodes + edges in the Bureau palette instead of Obsidian's stock white/grey. Drive the
+   core canvas vars for the backdrop, then give node cards the theme's surface + bevel material. */
+.canvas-wrapper {
+  --canvas-background: var(--bu-bg-alt);
+  --canvas-dot-pattern: color-mix(in srgb, var(--bu-line) 60%, transparent);
+}
+.canvas-node .canvas-node-container {
+  background-color: var(--bu-surface);
+  border: 1px solid var(--bu-line);
+  border-radius: 8px;
+  box-shadow: var(--bu-glass-tl), var(--bu-glass-br), 0 5px 14px var(--bu-shadow-soft);
+}
+.canvas-node.is-focused .canvas-node-container,
+.canvas-node:focus-within .canvas-node-container { border-color: var(--bu-accent); }
+.canvas-node-label { color: var(--bu-text); font-family: var(--bu-font-label); }
+.canvas-edges path, .canvas-edge .canvas-display-arrow { stroke: var(--bu-border-hi); }
+
+/* FOOTNOTES — small accent refs + a quietly divided footnotes block, so they read as the theme's. */
+.markdown-rendered .footnote-ref a,
+.markdown-rendered sup[id^="fnref"] a { color: var(--bu-accent-ink); text-decoration: none; }
+.markdown-rendered .footnotes {
+  border-top: 1px solid var(--bu-line);
+  color: var(--bu-muted);
+  font-size: 0.92em;
+}
+.markdown-rendered .footnote-backref { color: var(--bu-accent-ink); }
+
+/* MATH (MathJax) — inherit the ink (it uses currentColor, but pin it so phosphor/inverted modes
+   can't leave equations a stray colour); give display math a touch of breathing room. */
+.markdown-rendered :is(mjx-container, .math) { color: var(--bu-text); }
+.markdown-rendered mjx-container[display="true"] { margin: 0.2em 0; }
+
 /* ANIMATION SUITE — keyframes + bu-anim effects · then EFFECTS-MODE / MOBILE / @settings ═══════ */
 /* ───────────────────────────  ANIMATION & CRT-FX — keyframes, effects, focus line, mode/mobile overrides  ─────────────────────────── */
+/* CRT switch-on. A real tube doesn't fade up — it cracks open: the beam fires as a single bright
+   horizontal slit at centre, the slit blooms vertically, brightness overshoots while the phosphor
+   floods, then dips and settles. transform-origin is centre, so the collapse reads as one scan line
+   on a black field. */
 @keyframes bu-poweron {
-  0%   { opacity: 0; transform: scaleY(0.99); filter: brightness(0.18); }
-  55%  { opacity: 1; filter: brightness(1.14); }
-  100% { transform: scaleY(1); filter: brightness(1); }
+  0%   { opacity: 0; transform: scaleY(0.006); filter: brightness(3.4) contrast(1.5); }
+  12%  { opacity: 1; transform: scaleY(0.014); filter: brightness(2.9) contrast(1.6); }  /* the slit fires + holds a beat */
+  44%  { transform: scaleY(1.015); filter: brightness(1.7) contrast(1.25); }             /* bloom open, slight vertical overshoot */
+  62%  { transform: scaleY(0.998); filter: brightness(0.9) contrast(1.05); }             /* the tube settling — a phosphor dip */
+  100% { transform: scaleY(1); filter: brightness(1) contrast(1); }
 }
 @keyframes bu-fade-scale {
   from { opacity: 0; transform: scale(0.985); }
   to   { opacity: 1; transform: scale(1); }
 }
+/* Same switch-on for the whole workspace on launch, with a blur warm-up — the beam pulls into
+   focus as it floods, the way a cold tube sharpens a half-second after it lights. */
 @keyframes bu-appstart {
-  0%   { opacity: 0; transform: scaleY(0.97); filter: brightness(1.8) blur(1px); }
-  45%  { opacity: 1; filter: brightness(1.22) blur(0); }
-  100% { transform: scaleY(1); filter: brightness(1); }
+  0%   { opacity: 0; transform: scaleY(0.02);  filter: brightness(2.8) contrast(1.4) blur(2px); }
+  14%  { opacity: 1; transform: scaleY(0.03);  filter: brightness(2.5) contrast(1.5) blur(1.5px); }
+  46%  { transform: scaleY(1.01);  filter: brightness(1.5) contrast(1.2) blur(0.4px); }
+  64%  { transform: scaleY(0.997); filter: brightness(0.92) blur(0); }
+  100% { transform: scaleY(1);     filter: brightness(1) contrast(1) blur(0); }
 }
 
 body.bu-anim :is(.workspace-tab-header, .clickable-icon, button, .nav-file-title,
@@ -2790,6 +2892,35 @@ body.bu-anim.bu-poweron .empty-state {
   animation: bu-fade-scale var(--bu-t-slow) var(--bu-anim-ease);
 }
 
+/* BOOT FLASH — the beam striking the glass AS the app appears, not after: the slit fires across at
+   once and floods to a sheet of light in the first fifth of the run (so the peak lands the instant the
+   window paints, reading as the screen powering on), then DISSOLVES — blur growing with the bloom so it
+   melts rather than snaps. Front-loaded + fast-out easing on purpose. Its own toggle (bu-bootflash).
+   Hung on .horizontal-main-container, which the bu-appstart collapse never transforms, so it stays a
+   true full-screen overlay. Base opacity 0 → reduced-motion / mobile / low-mode strip it and it never paints. */
+@keyframes bu-bootflash {
+  0%   { opacity: 0;    transform: scaleX(0.25) scaleY(1);  filter: blur(0.3px); }
+  5%   { opacity: 1;    transform: scaleX(1) scaleY(2);     filter: blur(0.8px); }   /* beam strikes across at once */
+  20%  { opacity: 0.95; transform: scaleX(1) scaleY(48);    filter: blur(7px); }     /* floods to a sheet of light as the app appears */
+  52%  { opacity: 0.38; transform: scaleX(1) scaleY(150);   filter: blur(16px); }    /* dissolving */
+  100% { opacity: 0;    transform: scaleX(1) scaleY(340);   filter: blur(30px); }    /* gone */
+}
+body.bu-anim.bu-bootflash:not(.is-mobile) .horizontal-main-container::after {
+  content: "";
+  position: fixed;
+  left: 0; right: 0; top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: center;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 16px 3px rgba(255, 255, 255, 0.5),
+    0 0 60px 14px color-mix(in srgb, var(--bu-accent) 55%, transparent);
+  animation: bu-bootflash calc(var(--bu-anim-speed, 600) * 1.15ms) var(--bu-anim-ease) both;
+}
+
 body.bu-anim.bu-glow-ease .cm-line {
   transition: text-shadow var(--bu-t-slow) var(--bu-anim-ease);
 }
@@ -2841,12 +2972,18 @@ body.bu-anim.bu-glow-pulse::after {
   animation: bu-glow-breathe calc(var(--bu-anim-speed, 600) * 10ms) ease-in-out infinite;
 }
 
+/* Terminal block caret — a solid accent block that blinks on a hard cut, the way a CRT cursor sits
+   and pulses waiting for input. The 1%-wide ramp at 49→50 reads as an instant flip, not a fade.
+   Reduced-motion / mobile / low-mode kill the animation via their * { animation: none } rules,
+   leaving the static block at rest (opacity 0.62) — so the cursor never vanishes, it just stops blinking. */
+@keyframes bu-caret-blink { 0%, 49% { opacity: 0.85; } 50%, 100% { opacity: 0; } }
 body.bu-block-caret .cm-editor .cm-cursor,
 body.bu-block-caret .cm-editor .cm-cursor-primary {
   border: none;
   width: 0.62em;
   background-color: var(--bu-accent);
   opacity: 0.62;
+  animation: bu-caret-blink 1.05s linear infinite;
 }
 
 @keyframes bu-line-sweep { from { background-position: 200% 0; } to { background-position: -200% 0; } }
@@ -3089,6 +3226,20 @@ body.theme-light ::-webkit-scrollbar {
 body.bu-scrollbar-custom {
   --scrollbar-thumb-bg: var(--bu-scrollbar-color, color-mix(in srgb, var(--bu-veil) 10%, transparent));
 }
+/* Grip colour — the active/dragged thumb follows the accent by default; this decouples it so you can
+   set a resting-grey thumb that grabs a different colour while dragging. */
+body.bu-scrollbar-grip-custom {
+  --scrollbar-active-thumb-bg: var(--bu-scrollbar-grip, var(--bu-accent));
+}
+/* Flat card edges — drop the inset glass bevel but keep the drop shadow. Invisible no-op shadows
+   (not `none`) so the box-shadow lists that reference these tokens stay valid. */
+body.bu-flat-edges {
+  --bu-glass-tl: 0 0 0 0 transparent;
+  --bu-glass-br: 0 0 0 0 transparent;
+}
+/* Animation easing — swaps the entrance/transition curve. Default (no class) is the snappy ease-out. */
+body.bu-ease-smooth { --bu-anim-ease: cubic-bezier(0.65, 0, 0.35, 1); }
+body.bu-ease-linear { --bu-anim-ease: linear; }
 
 /* Fade — the thumb rests invisible and shows while the pointer is over the scroll area (covers wheel,
    trackpad and dragging the grip), then goes out when the pointer leaves. NOTE: webkit scrollbar
@@ -3126,8 +3277,8 @@ name: Bureau
 id: bureau
 settings:
   - id: bu-whatsnew-note
-    title: What's new — v2.5.3
-    description: "**Bureau v2.5.3**\n\n- **Resize handles** — remove or recolour the sidebar split dividers.\n- **Pill editor card** — border (remove / recolour) + corner-rounding slider.\n- **Scrollbars** — hide, width, thumb colour, hover-fade (with delay), accent-while-gripped.\n- **Tabs** — centred labels, larger uppercase title, native-divider line removed.\n- **Inline text** — accent italic, bold-italic stamp, white bold on light, www chips on bare URLs.\n- **Typewriter tooltips** restored (Animation section).\n- **Nested-modal blur**, and the **native/startup accent** now follows Obsidian's Appearance accent.\n- **Mobile fix** — file explorer / Notebook Navigator no longer render blank until tapped.\n\nFull release history is at the foot of this panel. **Updates:** install via the community-themes browser or [BRAT](https://github.com/TfTHacker/obsidian42-brat) to be notified automatically; otherwise re-download `theme.css` from the [releases page](https://github.com/Sonophage/Bureau)."
+    title: What's new — v2.6.0
+    description: "**Bureau v2.6.0**\n\n- **Accessibility pass** — secondary \"faint\" text now clears WCAG AA in both palettes (was ~2.8:1); accent-coloured text (links, *italic* emphasis) darkens on paper via a new `--bu-accent-ink` so it clears AA there too, while borders, fills and glow keep the vivid accent; and a `:focus-visible` keyboard ring marks focus for keyboard / assistive-tech users without showing on mouse clicks.\n- **Phosphor terminal** — two new accent presets, **Amber** and **Green (P1)**, plus a **Phosphor terminal** toggle that tints the dark-mode body text to the accent for a monochrome vintage-CRT look.\n- **Boot sequence** — the CRT power-on is a real tube switch-on now (collapse to a scan-slit, vertical bloom, phosphor settle), and a new **Boot sequence** toggle adds a beam-striking-the-glass flash on app launch, front-loaded so it lands as the window appears.\n- **Accent caret** — the caret rides the accent in every mode (dark, paper, inverted) so it stops getting lost against the ink, and the Block caret pulses like a terminal cursor (stops under reduced-motion, the solid block stays).\n- **Checkboxes** — a checked task box is a printed box: white field on dark, black on paper, with an accent mark; fixed the mark vanishing in the editor under Paper / Inverted-editor mode.\n- **Coverage** — **notices / toasts**, **Canvas** (node cards + bevel, accent focus, themed edges and backdrop), **footnotes**, and **MathJax** are now styled instead of falling back to stock grey.\n- **New Style Settings levers** — **Flat card edges** (bevel off, shadow kept), **Card shadow blur** + **spread** sliders, a **custom scrollbar grip colour** (decoupled from the accent), and an **Animation easing** select (Ease-out / Smooth / Linear).\n- **Light-mode fixes** — the accent no longer reverts to red inside the inverted-editor pane (the accent palette moved to a zero-specificity `:where(body)` rule so the Style Settings choice always wins); focused property fields lift onto a visible surface instead of vanishing into the page, and resting property fields carry an accent border.\n- **Under the hood** — removed all `:has()` selectors (selector-invalidation cost), consolidated the metadata-input rules from five overlapping blocks into one, tokenised the card drop-shadow, gave the graph-controls panel the theme's card material, and added a `CONTRIBUTING.md` plus a `test/kitchen-sink.md` regression note.\n\nFull release history is at the foot of this panel. **Updates:** install via the community-themes browser or [BRAT](https://github.com/TfTHacker/obsidian42-brat) to be notified automatically; otherwise re-download `theme.css` from the [releases page](https://github.com/Sonophage/Bureau)."
     type: info-text
     markdown: true
   - id: bu-reset-note
@@ -3179,6 +3330,10 @@ settings:
         value: var(--bu-magnus)
       - label: Deus (gold)
         value: var(--bu-deus)
+      - label: Amber (phosphor)
+        value: var(--bu-amber)
+      - label: Green (P1 phosphor)
+        value: var(--bu-p1)
       - label: Custom
         value: var(--bu-accent-custom)
   - id: bu-accent-custom
@@ -3188,6 +3343,11 @@ settings:
     format: hex
     opacity: false
     default: '#e23b2c'
+  - id: bu-phosphor
+    title: Phosphor terminal (tint text to accent)
+    description: "Monochrome vintage-terminal look. Tints the dark-mode body text to the accent colour, so the type itself glows in one hue. Pair it with the Amber or Green (P1) accent preset above (any accent works). Dark-mode effect."
+    type: class-toggle
+    default: false
   - id: bu-text-dark
     title: Text colour — dark mode
     description: Body text colour while the dark theme is active.
@@ -3381,6 +3541,22 @@ settings:
     min: 0
     max: 0.9
     step: 0.05
+  - id: bu-card-shadow-blur
+    title: Card shadow blur (px)
+    description: How soft the drop-shadow under each card is.
+    type: variable-number-slider
+    default: 12
+    min: 2
+    max: 30
+    step: 1
+  - id: bu-card-shadow-spread
+    title: Card shadow spread (px)
+    description: Grows or tightens the drop-shadow; negative pulls it in.
+    type: variable-number-slider
+    default: 0
+    min: -8
+    max: 10
+    step: 1
   - id: bu-line-width-n
     title: Reading line width
     description: Max line width with "Readable line length" on, in pixels.
@@ -3506,11 +3682,23 @@ settings:
     default: false
   - id: bu-scrollbar-color
     title: Scrollbar colour
-    description: Used when "Custom scrollbar colour" is on (the active/dragged thumb keeps the accent).
+    description: Used when "Custom scrollbar colour" is on (the active/dragged thumb keeps the accent unless you set a grip colour below).
     type: variable-color
     format: hex
     opacity: false
     default: '#5f594e'
+  - id: bu-scrollbar-grip-custom
+    title: Custom scrollbar grip colour
+    description: Recolour the active (dragged) thumb with the colour below instead of following the accent.
+    type: class-toggle
+    default: false
+  - id: bu-scrollbar-grip
+    title: Scrollbar grip colour
+    description: Used when "Custom scrollbar grip colour" is on — the thumb colour while you drag it.
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#968d7e'
 
   - id: bu-float-heading
     title: Floating & glass
@@ -3526,6 +3714,11 @@ settings:
   - id: bu-glass-cards
     title: Frosted glass panes
     description: Translucent, blurred editor and sidebar panes — the stage or your wallpaper shows through. Best paired with a custom background.
+    type: class-toggle
+    default: false
+  - id: bu-flat-edges
+    title: Flat card edges (no bevel)
+    description: Drop the inset glass bevel on cards and panes but keep the drop shadow — flat edges instead of the lit lip.
     type: class-toggle
     default: false
   - id: bu-pill-chrome
@@ -3684,9 +3877,27 @@ settings:
     min: 400
     max: 1000
     step: 20
+  - id: bu-anim-ease
+    title: Animation easing
+    description: The motion curve for entrances and transitions.
+    type: class-select
+    default: bu-ease-default
+    allowEmpty: false
+    options:
+      - label: Ease-out (snappy)
+        value: bu-ease-default
+      - label: Smooth (ease-in-out)
+        value: bu-ease-smooth
+      - label: Linear
+        value: bu-ease-linear
   - id: bu-poweron
     title: CRT power-on (on note/pane open)
     description: A quick scan-in flicker when a note or pane first opens.
+    type: class-toggle
+    default: true
+  - id: bu-bootflash
+    title: Boot sequence (CRT switch-on, on app launch)
+    description: A bright slit fires across the screen and blooms into a soft wash of light as the app launches — the beam striking the glass before the workspace warms in.
     type: class-toggle
     default: true
   - id: bu-glow-ease
@@ -3831,7 +4042,7 @@ settings:
     collapsed: true
   - id: bu-changelog-full
     title: Release history
-    description: "**v2.5.3**\n- Resize handles — remove / recolour the sidebar split dividers.\n- Pill editor card — border (remove / recolour) + corner-rounding slider.\n- Scrollbars — hide, width, thumb colour, hover-fade (+ delay), accent-while-gripped.\n- Tabs — centred labels, larger uppercase title, native-divider line removed.\n- Inline text — accent italic, bold-italic stamp, white bold on light, www chips on bare URLs.\n- Typewriter tooltips restored; nested-modal blur; native/startup accent follows Obsidian's Appearance accent.\n- Mobile — file explorer / Notebook Navigator no longer render blank until tapped.\n\n**v2.5.2**\n- Editor scroll fix, centred status bar, property-stamp hover.\n\n**v2.5.1**\n- Every Style Settings heading carries a one-line description.\n\n**v2.5.0 — Pill terminal & the reading surface**\n- Full Ultra-Lobster floating layout; editor floats as its own rounded card; hover-to-reveal reclaims space; tabs rebuilt (active = solid accent, inactive = inverted, editor-aware); per-mode text colour + black/white levels; bare-URL wallpaper; reading-surface polish.\n\n**v2.4.0**\n- Floating-header pill chrome + hover peek, glass-bevel cards, accent halo, horizontal settings nav, first print/PDF block.\n\n**v2.3.0**\n- Floating & glass mode (frosted panes, wallpaper, pill chrome), rolodex tabs/list.\n\n**v2.2.0 / v2.1.0 / v2.0.0**\n- Limelight spotlight; council cleanup pass; daylight (light) variant + inverted-editor chiaroscuro."
+    description: "**v2.6.0**\n- **Accessibility pass** — secondary \"faint\" text now clears WCAG AA in both palettes (was ~2.8:1); accent-coloured text (links, *italic* emphasis) darkens on paper via a new `--bu-accent-ink` so it clears AA there too, while borders, fills and glow keep the vivid accent; and a `:focus-visible` keyboard ring marks focus for keyboard / assistive-tech users without showing on mouse clicks.\n- **Phosphor terminal** — two new accent presets, **Amber** and **Green (P1)**, plus a **Phosphor terminal** toggle that tints the dark-mode body text to the accent for a monochrome vintage-CRT look.\n- **Boot sequence** — the CRT power-on is a real tube switch-on now (collapse to a scan-slit, vertical bloom, phosphor settle), and a new **Boot sequence** toggle adds a beam-striking-the-glass flash on app launch, front-loaded so it lands as the window appears.\n- **Accent caret** — the caret rides the accent in every mode (dark, paper, inverted) so it stops getting lost against the ink, and the Block caret pulses like a terminal cursor (stops under reduced-motion, the solid block stays).\n- **Checkboxes** — a checked task box is a printed box: white field on dark, black on paper, with an accent mark; fixed the mark vanishing in the editor under Paper / Inverted-editor mode.\n- **Coverage** — **notices / toasts**, **Canvas** (node cards + bevel, accent focus, themed edges and backdrop), **footnotes**, and **MathJax** are now styled instead of falling back to stock grey.\n- **New Style Settings levers** — **Flat card edges** (bevel off, shadow kept), **Card shadow blur** + **spread** sliders, a **custom scrollbar grip colour** (decoupled from the accent), and an **Animation easing** select (Ease-out / Smooth / Linear).\n- **Light-mode fixes** — the accent no longer reverts to red inside the inverted-editor pane (the accent palette moved to a zero-specificity `:where(body)` rule so the Style Settings choice always wins); focused property fields lift onto a visible surface instead of vanishing into the page, and resting property fields carry an accent border.\n- **Under the hood** — removed all `:has()` selectors (selector-invalidation cost), consolidated the metadata-input rules from five overlapping blocks into one, tokenised the card drop-shadow, gave the graph-controls panel the theme's card material, and added a `CONTRIBUTING.md` plus a `test/kitchen-sink.md` regression note.\n\n**v2.5.3**\n- Resize handles — remove / recolour the sidebar split dividers.\n- Pill editor card — border (remove / recolour) + corner-rounding slider.\n- Scrollbars — hide, width, thumb colour, hover-fade (+ delay), accent-while-gripped.\n- Tabs — centred labels, larger uppercase title, native-divider line removed.\n- Inline text — accent italic, bold-italic stamp, white bold on light, www chips on bare URLs.\n- Typewriter tooltips restored; nested-modal blur; native/startup accent follows Obsidian's Appearance accent.\n- Mobile — file explorer / Notebook Navigator no longer render blank until tapped.\n\n**v2.5.2**\n- Editor scroll fix, centred status bar, property-stamp hover.\n\n**v2.5.1**\n- Every Style Settings heading carries a one-line description.\n\n**v2.5.0 — Pill terminal & the reading surface**\n- Full Ultra-Lobster floating layout; editor floats as its own rounded card; hover-to-reveal reclaims space; tabs rebuilt (active = solid accent, inactive = inverted, editor-aware); per-mode text colour + black/white levels; bare-URL wallpaper; reading-surface polish.\n\n**v2.4.0**\n- Floating-header pill chrome + hover peek, glass-bevel cards, accent halo, horizontal settings nav, first print/PDF block.\n\n**v2.3.0**\n- Floating & glass mode (frosted panes, wallpaper, pill chrome), rolodex tabs/list.\n\n**v2.2.0 / v2.1.0 / v2.0.0**\n- Limelight spotlight; council cleanup pass; daylight (light) variant + inverted-editor chiaroscuro."
     type: info-text
     markdown: true
 
