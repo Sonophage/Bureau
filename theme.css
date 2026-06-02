@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@500;600;700;900&display=swap');
 
-/* Bureau — noir Obsidian theme, dark + daylight ("Disco Elysium meets Control" + CRT) · v2.5.2
+/* Bureau — noir Obsidian theme, dark + daylight ("Disco Elysium meets Control" + CRT) · v2.5.3
    Sonophage · github.com/Sonophage/Bureau
    Retheme from the .theme-dark token block; Style Settings config in the @settings block at the foot. */
 
@@ -18,6 +18,11 @@ body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-conte
   --bu-raised: #1e1b17;
   --bu-border: #2a2620;
   --bu-border-hi: #3a342a;
+  /* Resize handles — the sidebar split divider lines. Follows --bu-border by default; the Resize
+     handles settings below retarget it (remove / recolour). */
+  --bu-handle-border: var(--bu-border);
+  /* Pill-terminal floating editor card — its own border-colour lever (rounding lever is by --bu-pill-editor-radius). */
+  --bu-pill-editor-border: var(--bu-line);
   --bu-text: var(--bu-text-dark, #f1efea);
   --bu-text-hi: #ffffff;
   --bu-muted: #968d7e;
@@ -58,9 +63,11 @@ body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-conte
   --text-on-accent: var(--bu-on-accent);
   --text-selection: color-mix(in srgb, var(--bu-accent) 22%, transparent);
   --text-highlight-bg: color-mix(in srgb, var(--bu-accent) 42%, transparent);
-  --accent-h: 6;
-  --accent-s: 76%;
-  --accent-l: 53%;
+  /* Native accent (Obsidian's --color-accent / --accent-h-s-l) is LEFT to Obsidian's own
+     Settings → Appearance → Accent color — the theme no longer forces it to red. That colour is the
+     one painted during the "loading plugins" phase (before Style Settings applies the Bureau preset),
+     so set the native accent to match your Bureau accent and the startup colour follows. Bureau's
+     preset still drives --interactive-accent and every bu-* surface. */
   --interactive-accent: var(--bu-accent);
   --interactive-accent-hover: var(--bu-accent-hi);
   --interactive-normal: var(--bu-surface);
@@ -115,6 +122,9 @@ body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-conte
   --scrollable-background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='1400' viewBox='0 0 900 1400'%3E%3Cline x1='26' y1='100' x2='26' y2='140' stroke='%23a89e8c' stroke-width='3' opacity='0.5'/%3E%3Ctext x='26' y='250' transform='rotate(-90 26 250)' text-anchor='middle' fill='%23a89e8c' opacity='0.5' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EBUREAU%3C/text%3E%3Cline x1='26' y1='570' x2='26' y2='610' stroke='%23f3f1eb' stroke-width='3' opacity='0.8'/%3E%3Cg transform='rotate(-90 26 720)'%3E%3Crect x='-41' y='705' width='100' height='22' rx='2' fill='%23f3f1eb'/%3E%3Ctext x='9' y='720' text-anchor='middle' textLength='84' lengthAdjust='spacingAndGlyphs' fill='%2314110d' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EOBSIDIAN%3C/text%3E%3Ctext x='71' y='720' text-anchor='start' textLength='22' lengthAdjust='spacingAndGlyphs' fill='%23f3f1eb' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EMD%3C/text%3E%3C/g%3E%3Cline x1='26' y1='1030' x2='26' y2='1070' stroke='%23a89e8c' stroke-width='3' opacity='0.5'/%3E%3Ctext x='26' y='1180' transform='rotate(-90 26 1180)' text-anchor='middle' fill='%23a89e8c' opacity='0.5' font-size='17' font-family='Oswald, %22Arial Narrow%22, Impact, sans-serif' font-weight='800' font-stretch='condensed' letter-spacing='1'%3EDOSSIER%3C/text%3E%3Cline x1='884' y1='0' x2='884' y2='1400' stroke='%23a89e8c' stroke-width='2.5' opacity='0.22'/%3E%3Cline x1='854' y1='30' x2='884' y2='30' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='56' x2='884' y2='56' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='82' x2='884' y2='82' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='108' x2='884' y2='108' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='134' x2='884' y2='134' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='160' x2='884' y2='160' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='186' x2='884' y2='186' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='212' x2='884' y2='212' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='238' x2='884' y2='238' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='264' x2='884' y2='264' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='290' x2='884' y2='290' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='316' x2='884' y2='316' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='342' x2='884' y2='342' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='368' x2='884' y2='368' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='394' x2='884' y2='394' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='420' x2='884' y2='420' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='446' x2='884' y2='446' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='472' x2='884' y2='472' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='498' x2='884' y2='498' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='524' x2='884' y2='524' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='550' x2='884' y2='550' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='576' x2='884' y2='576' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='602' x2='884' y2='602' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='628' x2='884' y2='628' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='654' x2='884' y2='654' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='680' x2='884' y2='680' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='706' x2='884' y2='706' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='732' x2='884' y2='732' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='758' x2='884' y2='758' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='784' x2='884' y2='784' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='810' x2='884' y2='810' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='836' x2='884' y2='836' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='862' x2='884' y2='862' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='888' x2='884' y2='888' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='914' x2='884' y2='914' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='940' x2='884' y2='940' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='966' x2='884' y2='966' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='992' x2='884' y2='992' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1018' x2='884' y2='1018' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1044' x2='884' y2='1044' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1070' x2='884' y2='1070' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1096' x2='884' y2='1096' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1122' x2='884' y2='1122' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1148' x2='884' y2='1148' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1174' x2='884' y2='1174' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1200' x2='884' y2='1200' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1226' x2='884' y2='1226' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1252' x2='884' y2='1252' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1278' x2='884' y2='1278' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1304' x2='884' y2='1304' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1330' x2='884' y2='1330' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1356' x2='884' y2='1356' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1382' x2='884' y2='1382' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3C/svg%3E");
   --bu-card-gap:    calc(var(--bu-card-gap-n, 12) * 1px);
   --bu-card-radius: calc(var(--bu-card-radius-n, 12) * 1px);
+  --bu-pill-editor-radius: calc(var(--bu-pill-editor-radius-n, 12) * 1px);
+  --bu-scrollbar-width: calc(var(--bu-scrollbar-width-n, 12) * 1px);
+  --bu-scrollbar-fade-delay: calc(var(--bu-scrollbar-fade-delay-n, 1500) * 1ms);
   --bu-card-shadow: 0.55;
   --bu-shadow: color-mix(in srgb, #000 calc(var(--bu-shadow-strength, 50) * 1%), transparent);
   --bu-shadow-soft: color-mix(in srgb, #000 calc(var(--bu-shadow-strength, 50) * 0.66%), transparent);
@@ -300,10 +310,29 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
   background-color: color-mix(in srgb, var(--bu-accent) 22%, transparent);
   padding: 0 0.18em;
   border-radius: 1px;}
+/* On the paper/light palette the accent tint muddies — give bold a clean white highlight instead. */
+.theme-light .markdown-rendered strong,
+.theme-light .cm-s-obsidian .cm-strong {
+  background-color: #ffffff;
+}
 .markdown-rendered em,
 .cm-s-obsidian .cm-em {
-  color: color-mix(in srgb, var(--bu-brass) 85%, var(--bu-text));
+  color: var(--bu-accent);
   font-style: italic;
+}
+/* Bold italic — a readable stamp: paper fill, accent ink, accent hairline ring (the strikethrough
+   redaction stamp's outline, but un-blacked so the text reads). */
+.markdown-rendered strong em,
+.markdown-rendered em strong,
+.cm-s-obsidian .cm-strong.cm-em {
+  background-color: var(--bu-label-bg);
+  color: var(--bu-accent);
+  -webkit-text-fill-color: var(--bu-accent);
+  box-shadow: 0 0 0 1px var(--bu-accent);
+  border-radius: 1px;
+  padding: 0 0.2em;
+  font-style: italic;
+  font-weight: 700;
 }
 
 .markdown-rendered :is(h1,h2,h3,h4,h5,h6) strong {
@@ -370,7 +399,7 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
 }
 .markdown-rendered a.external-link::after {
   content: "www";
-  display: none;   /* retired — the accent chip now marks external links */
+  display: inline-block;
   margin-left: 0.35em;
   padding: 0.05em 0.32em;
   border: 1px solid var(--bu-accent);
@@ -395,9 +424,10 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
   color: var(--bu-accent);
 }
 
-.markdown-source-view.mod-cm6 .cm-line:not(.cm-active) .cm-link:not(.cm-formatting-link)::after {
+.markdown-source-view.mod-cm6 .cm-line:not(.cm-active) .cm-link:not(.cm-formatting-link)::after,
+.markdown-source-view.mod-cm6 .cm-line:not(.cm-active) .cm-url::after {
   content: "www";
-  display: none;   /* retired — accent chip marks external links */
+  display: inline-block;
   margin-left: 0.35em;
   padding: 0.05em 0.32em;
   border: 1px solid var(--bu-accent);
@@ -435,7 +465,8 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
 }
 
 .markdown-rendered a.external-link::after,
-.markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting-link)::after {
+.markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting-link)::after,
+.markdown-source-view.mod-cm6 .cm-url::after {
   -webkit-text-fill-color: var(--bu-on-accent);
 }
 
@@ -1186,6 +1217,19 @@ button.mod-cta:hover { background: var(--bu-accent-hi); }
   -webkit-backdrop-filter: blur(10px) saturate(1.05);
   backdrop-filter: blur(10px) saturate(1.05);
 }
+/* Nested / stacked modals (e.g. Settings → Browse themes or community plugins) open a SECOND
+   .modal-container over the first. Relying on the top backdrop to blur the modal underneath fails:
+   Obsidian drives .modal-bg opacity itself, and Chromium's backdrop-filter can't blur THROUGH the
+   lower modal's own backdrop-filter layer. So blur the modal(s) beneath the top one DIRECTLY —
+   :has(~ .modal-container) matches any modal-container that has a later sibling modal-container. */
+.modal-container ~ .modal-container .modal-bg {
+  background-color: rgba(0, 0, 0, 0.74);
+  -webkit-backdrop-filter: blur(22px) saturate(1.05);
+  backdrop-filter: blur(22px) saturate(1.05);
+}
+.modal-container:has(~ .modal-container) .modal {
+  filter: blur(8px) brightness(0.6);
+}
 /* Accent halo around the settings modal panel (the palette is transparent, so its glow is the
    backdrop radial above). */
 .modal.mod-settings,
@@ -1505,11 +1549,46 @@ body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item { margin-left:
   border-bottom: none;
 }
 .workspace-tab-header-inner { padding: 5px 11px; }
+/* Centre the tab label and keep it centred whatever the close button does. Obsidian grows the close
+   button from 0 → full width on the active/hovered tab; in the default flex row (where the title also
+   flex-grows) that both pins the title left and shoves it off-centre. A 3-column grid with FIXED side
+   gutters locks the title into the middle column — the icon rides the left gutter, the close button
+   the right — so the label stays dead-centre in every state and tab-content mode, and the close
+   button stays in flow (no clipping against the rounded corner). */
+.mod-root .workspace-tab-header-inner {
+  display: grid;
+  grid-template-columns: 22px 1fr 22px;
+  align-items: center;
+}
+.mod-root .workspace-tab-header-inner-icon  { grid-column: 1; justify-self: center; margin: 0; }
+.mod-root .workspace-tab-header-inner-close-button { grid-column: 3; justify-self: center; margin: 0; }
+.mod-root .workspace-tab-header-inner-title {
+  grid-column: 2;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* The active tab rises (margin-top:-4px); nudge its content up the same amount so the label sits at
+   the centre of the taller active tab rather than low in it. */
+.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner {
+  transform: translateY(-2px);
+}
+/* Kill the faint native tab divider/outline Obsidian paints between tabs — it showed as a dim grey
+   line to the right of the active tab. Bureau already draws its own tab borders. */
+.workspace-tab-header-container,
+.workspace-tabs,
+.mod-root .workspace-tab-header {
+  --tab-outline-color: transparent;
+  --tab-outline-width: 0px;
+  --tab-divider-color: transparent;
+}
+.mod-root .workspace-tab-header-inner-close-button { border: none; box-shadow: none; }
 .workspace-tab-header-inner-title {
   font-family: var(--bu-font-label);
   text-transform: uppercase;
-  letter-spacing: 0.07em;
-  font-size: 0.72em;
+  letter-spacing: 0.09em;
+  font-size: 0.79em;
   color: var(--bu-muted);
 }
 .mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-title,
@@ -1611,8 +1690,8 @@ body:not(.bu-cards) .mod-right-split .workspace-tab-header-container-inner {
 
 .workspace-split.mod-left-split,
 .workspace-split.mod-right-split { background-color: transparent; }
-.workspace-split.mod-left-split  { border-right: 1px solid var(--bu-border); }
-.workspace-split.mod-right-split { border-left: 1px solid var(--bu-border); }
+.workspace-split.mod-left-split  { border-right: 1px solid var(--bu-handle-border); }
+.workspace-split.mod-right-split { border-left: 1px solid var(--bu-handle-border); }
 
 .workspace-split.mod-root { background-color: transparent; }
 
@@ -1821,8 +1900,8 @@ body.bu-pill-chrome .workspace-split .workspace-leaf-content {
 body.bu-pill-chrome .workspace-split .view-header { background-color: transparent; }
 body.bu-pill-chrome .workspace-split .view-content {
   background-color: var(--bu-surface);
-  border: 1px solid var(--bu-line);
-  border-radius: var(--bu-card-radius, 12px);
+  border: 1px solid var(--bu-pill-editor-border);
+  border-radius: var(--bu-pill-editor-radius, 12px);
   box-shadow: 0 22px 44px -26px rgba(0, 0, 0, 0.78);
   /* lift the card off the bottom so it clears the centred status bar */
   margin-bottom: 10px;
@@ -1831,7 +1910,7 @@ body.bu-pill-chrome .workspace-split .view-content {
   overflow: hidden;
   /* CodeMirror's scroller uses `contain`, so border-radius+overflow won't clip its rectangular
      ledger background into the rounded corners — clip-path clips every descendant regardless. */
-  clip-path: inset(0 round var(--bu-card-radius, 12px));
+  clip-path: inset(0 round var(--bu-pill-editor-radius, 12px));
 }
 /* let the editor surfaces ride the card shade rather than re-painting a black background */
 body.bu-pill-chrome .workspace-split .markdown-source-view,
@@ -2719,6 +2798,16 @@ body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .po
   animation: bu-fade-scale var(--bu-t-slow) var(--bu-anim-ease);
 }
 
+/* Typewriter tooltips — the tooltip text reveals left-to-right like a line struck out on a platen.
+   Single-line by nature (clip-path wipe); long tooltips just reveal faster. */
+body.bu-anim.bu-tooltip-type .tooltip {
+  animation: bu-typewriter 0.5s steps(30, end) both;
+}
+@keyframes bu-typewriter {
+  from { clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0);    -webkit-clip-path: inset(0 0 0 0); }
+}
+
 @keyframes bu-glow-breathe {
   0%, 100% { opacity: 0.6; }
   50%      { opacity: 1; }
@@ -2871,9 +2960,23 @@ body.bu-mode-low .app-container { background-image: none; }
    is disabled). Phones/tablets are fast + legible out of the box: no animation, film grain, panel
    grain, scanlines, vignette, or heavy card shadows. Mobile-only — desktop is untouched.
    ============================================================ */
+body.is-mobile.bu-anim.bu-poweron *,
+body.is-mobile.bu-anim.bu-poweron *::before,
+body.is-mobile.bu-anim.bu-poweron *::after,
 body.is-mobile *,
 body.is-mobile *::before,
 body.is-mobile *::after { animation: none; }
+/* Belt-and-suspenders: if any entrance keyframe's start-frame leaks through on an off-screen drawer,
+   force the resting state so the file explorer / Notebook Navigator never surface blank until tapped. */
+body.is-mobile .workspace,
+body.is-mobile .mod-left-split .workspace-leaf-content,
+body.is-mobile .mod-right-split .workspace-leaf-content,
+body.is-mobile .nav-files-container,
+body.is-mobile :is(.nn-navigation-pane, .nn-list-pane) {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
 body.is-mobile::before,
 body.is-mobile .app-container::before,
 body.is-mobile .app-container::after { display: none; }
@@ -2959,11 +3062,74 @@ body.is-mobile .setting-item { padding-top: 10px; padding-bottom: 10px; }
   }
 }
 
+/* ───────────────────────────  RESIZE HANDLES & PILL EDITOR CARD — remove / recolour the split dividers and the floating editor card  ─────────────────────────── */
+
+/* Resize handles (the sidebar split divider lines). The lever lives on the split container, outside
+   the editor leaf, so a single body-level retarget covers it — no inverted-editor / glass casing. */
+body.bu-handle-custom { --bu-handle-border: var(--bu-handle-color, var(--bu-border)); }
+body.bu-no-handles    { --bu-handle-border: transparent; }   /* declared last → wins over Custom */
+
+/* Pill-terminal floating editor card border — only .view-content reads this lever. */
+body.bu-pill-editor-border-custom { --bu-pill-editor-border: var(--bu-pill-editor-border-color, var(--bu-line)); }
+body.bu-pill-no-editor-border     { --bu-pill-editor-border: transparent; }   /* declared last → wins over Custom */
+
+/* ───────────────────────────  SCROLLBARS — width, colour, fade, hide  ─────────────────────────── */
+
+/* Width — Obsidian (Chromium) has no width variable, so size the webkit scrollbar directly. Prefixed
+   with the palette class so it outranks Obsidian's own (more specific) bare ::-webkit-scrollbar rule;
+   the var cascades from the token block, so the pseudo-element inherits it on every scroll container. */
+body.theme-dark ::-webkit-scrollbar,
+body.theme-light ::-webkit-scrollbar {
+  width: var(--bu-scrollbar-width);
+  height: var(--bu-scrollbar-width);
+}
+
+/* Custom thumb colour. Obsidian's native scrollbar reads --scrollbar-thumb-bg; the active/dragged
+   thumb keeps --scrollbar-active-thumb-bg (the accent). */
+body.bu-scrollbar-custom {
+  --scrollbar-thumb-bg: var(--bu-scrollbar-color, color-mix(in srgb, var(--bu-veil) 10%, transparent));
+}
+
+/* Fade — the thumb rests invisible and shows while the pointer is over the scroll area (covers wheel,
+   trackpad and dragging the grip), then goes out when the pointer leaves. NOTE: webkit scrollbar
+   pseudo-elements don't reliably animate transitions, so this reads as a quick show/hide rather than a
+   tweened fade; a true idle-timeout fade (esp. on touch) needs JS, which a CSS theme can't run. */
+body.bu-scrollbar-fade ::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  /* Leaving the scroll area: hold the thumb for the fade delay, then ease it out. */
+  transition: background-color var(--bu-t-slow, 240ms) ease var(--bu-scrollbar-fade-delay, 1500ms);
+}
+body.bu-scrollbar-fade *:hover::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-bg);
+  transition-delay: 0s;   /* entering: show at once, no delay */
+}
+
+/* Accent while in movement — the thumb flushes to the accent while it's gripped (dragged) or the
+   pointer is over the bar, then eases back to its resting colour. Declared after the fade rule so it
+   outranks the pane-hover fill on a tie. Pure wheel scroll with the pointer off the bar can't be
+   caught in CSS; webkit may snap rather than tween the colour. */
+body.bu-scrollbar-accent ::-webkit-scrollbar-thumb {
+  transition: background-color var(--bu-t-slow, 240ms) ease;
+}
+body.bu-scrollbar-accent ::-webkit-scrollbar-thumb:hover,
+body.bu-scrollbar-accent ::-webkit-scrollbar-thumb:active {
+  background-color: var(--bu-accent);
+}
+
+/* Hide outright — content stays scrollable (wheel / trackpad / keys). Both engines covered. */
+body.bu-hide-scrollbar { scrollbar-width: none; }
+body.bu-hide-scrollbar ::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
 /* @settings
 
 name: Bureau
 id: bureau
 settings:
+  - id: bu-whatsnew-note
+    title: What's new — v2.5.3
+    description: "**Bureau v2.5.3**\n\n- **Resize handles** — remove or recolour the sidebar split dividers.\n- **Pill editor card** — border (remove / recolour) + corner-rounding slider.\n- **Scrollbars** — hide, width, thumb colour, hover-fade (with delay), accent-while-gripped.\n- **Tabs** — centred labels, larger uppercase title, native-divider line removed.\n- **Inline text** — accent italic, bold-italic stamp, white bold on light, www chips on bare URLs.\n- **Typewriter tooltips** restored (Animation section).\n- **Nested-modal blur**, and the **native/startup accent** now follows Obsidian's Appearance accent.\n- **Mobile fix** — file explorer / Notebook Navigator no longer render blank until tapped.\n\nFull release history is at the foot of this panel. **Updates:** install via the community-themes browser or [BRAT](https://github.com/TfTHacker/obsidian42-brat) to be notified automatically; otherwise re-download `theme.css` from the [releases page](https://github.com/Sonophage/Bureau)."
+    type: info-text
+    markdown: true
   - id: bu-reset-note
     title: Reset all options
     description: "To restore every Bureau setting to its default: open this Style Settings pane's header row and click the reset (↻ \"Reset all settings\") button. Every option below has a defined default, so the reset is clean."
@@ -2974,7 +3140,7 @@ settings:
     description: Quick effect presets and the inverted-editor toggle — start here.
     type: heading
     level: 2
-    collapsed: false
+    collapsed: true
   - id: bu-mode
     title: Effects mode
     description: "Quick preset. Low = base styling only · Medium = + textures & glow · High = everything on · Custom = use the toggles below. Your toggles are always preserved — Custom restores them."
@@ -3240,6 +3406,112 @@ settings:
     max: 36
     step: 1
 
+  - id: bu-handles-heading
+    title: Resize handles
+    description: The divider lines between the sidebars and the editor — strip them, or recolour them.
+    type: heading
+    level: 2
+    collapsed: true
+  - id: bu-no-handles
+    title: Remove resize handles
+    description: Drop the sidebar split divider lines for a seamless edge.
+    type: class-toggle
+    default: false
+  - id: bu-handle-custom
+    title: Custom resize-handle colour
+    description: Recolour the divider lines with the colour below instead of the theme default.
+    type: class-toggle
+    default: false
+  - id: bu-handle-color
+    title: Resize-handle colour
+    description: Used when "Custom resize-handle colour" is on (and ignored when handles are removed).
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#2a2620'
+
+  - id: bu-pill-editor-heading
+    title: Pill editor card
+    description: The floating editor card in Pill terminal mode — its border and corner rounding. Needs Pill terminal on.
+    type: heading
+    level: 2
+    collapsed: true
+  - id: bu-pill-no-editor-border
+    title: Remove editor card border
+    description: Drop the outline around the floating editor card so only its shadow defines the edge.
+    type: class-toggle
+    default: false
+  - id: bu-pill-editor-border-custom
+    title: Custom editor card border colour
+    description: Recolour the editor card outline with the colour below instead of the theme default.
+    type: class-toggle
+    default: false
+  - id: bu-pill-editor-border-color
+    title: Editor card border colour
+    description: Used when "Custom editor card border colour" is on (and ignored when the border is removed).
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#564c3e'
+  - id: bu-pill-editor-radius-n
+    title: Editor card rounding
+    description: Corner radius of the floating editor card, in pixels.
+    type: variable-number-slider
+    default: 12
+    min: 0
+    max: 28
+    step: 1
+
+  - id: bu-scrollbar-heading
+    title: Scrollbars
+    description: Hide the scrollbars, or set their width and thumb colour.
+    type: heading
+    level: 2
+    collapsed: true
+  - id: bu-hide-scrollbar
+    title: Hide scrollbars
+    description: Hide every scrollbar while the content stays scrollable (wheel, trackpad, keys).
+    type: class-toggle
+    default: false
+  - id: bu-scrollbar-fade
+    title: Fade scrollbars (show on hover)
+    description: Keep the scrollbar thumb invisible until the pointer is over the scroll area, then show it (covers wheel, trackpad and dragging the grip). A true idle-timeout fade on touch needs a plugin.
+    type: class-toggle
+    default: false
+  - id: bu-scrollbar-fade-delay-n
+    title: Fade-out delay (ms)
+    description: With Fade on, how long the thumb lingers after the pointer leaves the scroll area before it fades out. (Needs your build to animate scrollbar transitions; if it snaps, only a plugin can time it.)
+    type: variable-number-slider
+    default: 1500
+    min: 0
+    max: 5000
+    step: 100
+  - id: bu-scrollbar-accent
+    title: Accent the thumb while scrolling
+    description: Flush the thumb to the accent colour while it's gripped or hovered, easing back to its resting colour. Grip-drag is caught reliably; pure wheel scroll with the pointer off the bar can't be.
+    type: class-toggle
+    default: false
+  - id: bu-scrollbar-width-n
+    title: Scrollbar width
+    description: Thickness of the scrollbars, in pixels.
+    type: variable-number-slider
+    default: 12
+    min: 2
+    max: 20
+    step: 1
+  - id: bu-scrollbar-custom
+    title: Custom scrollbar colour
+    description: Recolour the scrollbar thumb with the colour below instead of the theme default.
+    type: class-toggle
+    default: false
+  - id: bu-scrollbar-color
+    title: Scrollbar colour
+    description: Used when "Custom scrollbar colour" is on (the active/dragged thumb keeps the accent).
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#5f594e'
+
   - id: bu-float-heading
     title: Floating & glass
     description: Optional soft/floating looks layered over the brutalist base. All off by default — the standard theme is untouched.
@@ -3427,6 +3699,11 @@ settings:
     description: Menus, modals and popovers fade and scale in instead of appearing instantly.
     type: class-toggle
     default: true
+  - id: bu-tooltip-type
+    title: Typewriter tooltips
+    description: Tooltips type in left-to-right like a typewriter (single-line; turn off if long tooltips clip).
+    type: class-toggle
+    default: true
   - id: bu-scan-anim
     title: Scanning line
     description: A faint white line scans down the editor; stays steady, then glitches now and then (the static scanlines stay still).
@@ -3545,5 +3822,17 @@ settings:
     format: hex
     opacity: false
     default: '#8c5a7e'
+
+  - id: bu-changelog-heading
+    title: Changelog
+    description: Every release, newest first.
+    type: heading
+    level: 2
+    collapsed: true
+  - id: bu-changelog-full
+    title: Release history
+    description: "**v2.5.3**\n- Resize handles — remove / recolour the sidebar split dividers.\n- Pill editor card — border (remove / recolour) + corner-rounding slider.\n- Scrollbars — hide, width, thumb colour, hover-fade (+ delay), accent-while-gripped.\n- Tabs — centred labels, larger uppercase title, native-divider line removed.\n- Inline text — accent italic, bold-italic stamp, white bold on light, www chips on bare URLs.\n- Typewriter tooltips restored; nested-modal blur; native/startup accent follows Obsidian's Appearance accent.\n- Mobile — file explorer / Notebook Navigator no longer render blank until tapped.\n\n**v2.5.2**\n- Editor scroll fix, centred status bar, property-stamp hover.\n\n**v2.5.1**\n- Every Style Settings heading carries a one-line description.\n\n**v2.5.0 — Pill terminal & the reading surface**\n- Full Ultra-Lobster floating layout; editor floats as its own rounded card; hover-to-reveal reclaims space; tabs rebuilt (active = solid accent, inactive = inverted, editor-aware); per-mode text colour + black/white levels; bare-URL wallpaper; reading-surface polish.\n\n**v2.4.0**\n- Floating-header pill chrome + hover peek, glass-bevel cards, accent halo, horizontal settings nav, first print/PDF block.\n\n**v2.3.0**\n- Floating & glass mode (frosted panes, wallpaper, pill chrome), rolodex tabs/list.\n\n**v2.2.0 / v2.1.0 / v2.0.0**\n- Limelight spotlight; council cleanup pass; daylight (light) variant + inverted-editor chiaroscuro."
+    type: info-text
+    markdown: true
 
 */

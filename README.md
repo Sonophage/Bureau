@@ -3,6 +3,9 @@
 A noir theme for [Obsidian](https://obsidian.md). A worn case-file on a concrete
 desk, wired to a CRT terminal that hums whether or not you're listening.
 
+> [!IMPORTANT]
+> **Install the [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin to access all of Bureau's settings.** Every option — accent & colours, borders, scrollbars, tabs, atmosphere, animation — lives in one **Bureau** panel there (Settings → Style Settings → Bureau). The theme still runs without it, but only on its built-in defaults.
+
 I've always been fond of the *bureau-redacted* look. The noiresque of it, the
 brutalism: heavy type that doesn't apologize, stamped labels, lines blacked out
 by someone who decided you didn't need them, concrete and steel that were never
@@ -112,6 +115,17 @@ The tube. Optional, and quietly the whole point.
 - **Horizontal settings nav** — reflow the settings window's left tab list into a scrolling strip across the top. Desktop only.
 - **Reading line width / line height / paragraph spacing** — the density dials.
 
+### Resize handles
+The divider lines between the sidebars and the editor.
+- **Remove resize handles** — drop the split divider lines for a seamless edge.
+- **Custom resize-handle colour** (+ **Resize-handle colour**) — recolour the divider lines instead of the theme default. *Remove* wins if both are on.
+
+### Pill editor card
+The floating editor card in *Pill terminal* mode (needs Pill terminal on).
+- **Remove editor card border** — drop the card outline so only its shadow defines the edge.
+- **Custom editor card border colour** (+ **Editor card border colour**) — recolour the outline instead of the theme default. *Remove* wins if both are on.
+- **Editor card rounding** — corner radius of the floating card (0–28 px); drives the clip-path too, so corners clip cleanly.
+
 ### Floating & glass
 Optional soft looks layered over the brutalist base — all off by default, so the standard theme is untouched.
 - **Heavier card float** — a deeper shadow + more space, so panes lift higher off the desk.
@@ -154,6 +168,18 @@ key its palette. If you ran the old "Daily Note Themes" snippet, switch it off �
 Bureau owns this room now.
 
 ## Changelog
+
+### 2.5.3
+- **Resize handles** section added — **remove** the sidebar split divider lines outright or **recolour** them, on a single `--bu-handle-border` lever.
+- **Pill editor card** section added — **remove** or **recolour** the floating editor card's border, plus an **Editor card rounding** slider (drives both `border-radius` and the `clip-path` inset). Scoped to `body.bu-pill-chrome .workspace-split .view-content`.
+- **Scrollbars** section added — **hide** scrollbars, set their **width**, a custom **thumb colour**, **fade** them in on hover (with a **fade-out delay**), and **accent** the thumb while it's gripped.
+- **Tabs** — labels now sit dead-centre via a 3-column grid (close button no longer shoves them), larger uppercase title (0.79em / 0.09em tracking), active-tab label re-centred in the raised tab, and the faint native tab-divider line removed.
+- **Nested modals** (Settings → Browse themes / community plugins) now blur the panel underneath directly, so it no longer reads through.
+- **Inline text** — *italic* renders in the accent, ***bold italic*** is a paper-fill / accent-ink / accent-ring stamp, **bold** gets a clean white highlight on the light palette, and the **www chip** is back on external links **and** bare URLs.
+- **Typewriter tooltips** restored (Animation section) — tooltips reveal left-to-right.
+- **Native accent** is no longer forced — Obsidian's *Appearance → Accent color* drives the startup/"loading" colour and native UI, so set it to match your Bureau accent for a seamless launch.
+- **Panel** — a *What's new* note at the top, a full **Changelog / Release history** at the foot, and the **Mode** section now starts collapsed.
+- **Mobile fix** — the file explorer / Notebook Navigator no longer render blank until tapped (a power-on animation was out-specifying the mobile motion-kill and stranding off-screen drawer panes at `opacity:0`).
 
 ### 2.5.1
 - Every Style Settings **heading now carries a one-line description**, so the panel reads uniformly section to section.
