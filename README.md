@@ -228,6 +228,17 @@ top, where the whole palette lives in one place. The Style Settings config is th
 `@settings` block at the foot — it looks like a comment and it is not; leave it
 alone unless you mean it.
 
+### Releasing
+
+The `## Changelog` above is the single source of truth. To cut a release: add the
+new `### X.Y.Z` entry to the top of it, then run `./release.py X.Y.Z`. The script
+stamps `manifest.json` and the `theme.css` header, regenerates the in-panel
+*What's new* note and prepends the entry to *Release history*, validates the CSS
+(braces + the `@settings` YAML), then commits, tags, pushes `main` + the tag, and
+publishes the GitHub release with `theme.css` + `manifest.json` attached. Use
+`--dry-run` to preview everything without touching a thing, `--yes` to skip the
+confirmation. Tags carry **no `v` prefix** (Obsidian matches them to the manifest).
+
 ## License
 
 MIT. Take it apart. Build your own room.
