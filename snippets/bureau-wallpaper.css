@@ -1,0 +1,40 @@
+/* ───────────────────────────────────────────────────────────────────────────
+   Bureau — local wallpaper snippet  (embedded image)
+
+   Use an image FROM YOUR OWN MACHINE as the Bureau background, in any vault.
+
+   WHY EMBED?  Pure CSS cannot point at a vault file by path: Obsidian serves
+   vault files over a per-install "app://<token>/" URL that only JavaScript can
+   mint, the old "app://local/<absolute-path>" shortcut no longer resolves on
+   current builds (ERR_FILE_NOT_FOUND), and relative paths don't resolve inside
+   the inline <style> Obsidian injects for snippets. So the portable, works-
+   everywhere way to use a LOCAL image is to embed its bytes as a base64 data
+   URI — no path, no protocol, no per-machine breakage.
+
+   (Prefer a HOSTED image? You don't need this snippet at all — just paste
+    url('https://…/bg.jpg') into Style Settings → Bureau → "Background image —
+    web URL". That field also accepts a data: URI, if you'd rather not edit a
+    file. The snippet is just a tidier home for a big baked-in data URI.)
+
+   SETUP
+   1. Copy THIS file into your vault's  .obsidian/snippets/  folder.
+   2. Turn your image into a data URI and paste it on the --bu-wallpaper-snippet
+      line below, replacing the transparent placeholder. Either:
+        • any "image to base64 data URI" web tool, OR
+        • command line (ImageMagick + base64):
+            magick your-image.png -quality 82 -strip /tmp/bw.jpg
+            base64 -w0 /tmp/bw.jpg
+          then wrap the output as  url("data:image/jpeg;base64,<paste>")
+      Keep the source small — resize to ~1920px wide and use JPEG q≈82; a
+      1536×1024 q82 JPEG is ~324 KB of base64, which is comfortable.
+   3. Settings → Appearance → CSS snippets → enable "bureau-wallpaper"
+      (re-toggle it off/on after any edit to reload).
+   4. Settings → Style Settings → Bureau → turn on "Custom background image".
+      Leave the "Background image — web URL" field as  none  (a value there
+      layers ON TOP of this snippet and wins; this is the fallback).
+   ─────────────────────────────────────────────────────────────────────────── */
+
+body {
+  /* ↓ Replace this 1×1 transparent placeholder with your data URI. */
+  --bu-wallpaper-snippet: url("data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==");
+}

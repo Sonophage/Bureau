@@ -26,7 +26,7 @@ WHAT IT DOES (aborts on any failure; nothing is pushed until the confirm)
                 "Release history" (both inside the @settings block)
   validate   -> theme.css braces balanced + the @settings YAML still parses
   ship       -> commit "Release X.Y.Z", tag X.Y.Z, push main + tag,
-                gh release create X.Y.Z theme.css manifest.json  (notes = the README entry)
+                gh release create X.Y.Z theme.css manifest.json snippets/bureau-wallpaper.css  (notes = the README entry)
 
 README's "## Changelog" stays the single source of truth; everything else is generated from it.
 """
@@ -41,6 +41,7 @@ REPO = os.path.dirname(os.path.realpath(__file__))
 THEME = os.path.join(REPO, "theme.css")
 MANIFEST = os.path.join(REPO, "manifest.json")
 README = os.path.join(REPO, "README.md")
+SNIPPET = os.path.join(REPO, "snippets", "bureau-wallpaper.css")
 
 # Constant footer appended to the "What's new" note (kept out of README so it isn't duplicated there).
 WHATSNEW_FOOTER = (
@@ -248,7 +249,8 @@ def main():
         if r.returncode:
             die(f"{' '.join(push)} failed:\n{r.stderr}")
     step("pushed main + tag")
-    r = run(["gh", "release", "create", version, THEME, MANIFEST,
+    assets = [THEME, MANIFEST] + ([SNIPPET] if os.path.exists(SNIPPET) else [])
+    r = run(["gh", "release", "create", version, *assets,
              "--title", f"{version}", "--notes", bullets])
     if r.returncode:
         die(f"gh release create failed (commit/tag are pushed; finish the release by hand):\n{r.stderr}")

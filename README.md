@@ -23,7 +23,7 @@ Its mood was stolen, in equal parts, from three places:
 - **The Magnus Archives** — dust, quiet wrongness, a tape still running (the **green** accent, *Magnus*).
 - **Deus Ex** — black-and-gold cyber-renaissance, conspiracy with good lighting (the **gold** accent, *Deus*).
 
-![screenshot](screenshot.png)
+![Bureau](screenshots/bureau-hero.webp)
 
 It used to be dark only — and that was the whole creed. It isn't anymore, and the
 change turned out to *be* the point. Most themes pick a side: all-dark or
@@ -58,6 +58,23 @@ The straight way, no ceremony:
 > Everything below lives there, in one **Bureau** panel. Without it the theme
 > still runs, but it runs the way the house came — someone else's defaults, the
 > thermostat set to a temperature that isn't yours.
+
+## Custom background
+
+Turn on **Custom background image** (Style Settings → Bureau → Floating & glass), then feed it an image. One thing to know up front: **pure CSS can't point at a vault file by path** — Obsidian serves vault files over a per-install `app://<token>/…` URL that only JavaScript can mint, the old `app://local/…` shortcut no longer resolves, and relative paths don't resolve inside an injected snippet. So a *web* image can be linked, but a *local* image has to be either embedded or fed in by a plugin. Three ways:
+
+- **A web image** — paste a full `url(...)` into **Background image — web URL**, e.g. `url('https://example.com/bg.jpg')`. This layers on top, so a web URL always wins.
+- **A local image, point-and-click** *(easiest)* — install the optional [**Redacted Background**](https://github.com/Sonophage/Redacted-Background) companion plugin (via [BRAT](https://github.com/TfTHacker/obsidian42-brat)). Then right-click any vault image → **Set as Redacted Background** and it feeds `--bu-wallpaper-snippet` a live resource path for you — no encoding step, and it sets the new-tab image too. Bureau works fine without it; this is just the easy button.
+- **A local image, no plugin** — embed it as a base64 data URI in the bundled **snippet**:
+  1. Copy [`snippets/bureau-wallpaper.css`](snippets/bureau-wallpaper.css) into your vault's `.obsidian/snippets/` folder.
+  2. Turn your image into a data URI — any "image to base64" web tool, or `magick img.png -quality 82 -strip /tmp/bw.jpg && base64 -w0 /tmp/bw.jpg` — and paste it on the `--bu-wallpaper-snippet` line, replacing the placeholder.
+  3. Settings → Appearance → **CSS snippets** → enable **bureau-wallpaper**.
+
+  The snippet just sets `--bu-wallpaper-snippet`, which Bureau reads as the background's lower layer. (You can also paste the same `url('data:image/…')` straight into the web-URL field and skip the snippet entirely.)
+
+**Bundling note (why the snippet/plugin aren't automatic):** Obsidian's community-theme system distributes a theme as **only** `theme.css` + `manifest.json` — it can't ship or install a CSS snippet or a plugin for you. So the snippet travels in the GitHub repo under `snippets/` (drop it into `.obsidian/snippets/` once; the release also attaches `bureau-wallpaper.css`), and the companion plugin lives in its own repo, installed via BRAT.
+
+There's also a **New-tab image** setting that paints an image on the empty New-Tab pane: **Bureau image** — the packaged artwork, **shown by default** (embedded as a base64 webp in `theme.css`, since a theme can only ship `theme.css` + `manifest.json`) — or **Off**, or **Custom URL** (paste a `url(...)` in the field below — a web URL or a base64 data URI). The 3-way select + data-URI delivery is adapted from the [Border theme by Akifyss](https://github.com/Akifyss/Border); the artwork is original. To swap the packaged art, replace `new-tab.webp` and re-embed it as `--bu-new-tab-default-image` (`printf 'url("data:image/webp;base64,%s")' "$(base64 -w0 new-tab.webp)"`). For a *local* new-tab image without any of that, the [Redacted Background](https://github.com/Sonophage/Redacted-Background) plugin sets it point-and-click.
 
 ## Controls
 
@@ -141,7 +158,7 @@ Optional soft looks layered over the brutalist base — all off by default, so t
 - **Pill terminal (floating editor)** — the full Ultra-Lobster move: the view-header breaks into flat pills on the desk, the title bar goes transparent, and the **editor floats as its own rounded card** below the chrome (status bar splits into pills too). Best with Cards layout on.
 - **Pill terminal — hover to reveal** — the header pills *collapse* until you hover or focus the row, reclaiming that vertical space for the note. The desk clears until you reach for it.
 - **Editor-only cards (flush sidebars)** — only the editor floats as a card; the sidebars sit flush.
-- **Custom background image** (+ URL + dim) — a wallpaper behind the workspace, visible through the frosted glass. **Just paste the address** (`https://…` or a vault path) — no `url(…)` wrapping; the dim keeps text legible.
+- **Custom background image** (+ URL + dim) — a wallpaper behind the workspace, visible through the frosted glass. Paste a full `url(...)` value — a web image, or a local image as a base64 data URI (see [Custom background](#custom-background)) — and the dim keeps text legible.
 
 ### Tabs
 - **Tab shape** — *Folder* (connected, like a real file drawer) or *Pill* (fully rounded, for people who've made peace with it). The **active tab fills solid accent and rises taller** than the rest; **inactive tabs invert** — black-on-white / white-on-black — and they're **editor-aware**, flipping with *Inverted editor* so they always track the editor's palette, not the window's. Labels sit **dead-centre** and stay put when the close button appears.
@@ -178,6 +195,18 @@ Bureau owns this room now.
 
 ## Changelog
 
+### 2.7.0
+- **New-tab dossier** — the empty pane opens on packaged Bureau artwork now, shown by default (switch it Off or to your own image under Style Settings → **New-tab image**), and the old "NO ACTIVE FILE" stamp is retired. The art ships embedded as a base64 webp inside `theme.css` — a theme can only carry `theme.css` + `manifest.json`, so the image rides along in the stylesheet — at double the previous size.
+- **Redacted action bar** — the new-tab actions (new note, go to file, …) are a horizontal row of themed icons instead of text, floating on no card. Hover one and the *others* get a hand-skewed censor stripe swept across them — blacked out, like someone decided you didn't need them — while the hovered icon lifts and glows accent. (The icon treatment + data-URI new-tab image are adapted from the [Border theme by Akifyss](https://github.com/Akifyss/Border); the artwork is original.)
+- **Lighter listing** — the gallery screenshot dropped from 2.7 MB to a trim 768px PNG, and the README now leads on a 1280px webp hero.
+
+### 2.6.1
+- **Local wallpaper fix + companion plugin** — the wallpaper snippet (and the docs) used to rely on `app://local/…` / a co-located relative path, which no longer resolves on current Obsidian builds (the image silently 404'd). The bundled `snippets/bureau-wallpaper.css` now embeds the image as a base64 data URI, and the Style Settings descriptions say so. The **web-URL / custom-URL fields now take a full `url(...)` value again** (the 2.5.3 bare-URL-via-`image-set` experiment was reverted — `image-set` couldn't take a CSS variable cleanly). For a point-and-click local image (no encoding), there's a new optional companion plugin — [**Redacted Background**](https://github.com/Sonophage/Redacted-Background) (install via BRAT) — that feeds Bureau's wallpaper *and* new-tab image a live resource path.
+- **Search bar fix** — under Pill terminal, the in-editor Ctrl+F search bar no longer clips upward under the breadcrumb header. The editor card's `clip-path` was promoting `.view-content` to a stacking context that trapped the search bar's `z-index` below the `z-index:1` header; the card now carries its own positioned level so the whole subtree (search bar included) sits at/above the header band.
+- **Legible accent chips** — on-accent ink is now auto-derived for contrast (`contrast-color()`) instead of forced white. On the light presets (Amber, P1 green, Deus gold) white text dropped to ~1.3–1.8:1 and every accent-filled chip read as a solid bar — under the **Phosphor terminal** presets, editor URL chips (`.cm-url`) looked redacted until hovered. Fixed at the token, so link chips, callout titles and Bases headers all flip to black ink where the accent is light; the dark presets keep white.
+- **Strikethrough reveal** — hovering ~~struck~~ text now reveals it in the accent (`--bu-accent-ink`, WCAG-safe on paper) instead of plain body ink.
+- **Unresolved links blur** — a `[[name]]` whose file doesn't exist yet renders hazy — transparent glyphs over an accent-ink text-shadow, no chip — and pulls sharp on hover. A blurred sibling of the strikethrough redaction: an unfiled record, out of focus until you lean in.
+
 ### 2.6.0
 - **Accessibility pass** — secondary "faint" text now clears WCAG AA in both palettes (was ~2.8:1); accent-coloured text (links, *italic* emphasis) darkens on paper via a new `--bu-accent-ink` so it clears AA there too, while borders, fills and glow keep the vivid accent; and a `:focus-visible` keyboard ring marks focus for keyboard / assistive-tech users without showing on mouse clicks.
 - **Phosphor terminal** — two new accent presets, **Amber** and **Green (P1)**, plus a **Phosphor terminal** toggle that tints the dark-mode body text to the accent for a monochrome vintage-CRT look.
@@ -210,7 +239,7 @@ Bureau owns this room now.
 - **Tabs** rebuilt: active = solid accent + taller; inactive = inverted (black-on-white / white-on-black) and **editor-aware** (flips with *Inverted editor*). No more hover recolour.
 - **Status bar** is editor-aware and inverts with the editor; each section is its own pill.
 - **Colour controls added**: per-mode **text colour** and **black / white levels**.
-- **Wallpaper** takes a **bare URL** now (no `url(…)` wrapping) via `image-set`.
+- **Wallpaper** takes a **bare URL** now (no `url(…)` wrapping) via `image-set`. *(Reverted in 2.6.1 — the field is back to a full `url(...)` value, and `image-set` was dropped.)*
 - **Reading surface**: callout **bold** renders as a redaction stamp, callouts lift on a deeper shadow, **highlights** use the accent, **external links + bare URLs** become accent chips (the `www` tag retired), and **tables** punch the accent harder.
 - **Settings & command palette** regained their backdrop **blur + accent glow**.
 - **Removed**: the "Hover bloom" accent-glow-on-hover (replaced by the tactile Rolodex lift). Many cryptic settings gained descriptions.
