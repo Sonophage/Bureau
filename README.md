@@ -207,6 +207,12 @@ and inside the app at the foot of the **Bureau** Style Settings panel (*Release
 history*). When cutting a new release, add its `### X.Y.Z` entry **below this
 paragraph**, newest first — `release.py` reads it from here (see [Releasing](#releasing)).
 
+### 2.9.1
+- **File Properties pane scrolls under Pill chrome** — the pill card's `clip-path`/`overflow:hidden` on `.view-content` trapped the one sidebar view that scrolls at the view-content level (Properties); it now gets `overflow-y:auto` and no clip, so long property lists scroll again. (File/list/search/outline panes were always fine — they own an inner scroller.)
+- **Ctrl+F field stays legible** — the in-editor Find bar's input had a transparent fill, so on the paper palette the document text behind it bled through the typed query. The field now takes a solid fill + explicit ink across rest/hover/focus, and the active match gets a solid accent chip (was a faint translucent default that washed out on light backgrounds).
+- **Ctrl+F bar no longer drifts off-screen under Pill chrome** — Obsidian anchors the Find bar to `.markdown-source-view`, which scrolls with the document; the pill card's `clip-path` lets us re-home it to the stationary `.view-content` via `position:fixed`, so it stays pinned to the top of the editor while matches scroll.
+- **Active tab name readable under Phosphor** — Phosphor collapses the ink to the accent, which dragged the inverted tab fills (and the active tab's label) into blue-on-blue. The active tab is now a recessed, accent-ringed chip with an accent label, so it reads as the one "lit" tab.
+
 ### 2.9.0
 - **Fonts embedded** — Courier Prime and Urbanist now ride inside `theme.css` as base64 woff2 (latin + latin-ext) instead of a Google Fonts `@import`. The theme no longer blocks first paint on a network fetch, renders correctly on a fresh offline install, and never pings Google. (`theme.css` is larger as a result — the price of carrying its own type.)
 - **Style Settings reordered** — the card/float family is contiguous now (Cards & layout → Floating & glass → Pill editor card → Background), so the toggle that *enables* the pill editor comes before the section that tunes it. Resize handles and Scrollbars dropped to the bottom; Inverted editor moved into Color & accent where it belongs.
