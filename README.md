@@ -1,4 +1,4 @@
-# Bureau
+# The Bureau
 
 A noir theme for [Obsidian](https://obsidian.md). A worn case-file on a concrete
 desk, wired to a CRT terminal that hums whether or not you're listening.
