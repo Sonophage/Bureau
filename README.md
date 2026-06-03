@@ -198,6 +198,12 @@ Bureau owns this room now.
 
 ## Changelog
 
+### 2.8.0
+- **Now "The Bureau"** — the theme's name is official: *The Bureau*. Purely a label; your settings, accent and layout carry over untouched.
+- **Stacked-tabs spine inset** — a new Style Settings slider (under **Pill editor**) tunes how far the tab spine drops to clear the floating pill header when tabs are stacked — replacing a hard-coded value.
+- **Wallpaper snippet retired** — the bundled `bureau-wallpaper.css` snippet is gone. Set a local background by pasting a `url('data:image/…')` into the **Background image — web URL** field, or install the [Redacted Background](https://github.com/Sonophage/Redacted-Background) plugin for a point-and-click image. The web-URL field and the plugin both work exactly as before.
+- **Housekeeping** — refreshed store/README screenshots, trimmed dead CSS (contradictory transition fallbacks, a vestigial variable, redundant `-webkit-clip-path`), and dropped ~2 MB of unused images from the repo.
+
 ### 2.7.0
 - **New-tab dossier** — the empty pane opens on packaged Bureau artwork now, shown by default (switch it Off or to your own image under Style Settings → **New-tab image**), and the old "NO ACTIVE FILE" stamp is retired. The art ships embedded as a base64 webp inside `theme.css` — a theme can only carry `theme.css` + `manifest.json`, so the image rides along in the stylesheet — at double the previous size.
 - **Redacted action bar** — the new-tab actions (new note, go to file, …) are a horizontal row of themed icons instead of text, floating on no card. Hover one and the *others* get a hand-skewed censor stripe swept across them — blacked out, like someone decided you didn't need them — while the hovered icon lifts and glows accent. (The icon treatment + data-URI new-tab image are adapted from the [Border theme by Akifyss](https://github.com/Akifyss/Border); the artwork is original.)
