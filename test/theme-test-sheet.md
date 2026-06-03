@@ -1,5 +1,5 @@
 ---
-title: The Bureau — Theme Test Sheet
+title: Bureau — Theme Test Sheet
 status: ACTIVE
 clearance: 4
 verified: true
@@ -16,7 +16,7 @@ tags:
   - qa
 ---
 
-> [!quote] The Bureau — Display Calibration
+> [!quote] Bureau — Display Calibration
 > Every surface the theme touches, on one page. Flip through it in **dark**, **paper (light)**, and **inverted-editor**, in both **reading** and **live-preview**, then run the matrix at the foot of the file. The frontmatter above doubles as the **Properties** test: text (`title`/`status`), number (`clearance`), boolean (`verified`), date (`opened`), datetime (`reviewed`), list (`operators`), internal-link (`link`), URL (`url`), and tags.
 
 > [!warning] Two surfaces need a target from *your* vault
