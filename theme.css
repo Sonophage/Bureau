@@ -143,6 +143,7 @@ body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-conte
   --bu-card-gap:    calc(var(--bu-card-gap-n, 12) * 1px);
   --bu-card-radius: calc(var(--bu-card-radius-n, 12) * 1px);
   --bu-pill-editor-radius: calc(var(--bu-pill-editor-radius-n, 12) * 1px);
+  --bu-stacked-pill-top: calc(var(--bu-stacked-pill-top-n, 44) * 1px);
   --bu-scrollbar-width: calc(var(--bu-scrollbar-width-n, 12) * 1px);
   --bu-scrollbar-fade-delay: calc(var(--bu-scrollbar-fade-delay-n, 1500) * 1ms);
   --bu-card-shadow: 0.55;
@@ -2028,11 +2029,12 @@ body.bu-cards.bu-float .workspace-split .workspace-leaf-content {
    editor AND all sidebars (file browser, search, outline, …), excluding only the title bar / window
    frame. (On .workspace it only reached the editor area, leaving the sidebars bare — not cohesive.)
    The workspace above it is forced transparent so it shows through. The URL field layers on top of
-   the SNIPPET var (snippets/bureau-wallpaper.css), so a value in the field wins and the snippet is
-   the fallback. Both take a complete url(...) value: a web URL, or a local image embedded as a
-   base64 data: URI. Pure CSS CANNOT reference a vault file by PATH — app://local/ no longer resolves
-   on current Obsidian builds, and relative paths don't resolve inside injected snippet <style>, so a
-   local image must be embedded (see the snippet header for the conversion step). Pair w/ Frosted glass. */
+   --bu-wallpaper-snippet — the var the Redacted Background plugin (Sonophage/Redacted-Background)
+   feeds a live resource path — so a value in the field wins and the plugin image is the fallback.
+   Both take a complete url(...) value: a web URL, or a local image embedded as a base64 data: URI.
+   Pure CSS CANNOT reference a vault file by PATH — app://local/ no longer resolves on current
+   Obsidian builds — so a local image is either served by the plugin or pasted as a data URI in the
+   field. Pair w/ Frosted glass. */
 body.bu-wallpaper.theme-dark .horizontal-main-container,
 body.bu-wallpaper.theme-light .horizontal-main-container {
   background-image:
@@ -2161,8 +2163,8 @@ body.bu-pill-chrome.bu-pill-peek .view-header {
   padding-top: 0;
   padding-bottom: 0;
   overflow: hidden;
-  transition: max-height var(--bu-t-slow, 200ms) ease, opacity var(--bu-t-slow, 200ms) ease,
-    margin-bottom var(--bu-t-slow, 200ms) ease;
+  transition: max-height var(--bu-t-slow) ease, opacity var(--bu-t-slow) ease,
+    margin-bottom var(--bu-t-slow) ease;
 }
 body.bu-pill-chrome.bu-pill-peek .view-header:hover,
 body.bu-pill-chrome.bu-pill-peek .view-header:focus-within {
@@ -3320,7 +3322,7 @@ body.bu-focus-line .markdown-source-view.mod-cm6 .cm-line.cm-active::before {
    Hover a dimmed pane to peek without taking focus. */
 body.bu-limelight .workspace-leaf:not(.mod-active) {
   opacity: 0.5;
-  transition: opacity var(--bu-t-slow, 500ms) var(--bu-anim-ease);
+  transition: opacity var(--bu-t-slow) var(--bu-anim-ease);
 }
 body.bu-limelight .workspace-leaf:not(.mod-active):hover { opacity: 1; }
 
@@ -3549,7 +3551,7 @@ body.bu-ease-linear { --bu-anim-ease: linear; }
 body.bu-scrollbar-fade ::-webkit-scrollbar-thumb {
   background-color: transparent;
   /* Leaving the scroll area: hold the thumb for the fade delay, then ease it out. */
-  transition: background-color var(--bu-t-slow, 240ms) ease var(--bu-scrollbar-fade-delay, 1500ms);
+  transition: background-color var(--bu-t-slow) ease var(--bu-scrollbar-fade-delay, 1500ms);
 }
 body.bu-scrollbar-fade *:hover::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-thumb-bg);
@@ -3561,7 +3563,7 @@ body.bu-scrollbar-fade *:hover::-webkit-scrollbar-thumb {
    outranks the pane-hover fill on a tie. Pure wheel scroll with the pointer off the bar can't be
    caught in CSS; webkit may snap rather than tween the colour. */
 body.bu-scrollbar-accent ::-webkit-scrollbar-thumb {
-  transition: background-color var(--bu-t-slow, 240ms) ease;
+  transition: background-color var(--bu-t-slow) ease;
 }
 body.bu-scrollbar-accent ::-webkit-scrollbar-thumb:hover,
 body.bu-scrollbar-accent ::-webkit-scrollbar-thumb:active {
@@ -3949,6 +3951,14 @@ settings:
     min: 0
     max: 28
     step: 1
+  - id: bu-stacked-pill-top-n
+    title: Stacked-tabs spine inset
+    description: With stacked tabs on, how far the tab spine's top is pushed down to clear the floating pill header band, in pixels.
+    type: variable-number-slider
+    default: 44
+    min: 0
+    max: 80
+    step: 1
 
   - id: bu-scrollbar-heading
     title: Scrollbars
@@ -4056,12 +4066,12 @@ settings:
     collapsed: true
   - id: bu-wallpaper
     title: Custom background image
-    description: "Show a wallpaper behind the workspace (best with Frosted glass). Set the image in the field below (a web URL, or a local image embedded as a base64 data URI). The snippet (snippets/bureau-wallpaper.css) is an alternative place to embed a local image."
+    description: "Show a wallpaper behind the workspace (best with Frosted glass). Set the image in the field below (a web URL, or a local image embedded as a base64 data URI). For a point-and-click local image, install the companion Redacted Background plugin via BRAT."
     type: class-toggle
     default: false
   - id: bu-wallpaper-url
     title: Background image — web URL
-    description: "Paste a full url(...) value. Web image: url('https://example.com/bg.jpg'). LOCAL image: embed it as a data URI, url('data:image/jpeg;base64,…') (convert with any image-to-base64 tool, or the command in snippets/bureau-wallpaper.css). Pure CSS can't point at a vault file by path. Leave as none to fall back to the snippet."
+    description: "Paste a full url(...) value. Web image: url('https://example.com/bg.jpg'). LOCAL image: embed it as a data URI, url('data:image/jpeg;base64,…') (convert with any image-to-base64 tool). Pure CSS can't point at a vault file by path. Leave as none to fall back to the Redacted Background plugin's image, if installed."
     type: variable-text
     default: "none"
     quotes: false

@@ -25,6 +25,14 @@ Its mood was stolen, in equal parts, from three places:
 
 ![Bureau](screenshots/bureau-hero.webp)
 
+<table>
+  <tr>
+    <td align="center"><img src="screenshots/mode-white.webp" alt="Daylight (paper)"><br><sub>White — daylight</sub></td>
+    <td align="center"><img src="screenshots/mode-black-and-white.webp" alt="Dark chrome, paper editor"><br><sub>Black &amp; White</sub></td>
+    <td align="center"><img src="screenshots/mode-white-and-black.webp" alt="Paper chrome, dark editor"><br><sub>White &amp; Black</sub></td>
+  </tr>
+</table>
+
 It used to be dark only — and that was the whole creed. It isn't anymore, and the
 change turned out to *be* the point. Most themes pick a side: all-dark or
 all-light, and they defend it like an identity. Bureau runs both — a near-black
@@ -61,18 +69,13 @@ The straight way, no ceremony:
 
 ## Custom background
 
-Turn on **Custom background image** (Style Settings → Bureau → Floating & glass), then feed it an image. One thing to know up front: **pure CSS can't point at a vault file by path** — Obsidian serves vault files over a per-install `app://<token>/…` URL that only JavaScript can mint, the old `app://local/…` shortcut no longer resolves, and relative paths don't resolve inside an injected snippet. So a *web* image can be linked, but a *local* image has to be either embedded or fed in by a plugin. Three ways:
+Turn on **Custom background image** (Style Settings → Bureau → Floating & glass), then feed it an image. One thing to know up front: **pure CSS can't point at a vault file by path** — Obsidian serves vault files over a per-install `app://<token>/…` URL that only JavaScript can mint, the old `app://local/…` shortcut no longer resolves, and relative paths don't resolve inside an injected stylesheet. So a *web* image can be linked, but a *local* image has to be either embedded as a data URI or fed in by a plugin. Three ways:
 
 - **A web image** — paste a full `url(...)` into **Background image — web URL**, e.g. `url('https://example.com/bg.jpg')`. This layers on top, so a web URL always wins.
 - **A local image, point-and-click** *(easiest)* — install the optional [**Redacted Background**](https://github.com/Sonophage/Redacted-Background) companion plugin (via [BRAT](https://github.com/TfTHacker/obsidian42-brat)). Then right-click any vault image → **Set as Redacted Background** and it feeds `--bu-wallpaper-snippet` a live resource path for you — no encoding step, and it sets the new-tab image too. Bureau works fine without it; this is just the easy button.
-- **A local image, no plugin** — embed it as a base64 data URI in the bundled **snippet**:
-  1. Copy [`snippets/bureau-wallpaper.css`](snippets/bureau-wallpaper.css) into your vault's `.obsidian/snippets/` folder.
-  2. Turn your image into a data URI — any "image to base64" web tool, or `magick img.png -quality 82 -strip /tmp/bw.jpg && base64 -w0 /tmp/bw.jpg` — and paste it on the `--bu-wallpaper-snippet` line, replacing the placeholder.
-  3. Settings → Appearance → **CSS snippets** → enable **bureau-wallpaper**.
+- **A local image, no plugin** — turn it into a base64 data URI (any "image to base64" web tool, or `magick img.png -quality 82 -strip /tmp/bw.jpg && base64 -w0 /tmp/bw.jpg`) and paste the whole `url('data:image/jpeg;base64,…')` straight into the **Background image — web URL** field. No extra files.
 
-  The snippet just sets `--bu-wallpaper-snippet`, which Bureau reads as the background's lower layer. (You can also paste the same `url('data:image/…')` straight into the web-URL field and skip the snippet entirely.)
-
-**Bundling note (why the snippet/plugin aren't automatic):** Obsidian's community-theme system distributes a theme as **only** `theme.css` + `manifest.json` — it can't ship or install a CSS snippet or a plugin for you. So the snippet travels in the GitHub repo under `snippets/` (drop it into `.obsidian/snippets/` once; the release also attaches `bureau-wallpaper.css`), and the companion plugin lives in its own repo, installed via BRAT.
+**Bundling note (why the plugin isn't automatic):** Obsidian's community-theme system distributes a theme as **only** `theme.css` + `manifest.json` — it can't ship or install a plugin for you. So the companion [Redacted Background](https://github.com/Sonophage/Redacted-Background) plugin lives in its own repo, installed via BRAT.
 
 There's also a **New-tab image** setting that paints an image on the empty New-Tab pane: **Bureau image** — the packaged artwork, **shown by default** (embedded as a base64 webp in `theme.css`, since a theme can only ship `theme.css` + `manifest.json`) — or **Off**, or **Custom URL** (paste a `url(...)` in the field below — a web URL or a base64 data URI). The 3-way select + data-URI delivery is adapted from the [Border theme by Akifyss](https://github.com/Akifyss/Border); the artwork is original. To swap the packaged art, replace `new-tab.webp` and re-embed it as `--bu-new-tab-default-image` (`printf 'url("data:image/webp;base64,%s")' "$(base64 -w0 new-tab.webp)"`). For a *local* new-tab image without any of that, the [Redacted Background](https://github.com/Sonophage/Redacted-Background) plugin sets it point-and-click.
 
