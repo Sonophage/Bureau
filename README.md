@@ -207,6 +207,13 @@ and inside the app at the foot of the **Bureau** Style Settings panel (*Release
 history*). When cutting a new release, add its `### X.Y.Z` entry **below this
 paragraph**, newest first — `release.py` reads it from here (see [Releasing](#releasing)).
 
+### 2.9.0
+- **Fonts embedded** — Courier Prime and Urbanist now ride inside `theme.css` as base64 woff2 (latin + latin-ext) instead of a Google Fonts `@import`. The theme no longer blocks first paint on a network fetch, renders correctly on a fresh offline install, and never pings Google. (`theme.css` is larger as a result — the price of carrying its own type.)
+- **Style Settings reordered** — the card/float family is contiguous now (Cards & layout → Floating & glass → Pill editor card → Background), so the toggle that *enables* the pill editor comes before the section that tunes it. Resize handles and Scrollbars dropped to the bottom; Inverted editor moved into Color & accent where it belongs.
+- **Dependency cues** — controls that do nothing until a parent toggle is on (Halo strength, Focus dim, the Pill-editor dials, the custom-colour fields…) now carry a `↳` prefix, so the hierarchy reads at a glance.
+- **Clearer descriptions** — Effects mode notes that Low/Medium override the individual toggles; Phosphor terminal warns a dark accent recolours all body text; the background web-URL field notes a remote URL is re-fetched every launch.
+- **Housekeeping** — two dead `.status-bar` rules removed, and the two largest CSS sections re-signposted (honest section banners plus sub-dividers for tabs, side docks, graph, Notebook Navigator, search, CRT and fullscreen) so the stylesheet is easier to navigate.
+
 ## Credits
 
 Bureau picked these pockets, gratefully:
@@ -218,7 +225,8 @@ Bureau picked these pockets, gratefully:
 - **[Limelight](https://github.com/smikula/obsidian-limelight)** (smikula) — the spotlight-the-active-pane idea, rebuilt here in pure CSS.
 - **[Ultra-Lobster](https://github.com/7368697661/Ultra-Lobster)** (7368697661) — the floating-card glass UI: frosted panes, a custom wallpaper behind them, and pill chrome.
 
-Fonts, loaded via Google Fonts with system fallbacks when the wire goes dead:
+Fonts, embedded in the stylesheet as woff2 (latin + latin-ext) so they load
+instantly and offline, with system fallbacks when a glyph runs past them:
 **Urbanist** (the labels, the stamps) and **Courier Prime** (the body, the
 mono). Both OFL.
 
