@@ -3238,8 +3238,8 @@ body.bu-anim.bu-tooltip-type .tooltip {
   animation: bu-typewriter 0.5s steps(30, end) both;
 }
 @keyframes bu-typewriter {
-  from { clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); }
-  to   { clip-path: inset(0 0 0 0);    -webkit-clip-path: inset(0 0 0 0); }
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
 }
 
 @keyframes bu-glow-breathe {
