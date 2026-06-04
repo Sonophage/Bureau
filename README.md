@@ -3,7 +3,7 @@
 A noir theme for [Obsidian](https://obsidian.md). A worn case-file on a concrete
 desk, wired to a CRT that hums whether or not you're listening.
 
-![Bureau](screenshot.png)
+![Bureau](screenshots/bureau-wallpaper.webp)
 
 > [!IMPORTANT]
 > Most of Bureau lives in the [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin. Install it and you get a single **Bureau** panel (Settings → Style Settings → Bureau) with every option in one place. The theme runs fine without it — just on its built-in defaults.
@@ -216,9 +216,8 @@ and inside the app at the foot of the **Bureau** Style Settings panel (*Release
 history*). When cutting a new release, add its `### X.Y.Z` entry **below this
 paragraph**, newest first — `release.py` reads it from here (see [Releasing](#releasing)).
 
-### 2.9.2
-- **Pill terminal no longer breaks on mobile** — the floating-editor / pill-chrome layout (its `clip-path` traps pane scroll and re-homes `position:fixed` children onto the editor card) doesn't survive a phone or tablet, so every `bu-pill-chrome` rule is now gated `:not(.is-mobile)`. The feature auto-suppresses on small screens even when it's left on for desktop; the editor falls back to the normal card/flat layout the mobile baseline already handles, and desktop is untouched.
-- **README rewritten** — a top-to-bottom pass: the noir up front, then a technical walkthrough that follows the Style Settings panel in its real order, reconciled against the current toggles.
+### 2.9.3
+- **New README hero** — the README now leads with the Bureau wallpaper artwork (full 1536×1024, served as a 264 KB webp) in place of the small store screenshot. Docs/asset only — no theme changes.
 
 ## Credits
 
