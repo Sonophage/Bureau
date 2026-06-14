@@ -71,6 +71,7 @@ toggles are never lost — switch to **Custom** and they come back.
 ### Color & accent
 
 - **Inverted editor** — the chiaroscuro switch: the editor pane takes the *opposite* palette to the rest of the UI. Caret, texture and ink all flip with it. (Flip Obsidian's own light/dark to swap which side is which.)
+- **Per-mode palette** — for finer control than the single switch above, set the **sidebars** and the **editor** to light or dark *independently*, and lock each in per Obsidian appearance. Four selectors (sidebars + editor, for light mode and dark mode), all defaulting to follow the appearance — so e.g. light mode can run a paper editor on dark sidebars while dark mode stays dark-on-dark, and your light/dark hotkey flips between exactly what you set for each.
 - **Accent preset** — *Control* (red) · *Magnus* (green) · *Deus* (gold) · *Custom*, plus a **Custom accent** colour when you want your own.
 - **Phosphor terminal** — collapse the body text to the accent, like a single-phosphor tube. (A dark accent recolours *all* body text — that's the trade.)
 - **Native accent** — Bureau doesn't force Obsidian's built-in accent, so the startup colour follows **Settings → Appearance → Accent color**. Match it to your Bureau accent for a seamless launch (the startup screen paints before Style Settings loads).
@@ -215,6 +216,12 @@ The full history lives on the [releases page](https://github.com/Sonophage/Burea
 and inside the app at the foot of the **Bureau** Style Settings panel (*Release
 history*). When cutting a new release, add its `### X.Y.Z` entry **below this
 paragraph**, newest first — `release.py` reads it from here (see [Releasing](#releasing)).
+
+### 2.10.0
+- **Mobile sidebar no longer renders blank until tapped** — on phones, opening or switching a side-drawer view (file explorer, Notebook Navigator, search) left it blank until you tapped it once. The cause was the mobile baseline's blanket `body.is-mobile * { animation: none }`: alongside Bureau's decorative animations it also killed the zero-duration CSS animations Obsidian's list views use as a render hook, so the lists never got told to paint. The blanket rule is gone; Bureau's own animations are now held off mobile at the source (every `bu-anim` rule is gated `:not(.is-mobile)`), so a phone still shows no Bureau animation while Obsidian's hooks keep working.
+- **Per-mode palette (independent sidebars + editor)** — the sidebars/chrome and the editor pane can now be set to light or dark *independently*, locked in per Obsidian appearance, via four new Style Settings selectors under *Color & accent* (sidebars + editor, for light mode and dark mode). All four default to following the appearance, so existing setups are untouched; the global *Inverted editor* toggle is unchanged. The selectors are fully orthogonal — your editor choice always wins over a sidebar flip — so a paper editor on dark sidebars in light mode (with dark-on-dark in dark mode) is now a clean two-click setup that your light/dark hotkey flips between.
+- **Base-hue tint** — a per-appearance **Base hue** + **Base tint strength** pair (under the new Dark mode / Light mode sections) re-tints the whole base palette — backgrounds, surfaces, borders, text — in oklch, so the colour stays visible even on the near-black surfaces. Defaults are no-ops (the stock warm look); the accent is untouched.
+- **Callout title pill no longer cropped in Live Preview** — the floating callout TITLE pill (which sits above the callout's top edge) was getting clipped by the editor's collapsed top margin in Live Preview; restored the top margin so it shows whole, as it already did in reading view.
 
 ### 2.9.3
 - **New README hero** — the README now leads with the Bureau wallpaper artwork (full 1536×1024, served as a 264 KB webp) in place of the small store screenshot. Docs/asset only — no theme changes.

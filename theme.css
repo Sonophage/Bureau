@@ -138,25 +138,54 @@
      so accent-coloured text clears WCAG AA — vivid accent on bright paper was only ~3.3:1. */
   --bu-accent-ink: var(--bu-accent);
 }
+/* Per-appearance base tint. The Dark mode / Light mode sliders set these *-dark / *-light vars;
+   --bu-tint-hue / --bu-tint-strength then resolve to whichever appearance is active and inherit into
+   every surface (chrome + editor panes), so the 32 oklch() token copies below stay mode-agnostic.
+   A dark editor pane shown in light appearance therefore takes the LIGHT tint, and vice-versa —
+   the tint tracks the appearance you toggle, which is what the two sections represent. */
+body.theme-dark  { --bu-tint-hue: var(--bu-tint-hue-dark, 0);  --bu-tint-strength: var(--bu-tint-strength-dark, 0); }
+body.theme-light { --bu-tint-hue: var(--bu-tint-hue-light, 0); --bu-tint-strength: var(--bu-tint-strength-light, 0); }
 .theme-dark,
 .theme-light,
+/* Per-mode palette (independent sidebars + editor, locked in per appearance). These DARK rows paint
+   a region with the dark palette; the matching LIGHT rows in the next block paint it paper.
+   - chrome row = whole body (light-mode sidebars → dark)
+   - editor rows = editor pane only; the :not() lets the editor's OWN choice override a sidebar flip. */
+body.theme-light.bu-l-chrome-dark,
 body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-content,
-body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-content {
+body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-content,
+body.theme-light.bu-l-editor-dark .workspace-split.mod-root .workspace-leaf-content,
+body.theme-dark.bu-d-chrome-light:not(.bu-d-editor-light) .workspace-split.mod-root .workspace-leaf-content {
+  /* Base-hue tint — each surface/text literal is restated as an oklch() copy whose hue is rotated by
+     --bu-tint-hue and whose chroma is boosted by --bu-tint-strength, so one pair of Style Settings
+     sliders re-tints the whole theme. oklch chroma stays perceptible at near-black lightness, so the
+     dark backgrounds actually take the colour. Defaults (hue 0 / strength 0) round-trip to the original;
+     the plain literal above each oklch() is the fallback for engines without relative-colour syntax. */
   --bu-bg: var(--bu-black-level, #0c0b0a);
+  --bu-bg: oklch(from var(--bu-black-level, #0c0b0a) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-bg-alt: #060605;
+  --bu-bg-alt: oklch(from #060605 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-surface: #151310;
+  --bu-surface: oklch(from #151310 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-raised: #1e1b17;
+  --bu-raised: oklch(from #1e1b17 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-border: #2a2620;
+  --bu-border: oklch(from #2a2620 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-border-hi: #3a342a;
+  --bu-border-hi: oklch(from #3a342a l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   /* Resize handles — the sidebar split divider lines. Follows --bu-border by default; the Resize
      handles settings below retarget it (remove / recolour). */
   --bu-handle-border: var(--bu-border);
   /* Pill-terminal floating editor card — its own border-colour lever (rounding lever is by --bu-pill-editor-radius). */
   --bu-pill-editor-border: var(--bu-line);
   --bu-text: var(--bu-text-dark, #f1efea);
+  --bu-text: oklch(from var(--bu-text-dark, #f1efea) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-text-hi: #ffffff;
+  --bu-text-hi: oklch(from #ffffff l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-muted: #968d7e;
+  --bu-muted: oklch(from #968d7e l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-faint: #8c8473;   /* was #5f594e (2.8:1 — failed WCAG); now ~5.3:1 on the dark bg */
+  --bu-faint: oklch(from #8c8473 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-brass: #ca9a4e;
   --bu-teal: #4f817a;
   --bu-label-bg: #f3f1eb;
@@ -164,6 +193,7 @@ body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-conte
   --bu-on-accent: #ffffff;
   --bu-veil: #ffffff;
   --bu-code-bg: #0a0908;
+  --bu-code-bg: oklch(from #0a0908 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
 
   /* NB: the accent palette is NOT defined here — it lives in the mode/pane-agnostic :where(body)
      rule just above this block. Re-declaring --bu-accent in here (which the inverted-editor pane
@@ -279,6 +309,7 @@ body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-conte
   --line-height-normal: var(--bu-line-height, 1.5);
   --p-spacing: calc(var(--bu-p-spacing-n, 16) * 1px);
   --bu-line: #564c3e;
+  --bu-line: oklch(from #564c3e l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --graph-line: color-mix(in srgb, var(--bu-accent) 38%, transparent);
   --list-marker-color: var(--bu-accent);
   --indentation-guide-color: color-mix(in srgb, var(--bu-accent) 22%, transparent);
@@ -300,17 +331,33 @@ body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-conte
    literals; every var(--bu-*)-derived token above follows automatically.
    Accent presets, fonts, sizes, card/anim calcs are shared (mode-agnostic). */
 .theme-light,
-body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-content {
+body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-content,
+/* Per-mode palette LIGHT rows — paint a region paper.
+   - chrome row = whole body (dark-mode sidebars → light)
+   - editor rows = editor pane only; the :not() lets the editor's OWN dark choice override a sidebar flip. */
+body.theme-dark.bu-d-chrome-light,
+body.theme-dark.bu-d-editor-light .workspace-split.mod-root .workspace-leaf-content,
+body.theme-light.bu-l-chrome-dark:not(.bu-l-editor-dark) .workspace-split.mod-root .workspace-leaf-content {
   --bu-bg: var(--bu-white-level, #e7e0cd);   /* aged paper (a touch deeper than #efe9db) */
+  --bu-bg: oklch(from var(--bu-white-level, #e7e0cd) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-bg-alt: #e4dcc9;      /* deeper paper — the desk/stage */
+  --bu-bg-alt: oklch(from #e4dcc9 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-surface: #e7e0cf;     /* inset paper */
+  --bu-surface: oklch(from #e7e0cf l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-raised: #f4efe4;      /* raised paper */
+  --bu-raised: oklch(from #f4efe4 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-border: #cabfa6;
+  --bu-border: oklch(from #cabfa6 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-border-hi: #b3a787;
+  --bu-border-hi: oklch(from #b3a787 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-text: var(--bu-text-light, #1e1a14);   /* typewriter ink */
+  --bu-text: oklch(from var(--bu-text-light, #1e1a14) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-text-hi: #0d0a06;     /* darkest ink — headings/bold */
+  --bu-text-hi: oklch(from #0d0a06 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-muted: #5c5444;       /* darkened to clear WCAG AA (4.5:1) on paper */
+  --bu-muted: oklch(from #5c5444 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-faint: #6a6252;   /* was #8a8069 (3.0:1 — failed WCAG); now ~4.6:1 on paper */
+  --bu-faint: oklch(from #6a6252 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-brass: #8a6a24;       /* darker brass reads on paper */
   --bu-teal: #2f6058;
   --bu-label-bg: #1c1813;    /* INVERTED: dark stamp on paper */
@@ -319,7 +366,9 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
   --bu-veil: #000000;        /* hover veils darken on light */
   --bu-accent-ink: color-mix(in srgb, var(--bu-accent), #000 30%);   /* darken accent text ~5.7:1 on paper */
   --bu-code-bg: #e6dfce;     /* paper-grey code block */
+  --bu-code-bg: oklch(from #e6dfce l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-line: #b8ad93;        /* pencil rule */
+  --bu-line: oklch(from #b8ad93 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-shadow: color-mix(in srgb, #2e2618 calc(var(--bu-shadow-strength, 50) * 0.4%), transparent);   /* warm; paper takes less */
   --bu-shadow-soft: color-mix(in srgb, #2e2618 calc(var(--bu-shadow-strength, 50) * 0.24%), transparent);
   /* Paper glass bevel: a bright top-left lip + soft bottom-right ink edge. */
@@ -386,8 +435,14 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
 @supports (color: contrast-color(white)) {
   .theme-dark,
   .theme-light,
+  body.theme-light.bu-l-chrome-dark,
+  body.theme-dark.bu-d-chrome-light,
   body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-content,
-  body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-content {
+  body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-content,
+  body.theme-light.bu-l-editor-dark .workspace-split.mod-root .workspace-leaf-content,
+  body.theme-dark.bu-d-editor-light .workspace-split.mod-root .workspace-leaf-content,
+  body.theme-light.bu-l-chrome-dark:not(.bu-l-editor-dark) .workspace-split.mod-root .workspace-leaf-content,
+  body.theme-dark.bu-d-chrome-light:not(.bu-d-editor-light) .workspace-split.mod-root .workspace-leaf-content {
     --bu-on-accent: contrast-color(var(--bu-accent));
   }
 }
@@ -870,7 +925,9 @@ body.theme-light.bu-panel-grain .app-container { background-image: var(--bu-grai
 body.theme-light .markdown-source-view.mod-cm6 .cm-scroller,
 body.theme-light .markdown-reading-view .markdown-preview-view,
 body.theme-dark.bu-split-editor .markdown-source-view.mod-cm6 .cm-scroller,
-body.theme-dark.bu-split-editor .markdown-reading-view .markdown-preview-view {
+body.theme-dark.bu-split-editor .markdown-reading-view .markdown-preview-view,
+body.theme-dark.bu-d-editor-light .markdown-source-view.mod-cm6 .cm-scroller,
+body.theme-dark.bu-d-editor-light .markdown-reading-view .markdown-preview-view {
   background-image: var(--scrollable-background), var(--bu-grain);
   background-size: 100% auto, auto;
   background-repeat: repeat-y, repeat;
@@ -1025,6 +1082,12 @@ body::before { opacity: var(--bu-grain-opacity, 0.05); }
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
 }
 .callout-title-inner { color: var(--bu-on-accent); }
+
+/* Live Preview collapses the callout's top margin, so the floating TITLE pill (top:-10px) gets cropped
+   by the line above. Restore enough top margin in the editor for the pill to clear, as reading view does. */
+.markdown-source-view.mod-cm6 .callout {
+  margin-top: 15px;
+}
 
 .callout a.internal-link {
   background-color: var(--bu-label-fg);
@@ -2488,10 +2551,34 @@ body.bu-editor-only-cards :is(.mod-left-split, .mod-right-split) .workspace-leaf
 /* Editor-aware palette — the ACTUAL editor background/text, accounting for Inverted editor.
    Chrome elements (tabs, status bar) read these so they track the editor, not the window theme:
    normally they match the theme; with Inverted editor on, they flip to the opposite palette. */
-.theme-dark  { --bu-editor-bg: var(--bu-black-level, #0c0b0a); --bu-editor-text: var(--bu-text-dark, #f1efea); }
-.theme-light { --bu-editor-bg: var(--bu-white-level, #e7e0cd); --bu-editor-text: var(--bu-text-light, #1e1a14); }
-body.theme-dark.bu-split-editor  { --bu-editor-bg: var(--bu-white-level, #e7e0cd); --bu-editor-text: var(--bu-text-light, #1e1a14); }
-body.theme-light.bu-split-editor { --bu-editor-bg: var(--bu-black-level, #0c0b0a); --bu-editor-text: var(--bu-text-dark, #f1efea); }
+/* These mirror --bu-bg / --bu-text for the editor pane (and the chrome that tracks it), so they take
+   the same Base-hue tint: literal first as the fallback, hue-rotated copy second. */
+.theme-dark {
+  --bu-editor-bg: var(--bu-black-level, #0c0b0a);
+  --bu-editor-bg: oklch(from var(--bu-black-level, #0c0b0a) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-editor-text: var(--bu-text-dark, #f1efea);
+  --bu-editor-text: oklch(from var(--bu-text-dark, #f1efea) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+}
+.theme-light {
+  --bu-editor-bg: var(--bu-white-level, #e7e0cd);
+  --bu-editor-bg: oklch(from var(--bu-white-level, #e7e0cd) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-editor-text: var(--bu-text-light, #1e1a14);
+  --bu-editor-text: oklch(from var(--bu-text-light, #1e1a14) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+}
+body.theme-dark.bu-split-editor,
+body.theme-dark.bu-d-editor-light {
+  --bu-editor-bg: var(--bu-white-level, #e7e0cd);
+  --bu-editor-bg: oklch(from var(--bu-white-level, #e7e0cd) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-editor-text: var(--bu-text-light, #1e1a14);
+  --bu-editor-text: oklch(from var(--bu-text-light, #1e1a14) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+}
+body.theme-light.bu-split-editor,
+body.theme-light.bu-l-editor-dark {
+  --bu-editor-bg: var(--bu-black-level, #0c0b0a);
+  --bu-editor-bg: oklch(from var(--bu-black-level, #0c0b0a) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-editor-text: var(--bu-text-dark, #f1efea);
+  --bu-editor-text: oklch(from var(--bu-text-dark, #f1efea) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+}
 
 /* TABS — folder/pill shape · inverted-inactive / accent-active · per-dock content  ════════ */
 .workspace-tab-header::before,
@@ -2856,7 +2943,11 @@ body.bu-phosphor { --bu-green: var(--bu-accent); }   /* checkboxes & ticks join 
 /* Inverted-editor mode. Force the pane's text to its own (inverted) ink so it can't inherit the
    chrome's color, and give each side the texture that fits its palette. */
 body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-content,
-body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-content {
+body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-content,
+body.theme-light.bu-l-editor-dark .workspace-split.mod-root .workspace-leaf-content,
+body.theme-dark.bu-d-editor-light .workspace-split.mod-root .workspace-leaf-content,
+body.theme-light.bu-l-chrome-dark:not(.bu-l-editor-dark) .workspace-split.mod-root .workspace-leaf-content,
+body.theme-dark.bu-d-chrome-light:not(.bu-d-editor-light) .workspace-split.mod-root .workspace-leaf-content {
   color: var(--bu-text);
 }
 /* Caret rides the accent in every mode (dark, paper, inverted). A text-coloured caret blinked and
@@ -2871,23 +2962,34 @@ body.theme-light.bu-split-editor .workspace-split.mod-root .workspace-leaf-conte
 }
 /* Paper page (dark mode): no dark-CRT scanlines/phosphor on a light page — keeps ledger + paper tooth. */
 body.theme-dark.bu-split-editor .markdown-source-view.mod-cm6 .cm-editor::after,
-body.theme-dark.bu-split-editor .markdown-reading-view::after { display: none; }
+body.theme-dark.bu-split-editor .markdown-reading-view::after,
+body.theme-dark.bu-d-editor-light .markdown-source-view.mod-cm6 .cm-editor::after,
+body.theme-dark.bu-d-editor-light .markdown-reading-view::after { display: none; }
 body.theme-dark.bu-split-editor .markdown-source-view.mod-cm6 .cm-line,
 body.theme-dark.bu-split-editor .markdown-rendered p,
-body.theme-dark.bu-split-editor .markdown-rendered li { text-shadow: none; }
+body.theme-dark.bu-split-editor .markdown-rendered li,
+body.theme-dark.bu-d-editor-light .markdown-source-view.mod-cm6 .cm-line,
+body.theme-dark.bu-d-editor-light .markdown-rendered p,
+body.theme-dark.bu-d-editor-light .markdown-rendered li { text-shadow: none; }
 /* Dark page (light mode): CRT, not grain — ledger only (drop the paper-grain layer the light
    texture rule adds) plus scanlines, so it reads like the real noir editor. */
 body.theme-light.bu-split-editor .markdown-source-view.mod-cm6 .cm-scroller,
-body.theme-light.bu-split-editor .markdown-reading-view .markdown-preview-view {
+body.theme-light.bu-split-editor .markdown-reading-view .markdown-preview-view,
+body.theme-light.bu-l-editor-dark .markdown-source-view.mod-cm6 .cm-scroller,
+body.theme-light.bu-l-editor-dark .markdown-reading-view .markdown-preview-view {
   background-image: var(--scrollable-background);
   background-size: 100% auto;
   background-repeat: repeat-y;
   background-attachment: local;
 }
 body.theme-light.bu-split-editor .markdown-source-view.mod-cm6 .cm-editor,
-body.theme-light.bu-split-editor .markdown-reading-view { position: relative; }
+body.theme-light.bu-split-editor .markdown-reading-view,
+body.theme-light.bu-l-editor-dark .markdown-source-view.mod-cm6 .cm-editor,
+body.theme-light.bu-l-editor-dark .markdown-reading-view { position: relative; }
 body.theme-light.bu-split-editor .markdown-source-view.mod-cm6 .cm-editor::after,
-body.theme-light.bu-split-editor .markdown-reading-view::after {
+body.theme-light.bu-split-editor .markdown-reading-view::after,
+body.theme-light.bu-l-editor-dark .markdown-source-view.mod-cm6 .cm-editor::after,
+body.theme-light.bu-l-editor-dark .markdown-reading-view::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -3295,7 +3397,7 @@ body.bu-hide-prompt-instructions .prompt-instructions { display: none; }
   100% { transform: scaleY(1);     filter: brightness(1) contrast(1) blur(0); }
 }
 
-body.bu-anim :is(.workspace-tab-header, .clickable-icon, button, .nav-file-title,
+body.bu-anim:not(.is-mobile) :is(.workspace-tab-header, .clickable-icon, button, .nav-file-title,
   .nav-folder-title, .tree-item-self, a.internal-link, a.external-link, .nn-navitem,
   .nn-file, .suggestion-item, .status-bar-item, .checkbox-container, .menu-item, .view-action) {
   transition:
@@ -3313,31 +3415,31 @@ body.bu-anim :is(.workspace-tab-header, .clickable-icon, button, .nav-file-title
 
 /* Tabs rise from the bar. */
 .mod-root .workspace-tab-header { transform-origin: center bottom; position: relative; }
-body.bu-anim .mod-root .workspace-tab-header {
+body.bu-anim:not(.is-mobile) .mod-root .workspace-tab-header {
   transition: transform 210ms var(--bu-rolodex-ease), box-shadow 210ms var(--bu-rolodex-ease);
 }
-body.bu-anim .mod-root .workspace-tab-header:hover {
+body.bu-anim:not(.is-mobile) .mod-root .workspace-tab-header:hover {
   transform: scale(1.08) translateY(-2px);
   z-index: 6;
   box-shadow: 0 8px 16px -5px var(--bu-shadow);
 }
 /* Active tab rests 5px taller (static), and still pops a touch on hover. */
-body.bu-anim .mod-root .workspace-tab-header.is-active {
+body.bu-anim:not(.is-mobile) .mod-root .workspace-tab-header.is-active {
   margin-top: -5px;
   padding-top: 5px;
   z-index: 5;
 }
-body.bu-anim .mod-root .workspace-tab-header.is-active:hover { transform: scale(1.05) translateY(-2px); }
+body.bu-anim:not(.is-mobile) .mod-root .workspace-tab-header.is-active:hover { transform: scale(1.05) translateY(-2px); }
 /* Stacked spines drop the springy Rolodex pop (the scale pushed the close button out of reach) for a
    smooth slide — the spine eases OUTWARD like a sheet drawn from a file. Higher specificity
    (+ .workspace-tabs.mod-stacked) wins over the Rolodex rules above regardless of source order. */
-body.bu-anim .mod-root .workspace-tabs.mod-stacked .workspace-tab-header {
+body.bu-anim:not(.is-mobile) .mod-root .workspace-tabs.mod-stacked .workspace-tab-header {
   transition: transform 720ms cubic-bezier(0.37, 0, 0.22, 1),
               background-color 520ms ease;
 }
-body.bu-anim .mod-root .workspace-tabs.mod-stacked .workspace-tab-header:hover,
-body.bu-anim .mod-root .workspace-tabs.mod-stacked .workspace-tab-header.is-active,
-body.bu-anim .mod-root .workspace-tabs.mod-stacked .workspace-tab-header.is-active:hover {
+body.bu-anim:not(.is-mobile) .mod-root .workspace-tabs.mod-stacked .workspace-tab-header:hover,
+body.bu-anim:not(.is-mobile) .mod-root .workspace-tabs.mod-stacked .workspace-tab-header.is-active,
+body.bu-anim:not(.is-mobile) .mod-root .workspace-tabs.mod-stacked .workspace-tab-header.is-active:hover {
   transform: translateX(4px);   /* eased pull-out; no scale, so the close button stays reachable */
   /* Match inactive: same top inset (beats the horizontal active-lift -5px), and cancel its padding-top
      bump — so the active spine lines up with the inactive ones instead of riding higher. */
@@ -3348,18 +3450,21 @@ body.bu-anim .mod-root .workspace-tabs.mod-stacked .workspace-tab-header.is-acti
 
 /* File rows (native tree + Notebook Navigator) grow from the left edge. */
 :is(.nn-navitem, .nn-file, .nav-file-title, .nav-folder-title, .tree-item-self) { transform-origin: left center; }
-body.bu-anim :is(.nav-file-title, .nav-folder-title, .tree-item-self.is-clickable, .nn-navitem, .nn-file) {
+/* :not(.is-mobile) — these row transforms (and the selected-row scale below) promote per-row layers in
+   the sidebar; on a phone they're hover effects with no hover, and the promoted layers feed the same
+   blank-until-tap repaint bug. Desktop-only. */
+body.bu-anim:not(.is-mobile) :is(.nav-file-title, .nav-folder-title, .tree-item-self.is-clickable, .nn-navitem, .nn-file) {
   transition: transform 190ms var(--bu-rolodex-ease), box-shadow 190ms var(--bu-rolodex-ease);
 }
-body.bu-anim :is(.nav-file-title, .nav-folder-title, .tree-item-self.is-clickable, .nn-navitem, .nn-file):hover {
+body.bu-anim:not(.is-mobile) :is(.nav-file-title, .nav-folder-title, .tree-item-self.is-clickable, .nn-navitem, .nn-file):hover {
   transform: scale(1.05);
   position: relative;
   z-index: 3;
   box-shadow: 0 5px 14px -5px var(--bu-shadow);
 }
 /* The selected row sits forward and heavy, holding its lift after the hover leaves. */
-body.bu-anim :is(.nn-navitem, .nn-file).nn-selected,
-body.bu-anim .tree-item-self.is-active {
+body.bu-anim:not(.is-mobile) :is(.nn-navitem, .nn-file).nn-selected,
+body.bu-anim:not(.is-mobile) .tree-item-self.is-active {
   transform: scale(1.07);
   position: relative;
   z-index: 4;
@@ -3368,31 +3473,31 @@ body.bu-anim .tree-item-self.is-active {
 /* Settings nav items — the same Rolodex lift as file rows: grow from the left edge on hover, and the
    active (clicked) item holds a heavier lift. */
 .vertical-tab-nav-item { transform-origin: left center; }
-body.bu-anim .vertical-tab-nav-item {
+body.bu-anim:not(.is-mobile) .vertical-tab-nav-item {
   transition: transform 190ms var(--bu-rolodex-ease), box-shadow 190ms var(--bu-rolodex-ease);
 }
-body.bu-anim .vertical-tab-nav-item:hover {
+body.bu-anim:not(.is-mobile) .vertical-tab-nav-item:hover {
   transform: scale(1.05);
   position: relative;
   z-index: 3;
   box-shadow: 0 5px 14px -5px var(--bu-shadow);
 }
-body.bu-anim .vertical-tab-nav-item.is-active {
+body.bu-anim:not(.is-mobile) .vertical-tab-nav-item.is-active {
   transform: scale(1.07);
   position: relative;
   z-index: 4;
   filter: drop-shadow(0 4px 9px var(--bu-shadow));
 }
 
-body.bu-anim.bu-poweron :is(.markdown-source-view.mod-cm6, .markdown-preview-view) {
+body.bu-anim:not(.is-mobile).bu-poweron :is(.markdown-source-view.mod-cm6, .markdown-preview-view) {
   animation: bu-poweron var(--bu-t-slow) var(--bu-anim-ease);
 }
 
-body.bu-anim.bu-poweron .workspace {
+body.bu-anim:not(.is-mobile).bu-poweron .workspace {
   animation: bu-appstart calc(var(--bu-anim-speed, 600) * 1.3ms) var(--bu-anim-ease);
 }
 
-body.bu-anim.bu-poweron .empty-state {
+body.bu-anim:not(.is-mobile).bu-poweron .empty-state {
   animation: bu-fade-scale var(--bu-t-slow) var(--bu-anim-ease);
 }
 
@@ -3425,17 +3530,21 @@ body.bu-anim.bu-bootflash:not(.is-mobile) .horizontal-main-container::after {
   animation: bu-bootflash calc(var(--bu-anim-speed, 600) * 1.15ms) var(--bu-anim-ease) both;
 }
 
-body.bu-anim.bu-glow-ease .cm-line {
+body.bu-anim:not(.is-mobile).bu-glow-ease .cm-line {
   transition: text-shadow var(--bu-t-slow) var(--bu-anim-ease);
 }
 
-body.bu-anim.bu-menu-fade :is(.menu, .suggestion-container, .modal, .prompt, .popover.hover-popover) {
+/* :not(.is-mobile) — keep this (and every) bu-anim entrance animation off phones at the source. This
+   gating is how Bureau stays animation-free on mobile now that the old blanket `body.is-mobile *
+   { animation: none }` is gone (that blanket rule also killed Obsidian's list render-hooks — see the
+   MOBILE baseline note). Gate at the rule, not globally, so Obsidian's own hooks keep firing. */
+body.bu-anim.bu-menu-fade:not(.is-mobile) :is(.menu, .suggestion-container, .modal, .prompt, .popover.hover-popover) {
   animation: bu-fade-scale var(--bu-t-slow) var(--bu-anim-ease);
 }
 
 /* Typewriter tooltips — the tooltip text reveals left-to-right like a line struck out on a platen.
    Single-line by nature (clip-path wipe); long tooltips just reveal faster. */
-body.bu-anim.bu-tooltip-type .tooltip {
+body.bu-anim:not(.is-mobile).bu-tooltip-type .tooltip {
   animation: bu-typewriter 0.5s steps(30, end) both;
 }
 @keyframes bu-typewriter {
@@ -3457,8 +3566,8 @@ body.bu-anim.bu-tooltip-type .tooltip {
   70% { opacity: var(--bu-scan-dip, 0); } 71.5% { opacity: 1; }
   73%, 100% { opacity: 1; }
 }
-body.bu-anim.bu-scan-anim .workspace-leaf-content[data-type="markdown"] .view-content { position: relative; }
-body.bu-anim.bu-scan-anim .workspace-leaf-content[data-type="markdown"] .view-content::after {
+body.bu-anim:not(.is-mobile).bu-scan-anim .workspace-leaf-content[data-type="markdown"] .view-content { position: relative; }
+body.bu-anim:not(.is-mobile).bu-scan-anim .workspace-leaf-content[data-type="markdown"] .view-content::after {
   content: "";
   position: absolute;
   left: 0; right: 0; top: -2%;
@@ -3472,7 +3581,7 @@ body.bu-anim.bu-scan-anim .workspace-leaf-content[data-type="markdown"] .view-co
              bu-scanline-flick calc(var(--bu-scan-interval, 7) * 1s) linear infinite;
 }
 
-body.bu-anim.bu-glow-pulse::after {
+body.bu-anim:not(.is-mobile).bu-glow-pulse::after {
   animation: bu-glow-breathe calc(var(--bu-anim-speed, 600) * 10ms) ease-in-out infinite;
 }
 
@@ -3489,9 +3598,14 @@ body.bu-block-caret .cm-editor .cm-cursor-primary {
   opacity: 0.62;
   animation: bu-caret-blink 1.05s linear infinite;
 }
+/* Mobile: keep the block-caret SHAPE but drop its infinite blink — the one Bureau animation that isn't
+   already gated off mobile above. Scoped to this single selector, NOT a blanket animation:none, so
+   Obsidian's list render-hooks stay intact (see the MOBILE baseline note for why a global mobile
+   animation kill broke them). */
+body.is-mobile.bu-block-caret .cm-editor .cm-cursor-primary { animation: none; }
 
 @keyframes bu-line-sweep { from { background-position: 200% 0; } to { background-position: -200% 0; } }
-body.bu-anim.bu-line-scan .markdown-source-view.mod-cm6 .cm-line.cm-active {
+body.bu-anim:not(.is-mobile).bu-line-scan .markdown-source-view.mod-cm6 .cm-line.cm-active {
   background-image: linear-gradient(90deg, transparent 20%,
     color-mix(in srgb, var(--bu-accent) 9%, transparent) 50%, transparent 80%);
   background-size: 200% 100%;
@@ -3521,11 +3635,15 @@ body.bu-focus-line .markdown-source-view.mod-cm6 .cm-line.cm-active::before {
 
 /* limelight — spotlight the active pane; dim every other note/sidebar leaf.
    Hover a dimmed pane to peek without taking focus. */
-body.bu-limelight .workspace-leaf:not(.mod-active) {
+/* :not(.is-mobile) — on a phone the sidebar drawer is always a non-active leaf, so this would keep it
+   permanently at opacity 0.5 with an opacity transition; an animated-opacity layer is one the mobile
+   WebView won't repaint until you tap, which read as the sidebar surfacing blank on every view switch.
+   Limelight is a hover-to-peek spotlight — pointless on touch — so it's desktop-only. */
+body.bu-limelight:not(.is-mobile) .workspace-leaf:not(.mod-active) {
   opacity: 0.5;
   transition: opacity var(--bu-t-slow) var(--bu-anim-ease);
 }
-body.bu-limelight .workspace-leaf:not(.mod-active):hover { opacity: 1; }
+body.bu-limelight:not(.is-mobile) .workspace-leaf:not(.mod-active):hover { opacity: 1; }
 
 @keyframes bu-flicker {
   0%, 100% { filter: brightness(1); }
@@ -3537,8 +3655,8 @@ body.bu-limelight .workspace-leaf:not(.mod-active):hover { opacity: 1; }
   78% { filter: brightness(1.004); }
   90% { filter: brightness(0.997); }
 }
-body.bu-anim.bu-flicker .markdown-source-view.mod-cm6 .cm-editor,
-body.bu-anim.bu-flicker .markdown-reading-view {
+body.bu-anim:not(.is-mobile).bu-flicker .markdown-source-view.mod-cm6 .cm-editor,
+body.bu-anim:not(.is-mobile).bu-flicker .markdown-reading-view {
   animation: bu-flicker 4.2s linear infinite;
 }
 
@@ -3548,10 +3666,10 @@ body.bu-anim.bu-flicker .markdown-reading-view {
   85%  { opacity: 1; }
   100% { transform: translateY(96vh); opacity: 0; }
 }
-body.bu-anim.bu-crossfade :is(.markdown-source-view.mod-cm6, .markdown-preview-view) {
+body.bu-anim:not(.is-mobile).bu-crossfade :is(.markdown-source-view.mod-cm6, .markdown-preview-view) {
   position: relative;
 }
-body.bu-anim.bu-crossfade :is(.markdown-source-view.mod-cm6, .markdown-preview-view)::before {
+body.bu-anim.bu-crossfade:not(.is-mobile) :is(.markdown-source-view.mod-cm6, .markdown-preview-view)::before {
   content: "";
   position: absolute;
   left: 0; right: 0; top: 0;
@@ -3567,7 +3685,7 @@ body.bu-anim.bu-crossfade :is(.markdown-source-view.mod-cm6, .markdown-preview-v
   0%   { transform: scale(0.55); opacity: 0.4; box-shadow: 0 0 0 6px color-mix(in srgb, var(--bu-accent) 40%, transparent); }
   100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 transparent; }
 }
-body.bu-anim.bu-check-anim input[type="checkbox"]:checked {
+body.bu-anim:not(.is-mobile).bu-check-anim input[type="checkbox"]:checked {
   animation: bu-check-pop calc(var(--bu-anim-speed, 600) * 0.6ms) var(--bu-anim-ease);
 }
 
@@ -3601,24 +3719,59 @@ body.bu-mode-low .app-container { background-image: none; }
    is disabled). Phones/tablets are fast + legible out of the box: no animation, film grain, panel
    grain, scanlines, vignette, or heavy card shadows. Mobile-only — desktop is untouched.
    ============================================================ */
-body.is-mobile.bu-anim.bu-poweron *,
-body.is-mobile.bu-anim.bu-poweron *::before,
-body.is-mobile.bu-anim.bu-poweron *::after,
-body.is-mobile *,
-body.is-mobile *::before,
-body.is-mobile *::after { animation: none; }
-/* Belt-and-suspenders: if any entrance keyframe's start-frame leaks through on an off-screen drawer,
-   force the resting state so the file explorer / Notebook Navigator never surface blank until tapped. */
+/* IMPORTANT — there is deliberately NO blanket `body.is-mobile * { animation: none }` here. That rule
+   (shipped through 2.9.x) was the cause of the long-standing "sidebar lists blank until you tap them" bug:
+   it also killed the zero-duration CSS animations Obsidian's list views (file explorer, Notebook
+   Navigator, search) use as a render/insertion hook, so on mobile those lists never got told to paint
+   until a tap forced a repaint. The editor was unaffected (CodeMirror repaints its own scroller).
+   Bureau's own decorative animations are held off mobile at the SOURCE instead — every bu-anim rule is
+   gated `:not(.is-mobile)` — so a phone still shows no Bureau animation while Obsidian's hooks keep
+   working. Do NOT reintroduce a global animation:none on mobile. */
+/* Resting state for off-screen drawers — if an entrance keyframe's start-frame ever leaks through,
+   force opacity/transform/filter back so the file explorer / Notebook Navigator never surface blank. */
 body.is-mobile .workspace,
 body.is-mobile .mod-left-split .workspace-leaf-content,
 body.is-mobile .mod-right-split .workspace-leaf-content,
+/* MOBILE DRAWER — the sidebars are .workspace-drawer here, NOT .mod-*-split, so the desktop
+   selectors above never match on a phone. Reset the drawer wrappers themselves and every leaf /
+   view-content inside them: switching to Search / Notebook Navigator / Files activates a leaf the
+   WebView is holding on a stale layer, so it stays blank until a tap forces a repaint. Clearing
+   transform/opacity/filter AND will-change drops the promoted layer so the view paints on switch. */
+body.is-mobile .workspace-drawer,
+body.is-mobile .workspace-drawer-inner,
+body.is-mobile .workspace-drawer .workspace-leaf,
+body.is-mobile .workspace-drawer .workspace-leaf-content,
+body.is-mobile .workspace-drawer .view-content,
 body.is-mobile .nav-files-container,
-body.is-mobile :is(.nn-navigation-pane, .nn-list-pane) {
+body.is-mobile :is(.nn-split-container, .nn-navigation-pane, .nn-list-pane),
+body.is-mobile :is(.prompt, .suggestion-container, .search-result-container) {
   opacity: 1;
   transform: none;
   filter: none;
+  will-change: auto;
+}
+/* Flat panes on mobile — drop the card's rounded clip (border-radius + overflow:hidden) and shadow. The
+   rounded corners and drop shadow are a desktop nicety; a phone reads cleaner flat, and un-clipping the
+   wrapper keeps the inner scroller free. (Cosmetic mobile choice — not the blank-until-tap fix.) */
+body.is-mobile .workspace-leaf-content,
+body.is-mobile .view-content {
+  overflow: visible;
+  border-radius: 0;
+  box-shadow: none;
+}
+/* Opaque sidebar on mobile — Bureau makes the sidebar leaf-content transparent for the desktop
+   glass/wallpaper look; a phone has no glass, so give the drawer a solid fill instead of letting the
+   editor show through behind it. (Cosmetic mobile choice — not the blank-until-tap fix.) */
+body.is-mobile .workspace-drawer,
+body.is-mobile .workspace-drawer-inner {
+  background-color: var(--bu-bg-alt);
+}
+body.is-mobile .workspace-drawer .workspace-leaf-content,
+body.is-mobile :is(.mod-left-split, .mod-right-split) .workspace-leaf-content {
+  background-color: var(--bu-bg);
 }
 body.is-mobile::before,
+body.is-mobile::after,
 body.is-mobile .app-container::before,
 body.is-mobile .app-container::after { display: none; }
 body.is-mobile .app-container { background-image: none; }
@@ -3635,11 +3788,21 @@ body.is-mobile .workspace-tab-header-inner,
 body.is-mobile .nav-action-button,
 body.is-mobile .view-action,
 body.is-mobile .clickable-icon { min-height: 40px; min-width: 40px; }
-body.is-mobile .nav-file-title,
-body.is-mobile .nav-folder-title,
 body.is-mobile .empty-state-action,
 body.is-mobile .menu-item,
 body.is-mobile .suggestion-item { min-height: 40px; display: flex; align-items: center; }
+/* File-tree / folder rows live inside Obsidian's managed (windowed) list. Forcing min-height +
+   display:flex on them (mobile-only) re-formats rows the list measures, and on the old Android WebView
+   that left the File explorer / Notebook Navigator / Search lists BLANK until a tap reflowed them.
+   Grow the tap target with padding instead — same hit area, no row re-formatting, no deferred paint. */
+body.is-mobile .nav-file-title,
+body.is-mobile .nav-folder-title,
+body.is-mobile .tree-item-self,
+body.is-mobile .nn-navitem,
+body.is-mobile .nn-file {
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
 body.is-mobile .setting-item { padding-top: 10px; padding-bottom: 10px; }
 
 /* ───────────────────────────  PRINT / PDF EXPORT — drop the theatre; ink on white paper  ───────────────────────────
@@ -3719,8 +3882,15 @@ body.bu-pill-no-editor-border     { --bu-pill-editor-border: transparent; }   /*
 /* Width — Obsidian (Chromium) has no width variable, so size the webkit scrollbar directly. Prefixed
    with the palette class so it outranks Obsidian's own (more specific) bare ::-webkit-scrollbar rule;
    the var cascades from the token block, so the pseudo-element inherits it on every scroll container. */
-body.theme-dark ::-webkit-scrollbar,
-body.theme-light ::-webkit-scrollbar {
+/* :not(.is-mobile) — defining ANY ::-webkit-scrollbar rule (even just width) switches Android's WebView
+   from a native OVERLAY scrollbar to a classic space-reserving one, and that classic mode is the
+   documented trigger for a scroll container painting its content only AFTER a touch/scroll. That's the
+   mobile sidebar blank-until-tap bug: every drawer list (Files / Notebook Navigator / Search) is a
+   scroll container, the editor escapes because CodeMirror constantly repaints its own scroller, and the
+   default theme is fine because it never sizes the webkit scrollbar. A touch device wants native overlay
+   scrollbars regardless, so Bureau must not style the webkit scrollbar on mobile. */
+body.theme-dark:not(.is-mobile) ::-webkit-scrollbar,
+body.theme-light:not(.is-mobile) ::-webkit-scrollbar {
   width: var(--bu-scrollbar-width);
   height: var(--bu-scrollbar-width);
 }
@@ -3826,18 +3996,18 @@ settings:
 
   - id: bu-color-heading
     title: Color & accent
-    description: Accent preset and custom colour, per-mode text, and black / white levels.
+    description: Shared controls — the inverted-editor toggle and the accent. Per-mode sidebars, editor, text, background level and base-hue tint live in the Dark mode and Light mode sections below.
     type: heading
     level: 2
     collapsed: true
   - id: bu-split-editor
     title: Inverted editor (opposite palette to the chrome)
-    description: Render the editor pane in the OPPOSITE palette to the rest of the UI — paper page on dark chrome in dark mode, dark page on light chrome in light mode. Flip Obsidian's light/dark appearance to switch which is which (a theme can't change that mode itself).
+    description: "Quick global toggle — renders the editor pane in the OPPOSITE palette to the rest of the UI, in BOTH appearances. For independent, lock-in-per-mode control of the sidebars and the editor, leave this off and use the selectors in the Dark mode / Light mode sections below instead."
     type: class-toggle
     default: false
   - id: bu-accent
     title: Accent preset
-    description: Accent colour used across the whole UI and the glow.
+    description: Accent colour used across the whole UI and the glow. Shared by both appearances and unaffected by the base-hue tint.
     type: variable-select
     default: var(--bu-control)
     options:
@@ -3860,39 +4030,129 @@ settings:
     format: hex
     opacity: false
     default: '#e23b2c'
+
+  - id: bu-dark-heading
+    title: Dark mode
+    description: "Everything that applies while Obsidian is in its dark appearance — sidebars, editor pane, text, black level and the base-hue tint. (Flip Obsidian's own light/dark with its Appearance hotkey; a theme can't switch that itself.)"
+    type: heading
+    level: 2
+    collapsed: true
+  - id: bu-d-chrome
+    title: Sidebars
+    description: Palette for the chrome — sidebars, ribbon, tabs, status bar — while in dark appearance. Default follows the mode (dark); set Light to keep the chrome light over a dark editor.
+    type: class-select
+    default: bu-d-chrome-dark
+    allowEmpty: false
+    options:
+      - label: Dark (follow mode)
+        value: bu-d-chrome-dark
+      - label: Light
+        value: bu-d-chrome-light
+  - id: bu-d-editor
+    title: Editor
+    description: Palette for the editor pane while in dark appearance. Default follows the mode (dark); set Light for a paper editor over dark sidebars. Independent of the Sidebars choice above.
+    type: class-select
+    default: bu-d-editor-dark
+    allowEmpty: false
+    options:
+      - label: Dark (follow mode)
+        value: bu-d-editor-dark
+      - label: Light
+        value: bu-d-editor-light
   - id: bu-phosphor
     title: Phosphor terminal (tint text to accent)
-    description: "Monochrome vintage-terminal look. Tints the dark-mode body text to the accent colour, so the type itself glows in one hue. Pair it with the Amber or Green (P1) accent preset above (any accent works). Use a bright accent — it recolours all body text, so a dark custom accent will hurt readability. Dark-mode effect."
+    description: "Monochrome vintage-terminal look. Tints the dark-mode body text to the accent colour, so the type itself glows in one hue. Pair it with the Amber or Green (P1) accent preset (any accent works). Use a bright accent — it recolours all body text, so a dark custom accent will hurt readability. Dark-mode effect."
     type: class-toggle
     default: false
   - id: bu-text-dark
-    title: Text colour — dark mode
+    title: Text colour
     description: Body text colour while the dark theme is active.
     type: variable-color
     format: hex
     opacity: false
     default: '#f1efea'
-  - id: bu-text-light
-    title: Text colour — light mode
-    description: Body text (typewriter ink) while the paper/light theme is active.
-    type: variable-color
-    format: hex
-    opacity: false
-    default: '#1e1a14'
   - id: bu-black-level
-    title: Black level — dark background
+    title: Black level — background
     description: How dark the base background is in dark mode (lower = blacker).
     type: variable-color
     format: hex
     opacity: false
     default: '#0c0b0a'
+  - id: bu-tint-hue-dark
+    title: Base hue
+    description: "Rotate the hue of the dark base — backgrounds, surfaces, borders and text — anywhere on the wheel (negative = cooler/toward blue, positive = toward red). 0 = the stock warm noir. The accent is unaffected. Needs Base tint strength above 0 to be visible."
+    type: variable-number-slider
+    default: 0
+    min: -180
+    max: 180
+    step: 1
+  - id: bu-tint-strength-dark
+    title: Base tint strength
+    description: "How much colour to inject into the dark base at the Base hue. 0 = stock. Because it adds perceptual chroma (oklch), it stays visible even on the near-black backgrounds — this is the dial that actually turns the dark editor/sidebars a colour. ~60–120 is a clear tint; high values get vivid. Lightness is preserved, so contrast barely moves."
+    type: variable-number-slider
+    default: 0
+    min: 0
+    max: 300
+    step: 5
+
+  - id: bu-light-heading
+    title: Light mode
+    description: "Everything that applies while Obsidian is in its light appearance — sidebars, editor pane, text, white level and the base-hue tint. (Flip Obsidian's own light/dark with its Appearance hotkey; a theme can't switch that itself.)"
+    type: heading
+    level: 2
+    collapsed: true
+  - id: bu-l-chrome
+    title: Sidebars
+    description: Palette for the chrome — sidebars, ribbon, tabs, status bar — while in light appearance. Default follows the mode (light); set Dark to keep the chrome dark over a paper editor.
+    type: class-select
+    default: bu-l-chrome-light
+    allowEmpty: false
+    options:
+      - label: Light (follow mode)
+        value: bu-l-chrome-light
+      - label: Dark
+        value: bu-l-chrome-dark
+  - id: bu-l-editor
+    title: Editor
+    description: Palette for the editor pane while in light appearance. Default follows the mode (light); set Dark for a dark CRT editor over light sidebars. Independent of the Sidebars choice above.
+    type: class-select
+    default: bu-l-editor-light
+    allowEmpty: false
+    options:
+      - label: Light (follow mode)
+        value: bu-l-editor-light
+      - label: Dark
+        value: bu-l-editor-dark
+  - id: bu-text-light
+    title: Text colour
+    description: Body text (typewriter ink) while the paper/light theme is active.
+    type: variable-color
+    format: hex
+    opacity: false
+    default: '#1e1a14'
   - id: bu-white-level
-    title: White level — light background
+    title: White level — background
     description: How light the paper is in light mode (higher = whiter).
     type: variable-color
     format: hex
     opacity: false
     default: '#e7e0cd'
+  - id: bu-tint-hue-light
+    title: Base hue
+    description: "Rotate the hue of the light/paper base — backgrounds, surfaces, borders and text — anywhere on the wheel (negative = cooler/toward blue, positive = toward red). 0 = the stock aged-paper warmth. The accent is unaffected. Needs Base tint strength above 0 to be visible."
+    type: variable-number-slider
+    default: 0
+    min: -180
+    max: 180
+    step: 1
+  - id: bu-tint-strength-light
+    title: Base tint strength
+    description: "How much colour to inject into the light base at the Base hue. 0 = stock aged paper. Raise it to push colour into the paper and surfaces (oklch chroma, so it reads cleanly). ~60–120 is a clear tint; high values get vivid. Lightness is preserved, so contrast barely moves."
+    type: variable-number-slider
+    default: 0
+    min: 0
+    max: 300
+    step: 5
 
   - id: bu-atmos-heading
     title: Atmosphere
