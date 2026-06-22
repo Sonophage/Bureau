@@ -410,6 +410,12 @@ body.theme-light.bu-l-chrome-dark:not(.bu-l-editor-dark) .workspace-split.mod-ro
   padding: 0.06em 0.34em;
   border: none;
 }
+/* In the editor, show inline title + headings in their true case so the typed casing is
+   editable as written; reading view keeps the uppercase stamp (rules below are unscoped /
+   .markdown-rendered, so they don't reach the source pane). */
+.markdown-source-view .inline-title {
+  text-transform: none;
+}
 .markdown-rendered :is(h1,h2,h3,h4,h5,h6) {
   position: relative;
   display: block;
@@ -452,7 +458,7 @@ body.theme-light.bu-l-chrome-dark:not(.bu-l-editor-dark) .workspace-split.mod-ro
   background: var(--bu-label-bg);
   color: var(--bu-label-fg);  padding: 0.04em 0.36em;
   font-family: var(--bu-font-label);
-  text-transform: uppercase;
+  text-transform: none;
   letter-spacing: 0.02em;
 }
 .markdown-rendered :is(h1,h2,h3,h4,h5,h6)::before,

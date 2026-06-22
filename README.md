@@ -217,6 +217,9 @@ and inside the app at the foot of the **Bureau** Style Settings panel (*Release
 history*). When cutting a new release, add its `### X.Y.Z` entry **below this
 paragraph**, newest first — `release.py` reads it from here (see [Releasing](#releasing)).
 
+### 2.11.1
+- **True-case headings and titles in the editor** — the editor (Live Preview / source) no longer force-uppercases heading text or the inline note title, so what you type shows in the casing you typed and is easy to edit. Reading view is unchanged: headings and the title still render as the full uppercase Bureau stamp.
+
 ### 2.10.0
 - **Mobile sidebar no longer renders blank until tapped** — on phones, opening or switching a side-drawer view (file explorer, Notebook Navigator, search) left it blank until you tapped it once. The cause was the mobile baseline's blanket `body.is-mobile * { animation: none }`: alongside Bureau's decorative animations it also killed the zero-duration CSS animations Obsidian's list views use as a render hook, so the lists never got told to paint. The blanket rule is gone; Bureau's own animations are now held off mobile at the source (every `bu-anim` rule is gated `:not(.is-mobile)`), so a phone still shows no Bureau animation while Obsidian's hooks keep working.
 - **Per-mode palette (independent sidebars + editor)** — the sidebars/chrome and the editor pane can now be set to light or dark *independently*, locked in per Obsidian appearance, via four new Style Settings selectors under *Color & accent* (sidebars + editor, for light mode and dark mode). All four default to following the appearance, so existing setups are untouched; the global *Inverted editor* toggle is unchanged. The selectors are fully orthogonal — your editor choice always wins over a sidebar flip — so a paper editor on dark sidebars in light mode (with dark-on-dark in dark mode) is now a clean two-click setup that your light/dark hotkey flips between.
