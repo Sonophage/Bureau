@@ -217,6 +217,11 @@ and inside the app at the foot of the **Bureau** Style Settings panel (*Release
 history*). When cutting a new release, add its `### X.Y.Z` entry **below this
 paragraph**, newest first — `release.py` reads it from here (see [Releasing](#releasing)).
 
+### 2.13.0
+- **Command palette & Omnisearch now read over anything.** The floating palette/search was built to sit on the dark editor, so over a bright surface (a Surfing web view, a console pane) the page bled straight through and the results turned to mush, worst in light mode. Two fixes: the backdrop scrim is stronger (a `backdrop-filter` blur cannot reach into a web view's own compositing layer, so the solid dim has to carry it), and in dark mode the input and results now sit on their own frosted card, matching the paper cards light mode already had, so the text always has a surface under it. Omnisearch's Vault Search builds its own input box, which never picked up the palette's card or ink; it now gets both, fixing the washed-out search field.
+- **Menus, autocomplete and hover previews less sheer.** The shared surface behind menus, suggestion dropdowns (including the property-value autocomplete you type into) and hover popovers went from 72% to 90% opaque, so their text stops fighting whatever sits behind them.
+- **Surfing input fields legible in both modes.** The Surfing plugin styles its address bar, new-tab search and in-page find box with only `box-shadow: unset`: no colour, no fill, so the text inherited a value that went white-on-white on paper and dark-on-dark at night. They now take an explicit Bureau field fill and ink, with a focus accent.
+
 ### 2.11.1
 - **True-case headings and titles in the editor** — the editor (Live Preview / source) no longer force-uppercases heading text or the inline note title, so what you type shows in the casing you typed and is easy to edit. Reading view is unchanged: headings and the title still render as the full uppercase Bureau stamp.
 
