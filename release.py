@@ -23,7 +23,8 @@ WHAT IT DOES (aborts on any failure; nothing is pushed until the confirm)
   preflight  -> repo sane, on main, gh authed, X.Y.Z semver, tag is new, README entry exists
   stamp      -> manifest.json version + the theme.css header version
   sync       -> regenerates the in-panel "What's new" note, prepends the entry to
-                "Release history" (both inside the @settings block)
+                "Release history", and refreshes the "Creator Settings" import blob from
+                the author's live vault config (all inside the @settings block)
   validate   -> theme.css braces balanced + the @settings YAML still parses
   ship       -> commit "Release X.Y.Z", tag X.Y.Z, push main + tag,
                 gh release create X.Y.Z theme.css manifest.json  (notes = the README entry)
@@ -51,6 +52,18 @@ WHATSNEW_FOOTER = (
 )
 
 SEMVER = re.compile(r"^\d+\.\d+\.\d+$")
+
+# Creator Settings: the author's live Bureau config, embedded as an importable JSON blob in the
+# bu-creator-note info-text (users paste it into Style Settings → Import). Read from the vault's
+# Style Settings data.json; override the path with BUREAU_VAULT_SS_DATA. Best-effort: if the file
+# isn't present (a fresh clone, CI, another machine) the sync is skipped and the last-synced blob
+# is left untouched, so the release never fails on account of it.
+VAULT_SS_DATA = os.environ.get(
+    "BUREAU_VAULT_SS_DATA",
+    os.path.expanduser(
+        "~/Documents/01-09-Obsidian-Vaults/Harker/.obsidian/plugins/obsidian-style-settings/data.json"
+    ),
+)
 
 
 def die(msg):
@@ -149,6 +162,35 @@ def sync_settings(theme, version, bullets):
     return theme
 
 
+# ── Creator Settings blob ─────────────────────────────────────────────────────
+def sync_creator(theme):
+    """Refresh bu-creator-note's importable blob from the author's live vault config."""
+    if not os.path.exists(VAULT_SS_DATA):
+        step("Creator Settings: vault data.json absent, keeping the last-synced blob")
+        return theme
+    try:
+        data = json.loads(read(VAULT_SS_DATA))
+    except Exception as e:
+        die(f"Creator Settings: could not parse {VAULT_SS_DATA}: {e}")
+    bureau = {k: v for k, v in data.items() if k.startswith("bureau@@")}
+    if not bureau:
+        step("Creator Settings: no bureau@@ keys in the vault, keeping the last-synced blob")
+        return theme
+    blob = json.dumps(bureau, indent=2, ensure_ascii=False)
+    desc = (
+        "**Bureau, as its author runs it.** A snapshot of my own live setup, refreshed each "
+        "release. To adopt it: copy the block below, open Style Settings' **Import** control "
+        "(the import icon at the top of the Style Settings pane), and paste; it overwrites only "
+        "your Bureau settings, nothing else.\n\n```json\n" + blob + "\n```"
+    )
+    s, e = block_bounds(theme, "bu-creator-note")
+    block = theme[s:e]
+    block = set_line(block, "description", yaml_dquote(desc))
+    theme = theme[:s] + block + theme[e:]
+    step(f"synced Creator Settings from vault ({len(bureau)} keys)")
+    return theme
+
+
 # ── validation ───────────────────────────────────────────────────────────────
 def validate(theme):
     pre = theme.split("/* @settings")[0]
@@ -210,6 +252,7 @@ def main():
 
     # sync + validate
     theme = sync_settings(theme, version, bullets)
+    theme = sync_creator(theme)
     validate(theme)
 
     if dry:
