@@ -61,7 +61,7 @@ SEMVER = re.compile(r"^\d+\.\d+\.\d+$")
 VAULT_SS_DATA = os.environ.get(
     "BUREAU_VAULT_SS_DATA",
     os.path.expanduser(
-        "~/Documents/01-09-Obsidian-Vaults/Harker/.obsidian/plugins/obsidian-style-settings/data.json"
+        "~/Documents/vaults/harker/.obsidian/plugins/obsidian-style-settings/data.json"
     ),
 )
 
