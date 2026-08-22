@@ -280,7 +280,7 @@ def main():
     run(["git", "add", "-A"]).check_returncode()
     subject = f"Release {version}"
     body = "\n".join(b.lstrip("- ").strip() if b.lstrip().startswith("-") else b for b in bullets.splitlines())
-    msg = f"{subject}\n\n{body}\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
+    msg = f"{subject}\n\n{body}\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>"
     r = run(["git", "commit", "-m", msg])
     if r.returncode:
         die(f"git commit failed:\n{r.stderr or r.stdout}")
